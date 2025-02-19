@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="form-section">
+    <form [formGroup]="taskForm" class="example-form" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <mat-label  style="font-size: 80%;">Name</mat-label>
+        <input matInput placeholder="Name" value="" formControlName="name"/>
+        <span class="text-danger" *ngIf="(taskForm.get('name')?.touched || submitted) && taskForm.get('name')?.errors">
+          Name is required
+        </span>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          placeholder="Phone number"
+          value=""
+          formControlName="phoneNumber"
+        />
+        <span class="text-danger" *ngIf="(taskForm.get('phoneNumber')?.touched || submitted) && taskForm.get('phoneNumber')?.errors">
+          Insert a valid phone number
+        </span>
+        <span class="text-danger" *ngIf="(taskForm.get('phoneNumber')?.touched || submitted) && taskForm.get('phoneNumber')?.errors && taskForm.get('phoneNumber')?.errors!['maxlength']">
+          Insert a valid phone number
+        </span>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="Email"
+          value=""
+          formControlName="email"
+        />
+        <span class="text-danger" *ngIf="(taskForm.get('email')?.touched || submitted) && taskForm.get('email')?.errors">
+          Please insert a valid email
+        </span>
+      </mat-form-field>
+      <!-- <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input
+          type="email"
+          matInput
+          [formControl]="emailFormControl"
+          [errorStateMatcher]="matcher"
+          placeholder="Ex. pat@example.com"
+          formControlName="email"
+        />
+        @if (emailFormControl.hasError('email') &&
+        !emailFormControl.hasError('required')) {
+        <mat-error>Please enter a valid email address</mat-error>
+        } @if (emailFormControl.hasError('required')) {
+        <mat-error>Email is <strong>required</strong></mat-error>
+        }
+      </mat-form-field> -->
+      <mat-form-field class="full-width">
+        <mat-label>Delivery Address</mat-label>
+        <input
+          matInput
+          placeholder="Adderss"
+          value=""
+          formControlName="deliveryAddress"
+        />
+        <span class="text-danger" *ngIf="(taskForm.get('deliveryAddress')?.touched || submitted) && taskForm.get('deliveryAddress')?.errors">
+          Address should be between 3 to 40 charectors
+          <!-- {{taskForm.get('deliveryAddress')?.errors | json}} -->
+        </span>
+      </mat-form-field>
+
+      <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
+      <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
+      
+    </form>
+  </div>
+  <div class="table-section">
+    <div class="refresh-filter-section">
+      <div class="table-section">
+        <div class="refresh-button">
+          <button mat-icon-button color="primary" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+      <mat-form-field class="filter">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+      </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+    
+      
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+    
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+      </ng-container>
+    
+    
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+    
+    
+      <ng-container matColumnDef="deliveryAddress">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.deliveryAddress}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="warn" (click)="editData(element)" matTooltip="edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    
+    
+  </div>
+</div>

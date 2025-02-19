@@ -1,0 +1,20 @@
+<form [formGroup]="demoForm" class="example-form" (ngSubmit)="onSubmit()">
+  <mat-form-field class="example-full-width">
+    <mat-label>First Name</mat-label>
+    <input matInput placeholder="First Name" value="" formControlName="firstName"/>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="Last Name" value="" formControlName="lastName"/>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Age</mat-label>
+    <input matInput placeholder="Age" value="" formControlName="age"/>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Email" value="" formControlName="email"/>
+  </mat-form-field>
+
+  <button type="submit" mat-raised-button>Submit</button>
+</form>
