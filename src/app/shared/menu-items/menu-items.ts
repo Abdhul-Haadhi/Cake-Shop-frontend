@@ -11,6 +11,15 @@ export interface Menu {
 
 const MENUITEMS = [
   {
+    state: 'homepage',
+    childState: 'home-page',
+    name: 'Home',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
     state: 'dashboard',
     name: 'Dashboard',
     type: 'link',
@@ -55,6 +64,15 @@ const MENUITEMS = [
     auth: authenticationEnum.Home_Dashboard,
   },
   {
+    state: 'pages',
+    childState: 'employee-registration',
+    name: 'Employee registration',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
     state: 'button',
     type: 'link',
     name: 'Buttons',
@@ -82,7 +100,12 @@ const MENUITEMS = [
     icon: 'view_headline',
     isVisible: false,
   },
-  { state: 'tabs', type: 'link', name: 'Tabs', icon: 'tab', isVisible: false },
+  { state: 'tabs', 
+    type: 'link', 
+    name: 'Tabs', 
+    icon: 'tab', 
+    isVisible: false 
+  },
   {
     state: 'stepper',
     type: 'link',

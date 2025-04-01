@@ -16,7 +16,7 @@
           value=""
           formControlName="phoneNumber"
         />
-        <span class="text-danger" *ngIf="(taskForm.get('phoneNumber')?.touched || submitted) && taskForm.get('phoneNumber')?.errors">
+        <span class="text-danger" *ngIf="(taskForm.get('phoneNumber')?.touched || submitted) && taskForm.get('phoneNumber')?.errors && taskForm.get('phoneNumber')?.errors!['minlength']">
           Insert a valid phone number
         </span>
         <span class="text-danger" *ngIf="(taskForm.get('phoneNumber')?.touched || submitted) && taskForm.get('phoneNumber')?.errors && taskForm.get('phoneNumber')?.errors!['maxlength']">
@@ -35,23 +35,7 @@
           Please insert a valid email
         </span>
       </mat-form-field>
-      <!-- <mat-form-field class="full-width">
-        <mat-label>Email</mat-label>
-        <input
-          type="email"
-          matInput
-          [formControl]="emailFormControl"
-          [errorStateMatcher]="matcher"
-          placeholder="Ex. pat@example.com"
-          formControlName="email"
-        />
-        @if (emailFormControl.hasError('email') &&
-        !emailFormControl.hasError('required')) {
-        <mat-error>Please enter a valid email address</mat-error>
-        } @if (emailFormControl.hasError('required')) {
-        <mat-error>Email is <strong>required</strong></mat-error>
-        }
-      </mat-form-field> -->
+     
       <mat-form-field class="full-width">
         <mat-label>Delivery Address</mat-label>
         <input
