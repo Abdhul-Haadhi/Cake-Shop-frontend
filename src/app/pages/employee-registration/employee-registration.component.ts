@@ -1,26 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
 import {provideNativeDateAdapter} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatIconModule} from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import {AfterViewInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {FormsModule} from '@angular/forms';
 import { EmployeeRegistrationFormService } from 'src/app/services/employee-registration/employee-registration-form.service';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatSelectModule} from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
 interface JobRole {
   value: string;
-  viewValue: string;
+  viewValue: string; 
 }
-
 
 @Component({
   selector: 'app-employee-registration',
@@ -28,7 +19,7 @@ interface JobRole {
   templateUrl: './employee-registration.component.html',
   providers: [provideNativeDateAdapter()],
   styleUrl: './employee-registration.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class EmployeeRegistrationComponent implements OnInit  {
@@ -43,15 +34,12 @@ export class EmployeeRegistrationComponent implements OnInit  {
   displayedColumns: string[] = [
     'employeeNumber',
     'fullName',
-    'callingName',
     'nic',
     'birthday',
-    'age',
     'address',
     'contactNumber',
     'gender',
     'email',
-    'emergencyContact',
     'jobRole',
     'actions',
   ];
@@ -76,15 +64,15 @@ export class EmployeeRegistrationComponent implements OnInit  {
     this.EmpRegForm = this.fb.group({
       employeeNumber : new FormControl('',[Validators.required]),
       fullName : new FormControl('',[Validators.required]),
-      callingName : new FormControl('',[Validators.required]),
+      // callingName : new FormControl('',[Validators.required]),
       nic : new FormControl('',[Validators.required,Validators.minLength(9),Validators.maxLength(12)]),
       birthday : new FormControl('',[Validators.required]),
-      age : new FormControl('',[Validators.required,Validators.min(20),Validators.max(60),this.customAgeValidator]),
+      // age : new FormControl('',[Validators.required,Validators.min(20),Validators.max(60),this.customAgeValidator]),
       address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
       contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
       gender : new FormControl('',[Validators.required]),
       email : new FormControl('',[Validators.email]),
-      emergencyContact : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      // emergencyContact : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
       jobRole : new FormControl('',[Validators.required]),
     });
   }
@@ -147,13 +135,10 @@ export class EmployeeRegistrationComponent implements OnInit  {
 
   onSubmit(){
       try{
-
         this.submitted = true;
-
         if(this.EmpRegForm.invalid){
           return;
         }
-
         if(this.mode === 'add'){
 
         //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
@@ -202,8 +187,8 @@ export class EmployeeRegistrationComponent implements OnInit  {
       }
       catch(error){
         this.messageService.showError('Action failed with error' + error);
-      }
-  }
+   }
+}
 
   
   

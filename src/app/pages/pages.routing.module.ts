@@ -3,6 +3,7 @@ import { FormDemoComponent } from './form-demo/form-demo.component';
 import { FormTaskComponent } from './form-task/form-task.component';
 import { EmployeeRegistrationComponent } from './employee-registration/employee-registration.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -20,5 +21,9 @@ export const PagesRoutes: Routes = [
     {
         path:'home-page',
         component: HomePageComponent
+    },
+    {
+        path:'customer-registration',
+        component: CustomerRegistrationComponent
     },
 ];

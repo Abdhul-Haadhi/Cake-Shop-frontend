@@ -11,10 +11,11 @@ import { EmployeeRegistrationComponent } from './employee-registration/employee-
 
 import { MatTableModule } from '@angular/material/table';
 import { HomePageComponent } from './home-page/home-page.component';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
 
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,HomePageComponent],
+  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,HomePageComponent,CustomerRegistrationComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,

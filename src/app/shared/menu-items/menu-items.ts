@@ -11,7 +11,7 @@ export interface Menu {
 
 const MENUITEMS = [
   {
-    state: 'homepage',
+    state: 'pages',
     childState: 'home-page',
     name: 'Home',
     type: 'link',
@@ -67,6 +67,15 @@ const MENUITEMS = [
     state: 'pages',
     childState: 'employee-registration',
     name: 'Employee registration',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
+    childState: 'customer-registration',
+    name: 'Customer registration',
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
