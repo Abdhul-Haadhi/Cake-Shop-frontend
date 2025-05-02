@@ -3,40 +3,38 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  FormGroupDirective,
-  NgForm,
   Validators,
   AbstractControl,
 } from '@angular/forms';
 import { TaskServiceFormService } from 'src/app/services/task-service/task-service-form.service';
-import { ErrorStateMatcher } from '@angular/material/core';
+
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 
-const ELEMENT_DATA: any[] = [
-  {
-    name: 'Hydrogen',
-    phoneNumber: '1234567890',
-    email: 'hydrogen@example.com',
-    deliveryAddress: 'H',
-  },
-];
+// const ELEMENT_DATA: any[] = [
+//   {
+//     name: 'Hydrogen',
+//     phoneNumber: '1234567890',
+//     email: 'hydrogen@example.com',
+//     deliveryAddress: 'H',
+//   },
+// ];
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
+// export class MyErrorStateMatcher implements ErrorStateMatcher {
+//   isErrorState(
+//     control: FormControl | null,
+//     form: FormGroupDirective | NgForm | null
+//   ): boolean {
+//     const isSubmitted = form && form.submitted;
+//     return !!(
+//       control &&
+//       control.invalid &&
+//       (control.dirty || control.touched || isSubmitted)
+//     );
+//   }
+// }
 
 @Component({
   selector: 'app-form-task',
@@ -44,6 +42,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './form-task.component.html',
   styleUrl: './form-task.component.scss',
 })
+
+
 export class FormTaskComponent implements OnInit {
   taskForm: FormGroup;
 
@@ -56,7 +56,6 @@ export class FormTaskComponent implements OnInit {
     'actions',
   ];
   dataSource!: MatTableDataSource<any>;
-
   saveButtonLabel: string = 'Save';
   mode = 'add';
   selectedData: any;
@@ -66,13 +65,11 @@ export class FormTaskComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  matcher = new MyErrorStateMatcher();
-
   constructor(
     private fb: FormBuilder,
     private taskService: TaskServiceFormService,
     private messageService: MessageServiceService
-  ) {
+  ){
     this.taskForm = this.fb.group({
       name: new FormControl('', [Validators.required]),
       phoneNumber: new FormControl('',[Validators.minLength(10),Validators.maxLength(10),this.customPhoneNumberValidator]),
@@ -237,18 +234,6 @@ export class FormTaskComponent implements OnInit {
   public deleteData(data: any): void {
     const id = data.id;
     try {
-      // this.taskService.deleteData(id).subscribe((response) => {
-      //   const index = this.dataSource.data.findIndex(
-      //     (element) => element.id === id
-      //   );
-
-      //   if (index !== -1) {
-      //     this.dataSource.data.splice(index, 1);
-      //   }
-      //   this.dataSource = new MatTableDataSource(this.dataSource.data);
-      //   this.messageService.showSuccess('Data deleted successfully');
-      // });
-
       this.taskService.deleteData(id).subscribe({
         next: (response: any) =>{
           const index = this.dataSource.data.findIndex(

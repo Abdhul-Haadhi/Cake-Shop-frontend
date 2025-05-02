@@ -1,0 +1,237 @@
+<mat-card appearance="outlined" class="flex">
+  <mat-card-header>
+    <mat-card-title> Featured products </mat-card-title>
+  </mat-card-header>
+
+  <div class="products">
+    <mat-card
+      class="example-card"
+      appearance="outlined"
+      *ngFor="let product of products"
+    >
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img mat-card-image [src]="product.image" [alt]="product.name" />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/birthdayCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/weddingCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/ChocolateCakejpg.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/redVelvetCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/jarCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/fruitsCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/datesCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/chocolateMousse.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/egglessRibbonCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/brownieCake.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{product.name}}</mat-card-title>
+      </mat-card-header>
+      <a (click)="openPopup(product)">
+        <img
+          mat-card-image
+          src="../../../assets/images/cakesicles.jpg"
+          alt="Photo of cupCakes"
+        />
+      </a>
+      <mat-card-actions class="open-button">
+        <button (click)="openPopup(product)" mat-raised-button color="primary">
+          View
+        </button>
+      </mat-card-actions>
+    </mat-card> -->
+  </div>
+</mat-card>

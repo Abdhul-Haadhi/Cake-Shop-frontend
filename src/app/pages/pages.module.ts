@@ -7,15 +7,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormDemoComponent } from './form-demo/form-demo.component';
 import { FormTaskComponent } from './form-task/form-task.component';
+import { EmployeeRegistrationComponent } from './employee-registration/employee-registration.component';
+import { MatTableModule } from '@angular/material/table';
+import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
+import { ItemRegistrationComponent } from './item-registration/item-registration.component';
+import { ProductRegistrationComponent } from './product-registration/product-registration.component';
+import { FeaturedProductsComponent } from './featured-products/featured-products.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent],
+  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule,
     NgApexchartsModule,
+    MatDialogModule,
+    MatButtonModule,
     RouterModule.forChild(PagesRoutes),
     
   ],

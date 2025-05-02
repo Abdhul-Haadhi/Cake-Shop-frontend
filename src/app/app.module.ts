@@ -24,6 +24,7 @@ import { SpinnerComponent } from './shared/spinner.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RouterModule.forRoot(AppRoutes),
     AppSidebarComponent,
     ToastrModule.forRoot(),
+    MatInputModule
   ],
   providers: [
     {
