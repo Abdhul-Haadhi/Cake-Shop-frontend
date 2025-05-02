@@ -2,8 +2,10 @@ import { Routes } from '@angular/router';
 import { FormDemoComponent } from './form-demo/form-demo.component';
 import { FormTaskComponent } from './form-task/form-task.component';
 import { EmployeeRegistrationComponent } from './employee-registration/employee-registration.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import { CustomerRegistrationComponent } from './customer-registration/customer-registration.component';
+import { ItemRegistrationComponent } from './item-registration/item-registration.component';
+import { ProductRegistrationComponent } from './product-registration/product-registration.component';
+import { FeaturedProductsComponent } from './featured-products/featured-products.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -19,11 +21,19 @@ export const PagesRoutes: Routes = [
         component: EmployeeRegistrationComponent
     },
     {
-        path:'home-page',
-        component: HomePageComponent
-    },
-    {
         path:'customer-registration',
         component: CustomerRegistrationComponent
+    },
+    {
+        path:'item-registration',
+        component: ItemRegistrationComponent
+    },
+    {
+        path:'product-registration',
+        component: ProductRegistrationComponent
+    },
+    {
+        path:'featured-products',
+        component: FeaturedProductsComponent
     },
 ];

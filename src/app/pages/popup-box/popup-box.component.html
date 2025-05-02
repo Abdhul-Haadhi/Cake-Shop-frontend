@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{ data.name }}</h2>
+<div class="popup-content">
+  <img
+    [src]="data.image"
+    [alt]="data.name"
+    style="max-width: 250px; border-radius: 8px"
+  />
+
+  <div class="product-details">
+    <p>{{ data.description }}</p>
+
+    <ul>
+      <li><strong>Size:</strong>{{ data.size }}</li>
+      <li><strong>Serves:</strong>{{ data.ingredients }}</li>
+    </ul>
+
+    <p><strong>Price:</strong> {{ data.price }}</p>
+    <div class="mat-dialog-actions">
+        <button mat-raised-button color="primary">Go to product page</button>
+        <button (click)="closePopup()" mat-raised-button color="primary">Close</button>
+    </div>
+    
+  </div>
+</div>

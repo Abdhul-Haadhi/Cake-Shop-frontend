@@ -1,0 +1,32 @@
+img{
+    width: 300px;
+    height: 220px;
+    border-radius: 10px;
+    margin: 10px;
+    flex-shrink: 0;
+}
+
+h2{
+    margin: 20px;
+}
+
+.popup-content{
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 24px;
+}
+
+.product-details {
+    flex: 1;
+    min-width: 200px;
+}
+
+
+button{
+    margin: 10px;
+    // background-color: rgb(39, 141, 230);
+    // border-radius: 8px;
+    // border: none;
+}
+

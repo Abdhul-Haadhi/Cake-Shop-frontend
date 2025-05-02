@@ -67,9 +67,26 @@ $borderColor: #e5eaef;
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
+    
   }
+
+  // :host {
+  //   .boxed-auth {
+  //     background: linear-gradient(135deg, rgba(255, 70, 169, 0.8) 0%, rgba(255, 0, 119, 0.8) 100%);
+  //     border-radius: 8px;
+  //     padding: 16px;
+  //     color: white;
+      
+  //     &:hover {
+  //       background: linear-gradient(135deg, rgba(58,123,213,1) 0%, rgba(0,210,255,1) 100%);
+  //     }
+  //   }
+  // }
   
   .max-width-form {
     max-width: 450px;
   }
   
+  .logo{
+    width: 90px;
+  }

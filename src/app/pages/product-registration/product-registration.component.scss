@@ -1,0 +1,79 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-section{
+    // flex: 1;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 5px;
+    // border-right: 1px solid rgb(205, 205, 205)
+  }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 100%;
+    width: 100%;
+    
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .form-part{
+    margin: 10px;
+   }
+   
+   .form-button{
+     margin-right: 1%;
+   }
+
+   .table-section{
+    width: 100%;
+    // flex: 1;
+  }
+
+   .refresh-filter-section{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .refresh-button{
+    margin: 1%;
+  }
+
+  .filter{
+    width: 100%;
+  }
+
+
+  .quantities-section {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  
+    h4 {
+      margin-bottom: 15px;
+    }
+  
+    .quantity-input {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      mat-form-field {
+        flex: 1;
+        margin-right: 15px;
+      }
+  
+      .unit-price {
+        min-width: 120px;
+        color: #666;
+      }
+    }
+  }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomePageComponent } from './home-page.component';
+import { PopupBoxComponent } from './popup-box.component';
 
-describe('HomePageComponent', () => {
-  let component: HomePageComponent;
-  let fixture: ComponentFixture<HomePageComponent>;
+describe('PopupBoxComponent', () => {
+  let component: PopupBoxComponent;
+  let fixture: ComponentFixture<PopupBoxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomePageComponent]
+      imports: [PopupBoxComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(HomePageComponent);
+    fixture = TestBed.createComponent(PopupBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

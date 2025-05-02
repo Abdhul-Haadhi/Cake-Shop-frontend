@@ -1,0 +1,191 @@
+  <div class="container">
+
+    <!-- Form section -->
+  
+      <div class="form-section">
+          <form [formGroup]="ProdRegForm" class="example-form" (ngSubmit)="onSubmit()">
+            <div class="example-form-div">
+                <mat-form-field class="full-width">
+                  <mat-label>Product Id</mat-label>
+                  <input matInput placeholder="Enter item Id" formControlName="productId">
+                  <span class="text-danger" *ngIf="(ProdRegForm.get('productId')?.touched || submitted) && ProdRegForm.get('productId')?.errors && ProdRegForm.get('productId')?.errors!['required']">
+                    Product Id is required
+                  </span>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Product</mat-label>
+                  <mat-select matInput placeholder="Select the product name" formControlName="product">
+                    @for (products of product; track products) {
+                      <mat-option [value]="products.value">{{products.viewValue}}</mat-option>
+                    }
+                  </mat-select>
+                  <span class="text-danger" *ngIf="(ProdRegForm.get('product')?.touched || submitted) && ProdRegForm.get('product')?.errors && ProdRegForm.get('product')?.errors!['required']">
+                    Product name is required
+                  </span>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                  <mat-label>Initial weight</mat-label>
+                  <input matInput placeholder="Enter the initial weight" formControlName="initialWeight">
+                  <span class="text-danger" *ngIf="(ProdRegForm.get('initialWeight')?.touched || submitted) && ProdRegForm.get('initialWeight')?.errors && ProdRegForm.get('initialWeight')?.errors!['required']">
+                    Initial weight is required
+                  </span>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                  <mat-label>Required items</mat-label>
+                  <mat-select matInput placeholder="Select required items" formControlName="requiredItems" multiple>
+                    @for (requiredItems of requiredItem; track requiredItems) {
+                      <mat-option [value]="requiredItems.value">{{requiredItems.viewValue}}</mat-option>
+                    }
+                  </mat-select>
+                  <!-- <input matInput placeholder="Enter the supplier Id" formControlName="requiredItems"> -->
+                  <span class="text-danger" *ngIf="(ProdRegForm.get('requiredItems')?.touched || submitted) && ProdRegForm.get('requiredItems')?.errors && ProdRegForm.get('requiredItems')?.errors!['required']">
+                      You have to enter required items
+                  </span>
+                </mat-form-field>
+                <div *ngIf="ProdRegForm.get('requiredItems')?.value?.length > 0" class="quantities-section">
+                  <h4>Enter quantities for required items:</h4>
+                  <div *ngFor="let item of ProdRegForm.get('requiredItems')?.value" class="quantity-input">
+                    <mat-form-field>
+                      <mat-label>Quantity for {{ getItemName(item) }}</mat-label>
+                      <input matInput [formControlName]="item" 
+                             formControlName="requiredItemsQuantities.{{item}}"
+                             type="number" step="0.01" min="0.01">
+                      <span matSuffix>{{ getMeasurementCategory(item) }}</span>
+                      <span class="text-danger" *ngIf="ProdRegForm.get('requiredItemsQuantities')?.get(item)?.invalid &&
+                            (ProdRegForm.get('requiredItemsQuantities')?.get(item)?.touched || submitted)">
+                        Valid quantity is required
+                      </span>
+                    </mat-form-field>
+                    <div class="unit-price">
+                      Unit Price: {{ getUnitPrice(item) | currency }}
+                    </div>
+                  </div>
+                </div>
+                <mat-form-field>
+                    <mat-label>Measurement Category</mat-label>
+                    <mat-select matInput placeholder="Select the measurement category" formControlName="measurementCategory">
+                      @for (categories of category; track categories) {
+                        <mat-option [value]="categories.value">{{categories.viewValue}}</mat-option>
+                      }
+                    </mat-select>
+                    <span class="text-danger" *ngIf="(ProdRegForm.get('measurementCategory')?.touched || submitted) && ProdRegForm.get('measurementCategory')?.errors && ProdRegForm.get('measurementCategory')?.errors!['required']">
+                      Measurement category is required
+                    </span>
+                  </mat-form-field>
+                  <mat-form-field class="full-width">
+                    <mat-label>Used amount</mat-label>
+                    <input matInput placeholder="Enter used amount" formControlName="usedAmount">
+                    <span class="text-danger" *ngIf="(ProdRegForm.get('usedAmount')?.touched || submitted) && ProdRegForm.get('usedAmount')?.errors && ProdRegForm.get('usedAmount')?.errors!['required']">
+                      Used amount is required
+                    </span>
+                  </mat-form-field>
+                  <mat-form-field class="full-width">
+                    <mat-label>Unit price</mat-label>
+                    <input matInput placeholder="Enter unit price" formControlName="unitPrice">
+                    <span class="text-danger" *ngIf="(ProdRegForm.get('unitPrice')?.touched || submitted) && ProdRegForm.get('unitPrice')?.errors && ProdRegForm.get('unitPrice')?.errors!['required']">
+                      Unit price is required
+                    </span>
+                  </mat-form-field>
+                  <mat-form-field class="full-width">
+                    <mat-label>Total cost</mat-label>
+                    <input matInput placeholder="Total cost" formControlName="totalCost" readonly>
+                    <span class="text-danger" *ngIf="(ProdRegForm.get('totalCost')?.touched || submitted) && ProdRegForm.get('totalCost')?.errors && ProdRegForm.get('totalCost')?.invalid && ProdRegForm.get('totalCost')?.errors!['required']">
+                      Please enter valid total cost and quantities first
+                    </span>
+                  </mat-form-field>
+              </div>
+            
+            
+            
+    
+            <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
+            <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
+    
+          </form>
+        </div>
+  
+  
+        <!-- Table section -->
+  
+  
+        <div class="table-section">
+          <div class="refresh-filter-section">
+              <div class="refresh-button">
+               <button mat-icon-button color="primary" (click)="refreshData()">
+                <mat-icon>refresh</mat-icon>
+               </button>
+              </div>
+            
+            <mat-form-field class="filter">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+            </mat-form-field>
+          </div>
+      
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+          
+            <ng-container matColumnDef="productId">
+              <th mat-header-cell *matHeaderCellDef> Product Id </th>
+              <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="product">
+              <th mat-header-cell *matHeaderCellDef> Product </th>
+              <td mat-cell *matCellDef="let element"> {{element.product}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="initialWeight">
+              <th mat-header-cell *matHeaderCellDef> Initial weight </th>
+              <td mat-cell *matCellDef="let element"> {{element.initialWeight}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="requiredItems">
+              <th mat-header-cell *matHeaderCellDef> Required Items </th>
+              <td mat-cell *matCellDef="let element"> {{element.requiredItems}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="measurementCategory">
+              <th mat-header-cell *matHeaderCellDef> Measurement category</th>
+              <td mat-cell *matCellDef="let element"> {{element.measurementCategory}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="usedAmount">
+              <th mat-header-cell *matHeaderCellDef> Used amount </th>
+              <td mat-cell *matCellDef="let element"> {{element.usedAmount}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="unitPrice">
+              <th mat-header-cell *matHeaderCellDef> Unit price </th>
+              <td mat-cell *matCellDef="let element"> {{element.unitPrice}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalCost">
+              <th mat-header-cell *matHeaderCellDef> Total cost </th>
+              <td mat-cell *matCellDef="let element"> {{element.totalCost}} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="warn" (click)="editData(element)" matTooltip="edit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+          
+          
+        </div>
+  </div>
+  
