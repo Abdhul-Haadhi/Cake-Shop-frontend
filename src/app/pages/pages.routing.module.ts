@@ -6,6 +6,7 @@ import { CustomerRegistrationComponent } from './customer-registration/customer-
 import { ItemRegistrationComponent } from './item-registration/item-registration.component';
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
 import { FeaturedProductsComponent } from './featured-products/featured-products.component';
+import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-rating.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -35,5 +36,9 @@ export const PagesRoutes: Routes = [
     {
         path:'featured-products',
         component: FeaturedProductsComponent
+    },
+    {
+        path:'feedback-and-rating',
+        component: FeedbackAndRatingComponent
     },
 ];

@@ -25,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MatInputModule } from '@angular/material/input';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatInputModule } from '@angular/material/input';
     RouterModule.forRoot(AppRoutes),
     AppSidebarComponent,
     ToastrModule.forRoot(),
-    MatInputModule
+    MatInputModule,
+    FontAwesomeModule
   ],
   providers: [
     {

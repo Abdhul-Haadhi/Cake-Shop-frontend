@@ -15,10 +15,13 @@ import { ProductRegistrationComponent } from './product-registration/product-reg
 import { FeaturedProductsComponent } from './featured-products/featured-products.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { PopupBoxComponent } from './popup-box/popup-box.component';
+import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-rating.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent],
+  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,
@@ -28,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
     NgApexchartsModule,
     MatDialogModule,
     MatButtonModule,
+    FontAwesomeModule,
     RouterModule.forChild(PagesRoutes),
     
   ],
