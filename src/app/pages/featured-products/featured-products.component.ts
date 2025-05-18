@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import {ChangeDetectionStrategy} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
 import { PopupBoxComponent } from '../popup-box/popup-box.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -19,8 +16,11 @@ export class FeaturedProductsComponent {
   
   products = [
     {
-      name: 'Cup cakes',
-      image: '../../../assets/images/cupCakes.jpg'
+      name: 'sponge cake',
+      image: '../../../assets/images/cupCakes.jpg',
+      description: 'this is sponge cake',
+      price: 4000,
+      size: ' 1000'
     },
     {
       name: 'Birthday cake',
@@ -67,8 +67,6 @@ export class FeaturedProductsComponent {
       image: '../../../assets/images/cakesicles.jpg'
     },
   ];
-
-
 
 
   openPopup(product:any){

@@ -1,10 +1,14 @@
 <div class="container">
-    <h2>Feedback and Ratings</h2>
+    <mat-toolbar color="primary">
+        <span>Feedback and Ratings</span>
+        <span class="example-spacer"></span>
+    </mat-toolbar>
+    <!-- <h2>Feedback and Ratings</h2> -->
     <div class="form-section">
       <form [formGroup]="feedbackForm" class="example-form" (ngSubmit)="onSubmit()">
         <div class="example-form-div">
           <div class="form-part">
-            <mat-form-field class="full-width">
+            <!-- <mat-form-field class="full-width">
               <mat-label>Date</mat-label>
               <input matInput [matDatepicker]="picker" formControlName="date">
               <mat-hint>MM/DD/YYYY</mat-hint>
@@ -23,7 +27,7 @@
                 <span class="text-danger" *ngIf="(feedbackForm.get('user')?.touched || submitted) && feedbackForm.get('user')?.errors && feedbackForm.get('user')?.errors!['required']">
                   User name is required
                 </span>
-            </mat-form-field>
+            </mat-form-field> -->
 
 
             <div>

@@ -7,6 +7,8 @@ import { ItemRegistrationComponent } from './item-registration/item-registration
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
 import { FeaturedProductsComponent } from './featured-products/featured-products.component';
 import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-rating.component';
+import { OrderPageComponent } from './order-page/order-page.component';
+import { CartPageComponent } from './cart-page/cart-page.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -40,5 +42,13 @@ export const PagesRoutes: Routes = [
     {
         path:'feedback-and-rating',
         component: FeedbackAndRatingComponent
+    },
+    {
+        path:'order-page',
+        component: OrderPageComponent
+    },
+    {
+        path:'cart-page',
+        component: CartPageComponent
     },
 ];

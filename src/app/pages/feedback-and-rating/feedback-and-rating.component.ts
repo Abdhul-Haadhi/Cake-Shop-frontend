@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { FeedbackAndRatingPageService } from 'src/app/services/feedback-and-rating/feedback-and-rating-page.service';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-feedback-and-rating',
@@ -39,10 +40,11 @@ export class FeedbackAndRatingComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private rateService: FeedbackAndRatingPageService,
     private messageService: MessageServiceService,
+    private httpService: HttpService
   ){
     this.feedbackForm = this.fb.group({
-      date : new FormControl('',[Validators.required]),
-      user : new FormControl('',[Validators.required,Validators.maxLength(500)]),
+      date : new FormControl('',[]),
+      user : new FormControl('',[]),
       rating : new FormControl(0,[Validators.required]),
       feedbackNote : new FormControl('',[Validators.required]),
     });
@@ -78,6 +80,14 @@ export class FeedbackAndRatingComponent implements OnInit {
         if(this.feedbackForm.invalid){
           return;
         }
+
+        let userId = this.httpService.getUserId();
+        let currentDate = new Date();
+        this.feedbackForm.patchValue({
+          user: userId,
+          date: currentDate
+        })
+        
         if(this.mode === 'add'){
 
           this.rateService.serviceCall(this.feedbackForm.value).subscribe({

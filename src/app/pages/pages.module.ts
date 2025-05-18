@@ -18,10 +18,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { PopupBoxComponent } from './popup-box/popup-box.component';
 import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-rating.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OrderPageComponent } from './order-page/order-page.component';
+import { CartPageComponent } from './cart-page/cart-page.component';
 
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent],
+  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,

@@ -87,6 +87,11 @@ export class ProductRegistrationComponent implements OnInit{
 
 
 
+    selectedFile: File | null = null;
+    previewUrl: string | ArrayBuffer | null = null;
+
+
+
   displayedColumns: string[] = [
     'productId',
     'product',
@@ -130,6 +135,21 @@ export class ProductRegistrationComponent implements OnInit{
       requiredItemsQuantities: this.fb.group({}),
     });
   }
+
+  // onFileSelected(event: Event): void {
+  //   const fileInput = event.target as HTMLInputElement;
+
+  //   if (fileInput.files && fileInput.files.length > 0) {
+  //     this.selectedFile = fileInput.files[0];
+
+  //     // Preview image
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       this.previewUrl = reader.result;
+  //     };
+  //     reader.readAsDataURL(this.selectedFile);
+  //   }
+  // }
 
   ngOnInit(): void {
     // this.loadItemsWithPrices();
@@ -232,18 +252,6 @@ export class ProductRegistrationComponent implements OnInit{
         return;
       }
       if(this.mode === 'add'){
-
-      //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
-      //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-      //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
-      //     }
-      //     else{
-      //         this.dataSource = new MatTableDataSource([Response]);
-      //     }
-      //     this.messageService.showSuccess('Data saved successfully!');
-
-      // });
-
 
         this.prodService.serviceCall(this.ProdRegForm.value).subscribe({
           next: (response: any) => {
