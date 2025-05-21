@@ -1,0 +1,159 @@
+<div class="container">
+    <mat-toolbar color="primary">
+        <span>Supplier registration</span>
+        <span class="example-spacer"></span>
+    </mat-toolbar>
+    <div class="form-section">
+      <form [formGroup]="SuppRegForm" class="example-form" (ngSubmit)="onSubmit()">
+        <div class="example-form-div">
+          <div class="form-part">
+            <mat-form-field class="full-width">
+              <mat-label>Company name</mat-label>
+              <input matInput placeholder="Company name" formControlName="companyName">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('companyName')?.touched || submitted) && SuppRegForm.get('companyName')?.errors && SuppRegForm.get('companyName')?.errors!['required']">
+                Employee number is required
+              </span>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Business Registration Number</mat-label>
+              <input matInput placeholder="Business Registration Number" formControlName="businessRegNumber">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('businessRegNumber')?.touched || submitted) && SuppRegForm.get('businessRegNumber')?.errors && SuppRegForm.get('businessRegNumber')?.errors!['required']">
+                Business Registration Number is required
+              </span>
+            </mat-form-field>
+            <!-- <mat-form-field class="full-width">
+              <mat-label>Supplier ID </mat-label>
+              <input matInput placeholder="Supplier ID" formControlName="supplierID">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('supplierID')?.touched || submitted) && SuppRegForm.get('supplierID')?.errors && SuppRegForm.get('supplierID')?.errors!['required']">
+                Supplier ID is required
+              </span>
+            </mat-form-field> -->
+            <mat-form-field class="full-width">
+              <mat-label>Contact Person Name</mat-label>
+              <input matInput placeholder="Contact Person Name" formControlName="contactPersonName">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('contactPersonName')?.touched || submitted) && SuppRegForm.get('contactPersonName')?.errors && SuppRegForm.get('contactPersonName')?.errors!['required']">
+                Contact Person Name is required
+              </span>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Contact Person Designation</mat-label>
+              <input matInput placeholder="Job Title" formControlName="contactPersonDesignation">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('contactPersonDesignation')?.touched || submitted) && SuppRegForm.get('contactPersonDesignation')?.errors && SuppRegForm.get('contactPersonDesignation')?.errors!['required']">
+                Job Title is required
+              </span>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Contact Person Phone Number</mat-label>
+              <input matInput placeholder="Contact Person Phone Number" formControlName="contactPersonPhoneNumber">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('contactPersonPhoneNumber')?.touched || submitted) && SuppRegForm.get('contactPersonPhoneNumber')?.errors && SuppRegForm.get('contactPersonPhoneNumber')?.errors!['required']">
+                Contact Person Phone Number is required
+              </span>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Contact Person Email Address</mat-label>
+              <input matInput placeholder="Email" formControlName="contactPersonEmailAddress">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('contactPersonEmailAddress')?.touched || submitted) && SuppRegForm.get('contactPersonEmailAddress')?.errors && SuppRegForm.get('contactPersonEmailAddress')?.errors!['required']">
+                Email is required
+              </span>
+              <span class="text-danger" *ngIf="(SuppRegForm.get('contactPersonEmailAddress')?.touched || submitted) && SuppRegForm.get('contactPersonEmailAddress')?.errors && SuppRegForm.get('contactPersonEmailAddress')?.errors!['email']">
+                Enter a valid email
+              </span>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+              <mat-label>Address</mat-label>
+              <input matInput placeholder="Address" formControlName="address">
+              <span class="text-danger" *ngIf="(SuppRegForm.get('address')?.touched || submitted) && SuppRegForm.get('address')?.errors && SuppRegForm.get('address')?.errors!['required']">
+                Address is required
+              </span>
+              <span class="text-danger" *ngIf="(SuppRegForm.get('address')?.touched || submitted) && SuppRegForm.get('address')?.errors && SuppRegForm.get('address')?.errors!['maxlength']">
+                Maximum lenght is 150
+              </span>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
+        <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
+
+      </form>
+    </div>
+
+    <div class="table-section">
+      <div class="refresh-filter-section">
+          <div class="refresh-button">
+           <button mat-icon-button color="primary" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+           </button>
+          </div>
+        
+        
+        <mat-form-field class="filter">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+      </div>
+  
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+        <ng-container matColumnDef="companyName">
+          <th mat-header-cell *matHeaderCellDef> Company Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="businessRegNumber">
+          <th mat-header-cell *matHeaderCellDef> Reg Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.businessRegNumber}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="supplierID">
+          <th mat-header-cell *matHeaderCellDef> Supplier ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.supplierID}} </td>
+        </ng-container> 
+
+        <ng-container matColumnDef="contactPersonName">
+          <th mat-header-cell *matHeaderCellDef> Contact Person Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.contactPersonName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="contactPersonDesignation">
+          <th mat-header-cell *matHeaderCellDef> Job Title </th>
+          <td mat-cell *matCellDef="let element"> {{element.contactPersonDesignation}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="contactPersonPhoneNumber">
+          <th mat-header-cell *matHeaderCellDef> Phone number </th>
+          <td mat-cell *matCellDef="let element"> {{element.contactPersonPhoneNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="contactPersonEmailAddress">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.contactPersonEmailAddress}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="editData(element)" matTooltip="edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      
+      
+    </div>
+
+    
+</div>

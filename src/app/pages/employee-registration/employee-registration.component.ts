@@ -68,7 +68,7 @@ export class EmployeeRegistrationComponent implements OnInit  {
       nic : new FormControl('',[Validators.required,Validators.minLength(9),Validators.maxLength(12)]),
       birthday : new FormControl('',[Validators.required]),
       // age : new FormControl('',[Validators.required,Validators.min(20),Validators.max(60),this.customAgeValidator]),
-      address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
+      address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
       contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
       gender : new FormControl('',[Validators.required]),
       email : new FormControl('',[Validators.email]),

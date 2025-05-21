@@ -20,10 +20,11 @@ import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-r
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OrderPageComponent } from './order-page/order-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
+import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent],
+  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent,SupplierRegistrationComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,

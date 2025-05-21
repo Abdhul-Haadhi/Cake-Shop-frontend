@@ -9,6 +9,7 @@ import { FeaturedProductsComponent } from './featured-products/featured-products
 import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-rating.component';
 import { OrderPageComponent } from './order-page/order-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
+import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -50,5 +51,9 @@ export const PagesRoutes: Routes = [
     {
         path:'cart-page',
         component: CartPageComponent
+    },
+    {
+        path:'supplier-registration',
+        component: SupplierRegistrationComponent
     },
 ];

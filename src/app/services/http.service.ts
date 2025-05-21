@@ -31,6 +31,16 @@ export class HttpService {
     return window.localStorage.getItem('user_id');
   }
 
+  // Supplier id----------------------------------------
+
+  setSupplierId(id: number) {
+  window.localStorage.setItem('supplier_id', id.toString());
+  }
+
+  getSupplierId() {
+    return window.localStorage.getItem('supplier_id');
+  }
+
   setLoginNameToCache(name: string) {
     window.localStorage.setItem('user_name', name);
     this.setUserName(name);
