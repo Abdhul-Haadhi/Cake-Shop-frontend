@@ -16,12 +16,14 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class SupplierRegistrationComponent implements OnInit {
   SuppRegForm: FormGroup;
+
+  lastID: number = 1;
   
   
     displayedColumns: string[] = [
       'companyName',
       'businessRegNumber',
-      'supplierID',
+      // 'supplierID',
       'contactPersonName',
       'contactPersonDesignation',
       'contactPersonPhoneNumber',
@@ -51,7 +53,7 @@ export class SupplierRegistrationComponent implements OnInit {
       this.SuppRegForm = this.fb.group({
         companyName : new FormControl('',[Validators.required]),
         businessRegNumber : new FormControl('',[Validators.required]),
-        // supplierID : new FormControl('',[Validators.required]),
+        supplierID : new FormControl(''),
         contactPersonName : new FormControl('',[Validators.required]),
         contactPersonDesignation : new FormControl('',[Validators.required]),
         contactPersonPhoneNumber : new FormControl('',[Validators.required]),
@@ -70,12 +72,19 @@ export class SupplierRegistrationComponent implements OnInit {
         this.suppService.getData().subscribe({
         next: (dataList: any) => {
           if(dataList.length <= 0){
+            this.SuppRegForm.patchValue({supplierID:this.lastID});
             return;
           }
   
         this.dataSource = new MatTableDataSource(dataList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
+        this.lastID = dataList[dataList.length - 1].id;
+        console.log('lastID', this.lastID);
+
+        this.SuppRegForm.patchValue({supplierID:this.lastID+1});
+        
       },
       error: (error) => {
         this.messageService.showError('Action failed with error' + error);
@@ -104,13 +113,13 @@ export class SupplierRegistrationComponent implements OnInit {
             return;
           }
 
-// ---------System generated supplier ID----------
-          let supplierId = this.httpService.getSupplierId();
-          this.SuppRegForm.patchValue({
-            supplierID: supplierId,
+// // ---------System generated supplier ID----------
+//           let supplierId = this.httpService.getSupplierId();
+//           this.SuppRegForm.patchValue({
+//             supplierID: supplierId,
             
-          })
-// -----------------------------------------------------
+//           })
+// // -----------------------------------------------------
           if(this.mode === 'add'){
             this.suppService.serviceCall(this.SuppRegForm.value).subscribe({
               next: (response: any) => {
@@ -162,6 +171,10 @@ export class SupplierRegistrationComponent implements OnInit {
   
     public editData(data: any): void {
       this.SuppRegForm.patchValue(data);
+
+      this.SuppRegForm.patchValue({
+        supplierID: data.id,        
+      });
       this.saveButtonLabel = 'Edit';
       this.mode = 'edit';
       this.selectedData = data;

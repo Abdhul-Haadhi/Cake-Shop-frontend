@@ -21,13 +21,13 @@
                 Business Registration Number is required
               </span>
             </mat-form-field>
-            <!-- <mat-form-field class="full-width">
+            <mat-form-field class="full-width">
               <mat-label>Supplier ID </mat-label>
-              <input matInput placeholder="Supplier ID" formControlName="supplierID">
+              <input matInput placeholder="Supplier ID" formControlName="supplierID" readonly>
               <span class="text-danger" *ngIf="(SuppRegForm.get('supplierID')?.touched || submitted) && SuppRegForm.get('supplierID')?.errors && SuppRegForm.get('supplierID')?.errors!['required']">
                 Supplier ID is required
               </span>
-            </mat-form-field> -->
+            </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Contact Person Name</mat-label>
               <input matInput placeholder="Contact Person Name" formControlName="contactPersonName">
@@ -105,10 +105,10 @@
           <td mat-cell *matCellDef="let element"> {{element.businessRegNumber}} </td>
         </ng-container>
       
-        <ng-container matColumnDef="supplierID">
+        <!-- <ng-container matColumnDef="supplierID">
           <th mat-header-cell *matHeaderCellDef> Supplier ID </th>
           <td mat-cell *matCellDef="let element"> {{element.supplierID}} </td>
-        </ng-container> 
+        </ng-container>  -->
 
         <ng-container matColumnDef="contactPersonName">
           <th mat-header-cell *matHeaderCellDef> Contact Person Name </th>
