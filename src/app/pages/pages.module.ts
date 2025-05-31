@@ -21,10 +21,26 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OrderPageComponent } from './order-page/order-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
-
+import { GrnComponent } from './grn/grn.component';
+import { ItemRegComponent } from './item-reg/item-reg.component';
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent,SupplierRegistrationComponent],
+  declarations: [
+    FormDemoComponent,
+    FormTaskComponent,
+    EmployeeRegistrationComponent,
+    CustomerRegistrationComponent,
+    ItemRegistrationComponent,
+    ProductRegistrationComponent,
+    FeaturedProductsComponent,
+    PopupBoxComponent,
+    FeedbackAndRatingComponent,
+    OrderPageComponent,
+    CartPageComponent,
+    SupplierRegistrationComponent,
+    GrnComponent,
+    ItemRegComponent,
+  ],
   imports: [
     CommonModule,
     DemoMaterialModule,
@@ -36,7 +52,6 @@ import { SupplierRegistrationComponent } from './supplier-registration/supplier-
     MatButtonModule,
     FontAwesomeModule,
     RouterModule.forChild(PagesRoutes),
-    
   ],
   exports: [],
 })

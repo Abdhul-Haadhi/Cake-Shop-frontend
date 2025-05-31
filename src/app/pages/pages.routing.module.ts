@@ -10,50 +10,60 @@ import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-r
 import { OrderPageComponent } from './order-page/order-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
+import { ItemRegComponent } from './item-reg/item-reg.component';
+import { GrnComponent } from './grn/grn.component';
 
 export const PagesRoutes: Routes = [
-    {
-        path:'form-demo',
-        component: FormDemoComponent
-    },
-    {
-        path:'form-task',
-        component: FormTaskComponent
-    },
-    {
-        path:'employee-registration',
-        component: EmployeeRegistrationComponent
-    },
-    {
-        path:'customer-registration',
-        component: CustomerRegistrationComponent
-    },
-    {
-        path:'item-registration',
-        component: ItemRegistrationComponent
-    },
-    {
-        path:'product-registration',
-        component: ProductRegistrationComponent
-    },
-    {
-        path:'featured-products',
-        component: FeaturedProductsComponent
-    },
-    {
-        path:'feedback-and-rating',
-        component: FeedbackAndRatingComponent
-    },
-    {
-        path:'order-page',
-        component: OrderPageComponent
-    },
-    {
-        path:'cart-page',
-        component: CartPageComponent
-    },
-    {
-        path:'supplier-registration',
-        component: SupplierRegistrationComponent
-    },
+  {
+    path: 'form-demo',
+    component: FormDemoComponent,
+  },
+  {
+    path: 'form-task',
+    component: FormTaskComponent,
+  },
+  {
+    path: 'employee-registration',
+    component: EmployeeRegistrationComponent,
+  },
+  {
+    path: 'customer-registration',
+    component: CustomerRegistrationComponent,
+  },
+  {
+    path: 'item-registration',
+    component: ItemRegistrationComponent,
+  },
+  {
+    path: 'product-registration',
+    component: ProductRegistrationComponent,
+  },
+  {
+    path: 'featured-products',
+    component: FeaturedProductsComponent,
+  },
+  {
+    path: 'feedback-and-rating',
+    component: FeedbackAndRatingComponent,
+  },
+  {
+    path: 'order-page',
+    component: OrderPageComponent,
+  },
+  {
+    path: 'cart-page',
+    component: CartPageComponent,
+  },
+  {
+    path: 'supplier-registration',
+    component: SupplierRegistrationComponent,
+  },
+  {
+    path: 'item',
+    component: ItemRegComponent,
+  },
+  {
+    path: 'grn',
+    component: GrnComponent,
+  },
 ];

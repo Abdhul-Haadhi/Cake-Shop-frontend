@@ -1,0 +1,49 @@
+
+.example-form {
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+  flex-direction: row;
+}
+
+.form-section{
+  // flex: 1;
+  padding: 5px;
+  width: 30%; /* Decrease the width to 50% */
+  border-right: 1px solid rgb(213, 205, 205);
+}
+
+.table-section {
+  width: 70%; /* Adjust the width to fit alongside the form */
+}
+
+button{
+  margin-right: 10px;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.errorMsg{
+  color: rgb(193, 0, 0);
+}
+
+.highlight-row {
+  background-color: rgb(249, 249, 157);
+}
+.last-added-row {
+  background-color: rgb(117, 232, 140);
+}
+
+
+

@@ -21,4 +21,10 @@ export class MessageServiceService {
       timeOut: duration,
     });
   }
+
+  showWarining(message: string, duration: number = 5000) {
+    this.toastrService.warning(message, 'Warning', {
+      timeOut: duration,
+    });
+  }
 }
