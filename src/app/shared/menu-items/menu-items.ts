@@ -92,6 +92,15 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
+    childState: 'grn',
+    name: 'GRN',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
     childState: 'product-registration',
     name: 'Product registration',
     type: 'link',

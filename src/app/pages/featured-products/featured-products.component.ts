@@ -17,14 +17,18 @@ export class FeaturedProductsComponent {
   products = [
     {
       name: 'sponge cake',
-      image: '../../../assets/images/cupCakes.jpg',
+      // image: '../../../assets/images/cupCakes.jpg',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnnqkk1UEVPaQGwcmHUaDba9rpIIDkEbA01w&s',
       description: 'this is sponge cake',
       price: 4000,
       size: ' 1000'
     },
     {
       name: 'Birthday cake',
-      image: '../../../assets/images/birthdayCake.jpg'
+      image: '../../../assets/images/birthdayCake.jpg',
+      description: 'this is sponge cake',
+      price: 3000,
+      size: ' 1000'
     },
     {
       name: 'Wedding cake',

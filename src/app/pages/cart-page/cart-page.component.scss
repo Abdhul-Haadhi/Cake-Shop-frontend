@@ -1,3 +1,22 @@
 h2{
     margin: 20px;
 }
+
+
+.checkout-container{
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+}
+
+
+.checkout_button{
+    margin-left: auto;
+}
+
+.product-image{
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    border-radius: 10px;
+}

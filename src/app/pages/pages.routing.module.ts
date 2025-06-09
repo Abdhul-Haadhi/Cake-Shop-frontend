@@ -10,6 +10,8 @@ import { FeedbackAndRatingComponent } from './feedback-and-rating/feedback-and-r
 import { OrderPageComponent } from './order-page/order-page.component';
 import { CartPageComponent } from './cart-page/cart-page.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
+import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
+import { GrnComponent } from './grn/grn.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -55,5 +57,13 @@ export const PagesRoutes: Routes = [
     {
         path:'supplier-registration',
         component: SupplierRegistrationComponent
+    },
+    {
+        path:'checkout-page',
+        component: CheckoutPageComponent
+    },
+    {
+        path:'grn',
+        component: GrnComponent
     },
 ];

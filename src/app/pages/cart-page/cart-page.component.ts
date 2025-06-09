@@ -8,6 +8,7 @@ import { CartPageServiceService } from 'src/app/services/cart-page/cart-page-ser
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductStateServiceService } from 'src/app/services/product-registration/product-state-service.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -16,10 +17,14 @@ import { ProductStateServiceService } from 'src/app/services/product-registratio
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss'
 })
-export class CartPageComponent {
+export class CartPageComponent implements OnInit{
     product: any;
 
+    selection = new SelectionModel<any>(true, []);
+
     displayedColumns: string[] = [
+    'select',
+    'image',
     'item',
     'size',
     'quantity',
@@ -38,14 +43,17 @@ export class CartPageComponent {
     submitted = false;
     mode = 'add';
     selectedData!: { id: any; };
+    selectedProducts: any;
   
     constructor(private fb: FormBuilder,
       private productState: ProductStateServiceService, 
       private router: Router, 
       private cartService: CartPageServiceService,
       private messageService: MessageServiceService,
-      private httpService: HttpService,
     ){
+
+      const nav = this.router.getCurrentNavigation();
+      this.selectedProducts = nav?.extras.state?.['product'] || [];
 
       this.product = this.productState.getProduct();
 
@@ -58,6 +66,23 @@ export class CartPageComponent {
      ngOnInit(): void {
     this.populateData();
   }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
 
   public populateData(): void{
     try{
@@ -92,7 +117,7 @@ export class CartPageComponent {
         //   };
         // });
 
-        console.log(updatedDataList);
+        // console.log(updatedDataList);
 
       this.dataSource = new MatTableDataSource(updatedDataList);
       this.dataSource.paginator = this.paginator;
@@ -141,6 +166,18 @@ export class CartPageComponent {
     if (!this.product) {
         this.router.navigate(['/pages/order-page']); 
       }
+  }
+
+  checkOutBtn(){
+    const selectedProducts = this.selection.selected;
+    if(!selectedProducts || selectedProducts.length === 0){
+      this.messageService.showError('Please select at least one product to proceed to checkout');
+      return;
+    }
+    
+    this.router.navigate(['/pages/checkout-page'],{state:{
+      products: selectedProducts
+    }});
   }
 
 

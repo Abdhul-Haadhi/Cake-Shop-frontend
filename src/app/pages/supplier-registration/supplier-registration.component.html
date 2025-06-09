@@ -8,6 +8,10 @@
         <div class="example-form-div">
           <div class="form-part">
             <mat-form-field class="full-width">
+              <mat-label>Supplier ID </mat-label>
+              <input matInput placeholder="Supplier ID" formControlName="supplierID" readonly>
+            </mat-form-field>
+            <mat-form-field class="full-width">
               <mat-label>Company name</mat-label>
               <input matInput placeholder="Company name" formControlName="companyName">
               <span class="text-danger" *ngIf="(SuppRegForm.get('companyName')?.touched || submitted) && SuppRegForm.get('companyName')?.errors && SuppRegForm.get('companyName')?.errors!['required']">
@@ -19,13 +23,6 @@
               <input matInput placeholder="Business Registration Number" formControlName="businessRegNumber">
               <span class="text-danger" *ngIf="(SuppRegForm.get('businessRegNumber')?.touched || submitted) && SuppRegForm.get('businessRegNumber')?.errors && SuppRegForm.get('businessRegNumber')?.errors!['required']">
                 Business Registration Number is required
-              </span>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-              <mat-label>Supplier ID </mat-label>
-              <input matInput placeholder="Supplier ID" formControlName="supplierID" readonly>
-              <span class="text-danger" *ngIf="(SuppRegForm.get('supplierID')?.touched || submitted) && SuppRegForm.get('supplierID')?.errors && SuppRegForm.get('supplierID')?.errors!['required']">
-                Supplier ID is required
               </span>
             </mat-form-field>
             <mat-form-field class="full-width">
