@@ -18,8 +18,7 @@ interface JobRole {
   standalone: false,
   templateUrl: './employee-registration.component.html',
   providers: [provideNativeDateAdapter()],
-  styleUrl: './employee-registration.component.scss',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './employee-registration.component.scss'
 })
 
 export class EmployeeRegistrationComponent implements OnInit  {
@@ -64,15 +63,12 @@ export class EmployeeRegistrationComponent implements OnInit  {
     this.EmpRegForm = this.fb.group({
       employeeNumber : new FormControl('',[Validators.required]),
       fullName : new FormControl('',[Validators.required]),
-      // callingName : new FormControl('',[Validators.required]),
       nic : new FormControl('',[Validators.required,Validators.minLength(9),Validators.maxLength(12)]),
       birthday : new FormControl('',[Validators.required]),
-      // age : new FormControl('',[Validators.required,Validators.min(20),Validators.max(60),this.customAgeValidator]),
       address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
       gender : new FormControl('',[Validators.required]),
-      email : new FormControl('',[Validators.email]),
-      // emergencyContact : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      email : new FormControl('',[Validators.required,Validators.email]),
       jobRole : new FormControl('',[Validators.required]),
     });
   }
@@ -80,26 +76,26 @@ export class EmployeeRegistrationComponent implements OnInit  {
     this.populateData();
   }
 
-  customAgeValidator(control:AbstractControl){
-    if(!control){
-      return null;
-    }
+  // customAgeValidator(control:AbstractControl){
+  //   if(!control){
+  //     return null;
+  //   }
 
-    const controlValue = +control.value;
+  //   const controlValue = +control.value;
 
-    if(isNaN(controlValue)){
-      return{
-        customAgeValidator: true
-      };
-    }
+  //   if(isNaN(controlValue)){
+  //     return{
+  //       customAgeValidator: true
+  //     };
+  //   }
 
-    if(!Number.isInteger(controlValue)){
-      return{
-        customAgeValidator: true
-      }
-    }
-    return null;
-  }
+  //   if(!Number.isInteger(controlValue)){
+  //     return{
+  //       customAgeValidator: true
+  //     }
+  //   }
+  //   return null;
+  // }
   
   public populateData(): void{
     try{
@@ -140,19 +136,6 @@ export class EmployeeRegistrationComponent implements OnInit  {
           return;
         }
         if(this.mode === 'add'){
-
-        //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
-        //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-        //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
-        //     }
-        //     else{
-        //         this.dataSource = new MatTableDataSource([Response]);
-        //     }
-        //     this.messageService.showSuccess('Data saved successfully!');
-
-        // });
-
-
           this.empService.serviceCall(this.EmpRegForm.value).subscribe({
             next: (response: any) => {
               if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
@@ -206,13 +189,10 @@ export class EmployeeRegistrationComponent implements OnInit  {
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;
-    // this.EmpRegForm = data;
   }
 
   public deleteData(data: any): void {
-    
     const id = data.id;
-
     try{
       this.empService.deleteData(id).subscribe({
         next: (Response) =>{
@@ -231,9 +211,9 @@ export class EmployeeRegistrationComponent implements OnInit  {
     catch(error){
       this.messageService.showError('Action failed with error' + error);
     }
-
-    
   }
+
+
   public refreshData(): void{
     this.populateData();
   }
