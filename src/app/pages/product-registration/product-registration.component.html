@@ -62,7 +62,9 @@
                   </span>
                 </mat-form-field>
                 <div *ngIf="ProdRegForm.get('requiredItems')?.value?.length > 0" class="quantities-section">
-                  <h4>Enter quantities for required items:</h4>
+                  <div *ngIf=" ProdRegForm.get('requiredItems')?.value?.length > 0 && submitted">
+                    <h4>Enter quantities for required items:</h4>
+                  </div>
                   <div *ngFor="let item of ProdRegForm.get('requiredItems')?.value" class="quantity-input">
                     <mat-form-field>
                       <mat-label>Quantity for {{ getItemName(item) }}</mat-label>
