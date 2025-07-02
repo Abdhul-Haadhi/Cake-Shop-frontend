@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
 import { ItemRegistrationFormService } from 'src/app/services/item-registration/item-registration-form.service';
+import { HttpClient } from '@angular/common/http';
 
 
 // interface Product {
@@ -36,8 +37,8 @@ interface RequiredItem {
 export class ProductRegistrationComponent implements OnInit{
 
   ProdRegForm: FormGroup;
-  requiredItemsWithQuantities: {item:string, quantity:number, unitPrice?:number}[]=[];
-  itemsWithPrices: any[] = [];
+  // requiredItemsWithQuantities: {item:string, quantity:number, unitPrice?:number}[]=[];
+  // itemsWithPrices: any[] = [];
 
  
   category: Category[] = [
@@ -68,21 +69,21 @@ export class ProductRegistrationComponent implements OnInit{
 
 
 
-  //   selectedFile: File | null = null;
-  //   previewUrl: string | ArrayBuffer | null = null;
+    selectedFile: File | null = null;
+    // previewUrl: string | ArrayBuffer | null = null;
 
 
 
   displayedColumns: string[] = [
     'productId',
+    'image',
     'product',
     'description',
     'initialWeight',
-    'requiredItems',
-    'measurementCategory',
-    'usedAmount',
-    'unitPrice',
-    'totalCost',
+    // 'requiredItems',
+    // 'measurementCategory',
+    // 'totalCost',
+    'finalPrice',
     'actions',
   ];
 
@@ -96,53 +97,84 @@ export class ProductRegistrationComponent implements OnInit{
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
+  imagePreview: string | ArrayBuffer | null = null;
 
   constructor(
     private fb: FormBuilder,
     private prodService: ProductRegistrationFormService,
-    private itemService: ItemRegistrationFormService,
+    // private itemService: ItemRegistrationFormService,
     private messageService: MessageServiceService,
+    // private http: HttpClient,
   ){
 
     this.ProdRegForm = this.fb.group({
       productId : new FormControl('',[Validators.required]),
       product : new FormControl('',[Validators.required]),
-      initialWeight : new FormControl('',[Validators.required]),
-      requiredItems : new FormControl([],[Validators.required]),
-      measurementCategory : new FormControl('',[Validators.required]),
-      usedAmount : new FormControl('',[Validators.required]),
-      unitPrice: new FormControl('',[Validators.required]),
       description: new FormControl('',[Validators.required]),
-      image: new FormControl('',[Validators.required]),
-      totalCost: new FormControl({ value: '', disabled: true }),
+      initialWeight : new FormControl('',[Validators.required]),
+      // requiredItems : new FormControl([],[Validators.required]),
+      // measurementCategory : new FormControl('',[Validators.required]),
+      // name: ['', Validators.required],
+      // usedAmount : new FormControl('',[Validators.required]),
+      // unitPrice: new FormControl('',[Validators.required]),
+      // name: ['', Validators.required],
+      // image: new FormControl('',[Validators.required]),
+      // totalCost: new FormControl({ value: '', disabled: true }),
+      finalPrice: new FormControl('',[Validators.required]),
       // requiredItemsQuantities: this.fb.group({}),
-      requiredItemsQuantities: new FormControl([],[Validators.required]),
+      // requiredItemsQuantities: new FormControl([],[Validators.required]),
     });
   }
 
-  // onFileSelected(event: Event): void {
-  //   const fileInput = event.target as HTMLInputElement;
+  onFileSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
 
-  //   if (fileInput.files && fileInput.files.length > 0) {
-  //     this.selectedFile = fileInput.files[0];
+      // Image preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
 
-  //     // Preview image
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       this.previewUrl = reader.result;
-  //     };
-  //     reader.readAsDataURL(this.selectedFile);
+
+  // onFileSelected(event:any){
+  //   if(event.target.files.length > 0){
+  //     this.selectedFile = <File>event.target.files[0];
+  //     const formData = new FormData();
+  //     formData.append('selectedFile',this.selectedFile);
+  //     this.prodService.serviceCall(formData).subscribe({
+  //       next: (response: any) => {
+  //           //   if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+  //           //           this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+  //           //         }
+  //           //         else{
+  //           //             this.dataSource = new MatTableDataSource([response]);
+  //           //         }
+  //           //         this.messageService.showSuccess('Data saved successfully!');
+  //           // },
+  //           // error: (error) =>{
+  //           //   this.messageService.showError('Action failed with error' + error);
+  //           // }
+  //     }
+  //   })
   //   }
+    
+
   // }
+
 
   ngOnInit(): void {
     // this.loadItemsWithPrices();
     this.populateData();
 
-    this.ProdRegForm.get('requiredItems')?.valueChanges.subscribe(items=>{
-      this.updateRequiredItemsQuantities(items);
-      this.calculateTotalCost();
-    })
+    // this.ProdRegForm.get('requiredItems')?.valueChanges.subscribe(items=>{
+    //   this.updateRequiredItemsQuantities(items);
+    //   this.calculateTotalCost();
+    // })
   }
 
   // loadItemsWithPrices():void{
@@ -156,51 +188,51 @@ export class ProductRegistrationComponent implements OnInit{
   //   })
   // }
 
-  updateRequiredItemsQuantities(selectedItems:string[]): void{
-    const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
+  // updateRequiredItemsQuantities(selectedItems:string[]): void{
+  //   const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
 
-    Object.keys(quantitiesGroup.controls).forEach(controlName => {
-      quantitiesGroup.removeControl(controlName);
-    });
+  //   Object.keys(quantitiesGroup.controls).forEach(controlName => {
+  //     quantitiesGroup.removeControl(controlName);
+  //   });
 
-    selectedItems.forEach(item => {
-      quantitiesGroup.addControl(item, new FormControl('', [Validators.required, Validators.min(0.01)]));
-    });
-  }
+  //   selectedItems.forEach(item => {
+  //     quantitiesGroup.addControl(item, new FormControl('', [Validators.required, Validators.min(0.01)]));
+  //   });
+  // }
 
-  calculateTotalCost(): void {
-    const selectedItems = this.ProdRegForm.get('requiredItems')?.value || [];
-    const quantities = this.ProdRegForm.get('requiredItemsQuantities')?.value || {};
-    let totalCost = 0;
+  // calculateTotalCost(): void {
+  //   const selectedItems = this.ProdRegForm.get('requiredItems')?.value || [];
+  //   const quantities = this.ProdRegForm.get('requiredItemsQuantities')?.value || {};
+  //   let totalCost = 0;
 
-    selectedItems.forEach((item: string) => {
-      const quantity = quantities[item] || 0;
-      const itemData = this.itemsWithPrices.find(i => i.item === item);
-      const unitPrice = itemData?.unitPrice || 0;
-      totalCost += quantity * unitPrice;
-    });
+  //   selectedItems.forEach((item: string) => {
+  //     const quantity = quantities[item] || 0;
+  //     const itemData = this.itemsWithPrices.find(i => i.item === item);
+  //     const unitPrice = itemData?.unitPrice || 0;
+  //     totalCost += quantity * unitPrice;
+  //   });
 
-    this.ProdRegForm.get('totalCost')?.setValue(totalCost.toFixed(2));
-  }
+  //   this.ProdRegForm.get('totalCost')?.setValue(totalCost.toFixed(2));
+  // }
 
   // onFileSelected(){
 
   // }
 
-  getItemName(itemValue: string): string {
-    const item = this.requiredItem.find(i => i.value === itemValue);
-    return item ? item.viewValue : itemValue;
-  }
+  // getItemName(itemValue: string): string {
+  //   const item = this.requiredItem.find(i => i.value === itemValue);
+  //   return item ? item.viewValue : itemValue;
+  // }
   
-  getUnitPrice(itemValue: string): number {
-    const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
-    return itemData?.unitPrice || 0;
-  }
+  // getUnitPrice(itemValue: string): number {
+  //   const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
+  //   return itemData?.unitPrice || 0;
+  // }
   
-  getMeasurementCategory(itemValue: string): string {
-    const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
-    return itemData?.category === 'weight' ? 'kg' : 'units';
-  }
+  // getMeasurementCategory(itemValue: string): string {
+  //   const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
+  //   return itemData?.category === 'weight' ? 'kg' : 'units';
+  // }
 
   public populateData(): void{
     try{
@@ -236,12 +268,16 @@ export class ProductRegistrationComponent implements OnInit{
   onSubmit(){
       try{
         this.submitted = true;
-        if(this.ProdRegForm.invalid){
+        if(this.ProdRegForm.invalid || !this.selectedFile){
           return;
         }
         if(this.mode === 'add'){
 
-          this.prodService.serviceCall(this.ProdRegForm.value).subscribe({
+          const formData = new FormData();
+           formData.append('product', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
+          formData.append('image', this.selectedFile);
+
+          this.prodService.serviceCall(this.ProdRegForm.value,this.selectedFile).subscribe({
             next: (response: any) => {
               if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
                       this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
@@ -298,14 +334,14 @@ export class ProductRegistrationComponent implements OnInit{
       totalCost: data.totalCost
     });
 
-    if (data.requiredItemsQuantities) {
-      const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
-      Object.keys(data.requiredItemsQuantities).forEach(item => {
-        if (quantitiesGroup.get(item)) {
-          quantitiesGroup.get(item)?.setValue(data.requiredItemsQuantities[item]);
-        }
-      });
-    }
+    // if (data.requiredItemsQuantities) {
+    //   const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
+    //   Object.keys(data.requiredItemsQuantities).forEach(item => {
+    //     if (quantitiesGroup.get(item)) {
+    //       quantitiesGroup.get(item)?.setValue(data.requiredItemsQuantities[item]);
+    //     }
+    //   });
+    // }
 
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
