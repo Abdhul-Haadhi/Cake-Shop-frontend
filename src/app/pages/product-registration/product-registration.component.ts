@@ -11,6 +11,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
 import { ItemRegistrationFormService } from 'src/app/services/item-registration/item-registration-form.service';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 // interface Product {
@@ -98,12 +99,15 @@ export class ProductRegistrationComponent implements OnInit{
   mode = 'add';
   selectedData!: { id: any; };
   imagePreview: string | ArrayBuffer | null = null;
+  isFileSelected = false;
+  selectedImageUrl: any;
 
   constructor(
     private fb: FormBuilder,
     private prodService: ProductRegistrationFormService,
     // private itemService: ItemRegistrationFormService,
     private messageService: MessageServiceService,
+    private sanitizer: DomSanitizer,
     // private http: HttpClient,
   ){
 
@@ -123,24 +127,36 @@ export class ProductRegistrationComponent implements OnInit{
       finalPrice: new FormControl('',[Validators.required]),
       // requiredItemsQuantities: this.fb.group({}),
       // requiredItemsQuantities: new FormControl([],[Validators.required]),
+      image: new FormControl(''),
+      imageName: new FormControl(''),
+      imageType: new FormControl(''),
     });
   }
 
-  onFileSelected(event: Event): void {
+  onFileSelected(event: any): void {
+    this.isFileSelected = true;
+
+    if (event.target?.files) {
+      const file = event.target.files[0];
+      const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
+      this.selectedImageUrl = url;
+      this.isFileSelected = true;
+      this.ProdRegForm.get('image')?.setValue(file);
+    }
+
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.selectedFile = fileInput.files[0];
 
       // Image preview
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(this.selectedFile);
+    //   const reader = new FileReader();
+    //   reader.onload = () => {
+    //     this.imagePreview = reader.result;
+    //   };
+    //   reader.readAsDataURL(this.selectedFile);
+    // }
     }
   }
-
-
   // onFileSelected(event:any){
   //   if(event.target.files.length > 0){
   //     this.selectedFile = <File>event.target.files[0];
@@ -273,11 +289,11 @@ export class ProductRegistrationComponent implements OnInit{
         }
         if(this.mode === 'add'){
 
-          const formData = new FormData();
-           formData.append('product', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
-          formData.append('image', this.selectedFile);
+          // const formData = new FormData();
+          //  formData.append('product', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
+          // formData.append('image', this.selectedFile);
 
-          this.prodService.serviceCall(this.ProdRegForm.value,this.selectedFile).subscribe({
+          this.prodService.serviceCall(this.prepareFormData()).subscribe({
             next: (response: any) => {
               if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
                       this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
@@ -293,7 +309,7 @@ export class ProductRegistrationComponent implements OnInit{
           });
       }
       else if(this.mode === 'edit'){
-        this.prodService.editData(this.selectedData?.id, this.ProdRegForm.value).subscribe({
+        this.prodService.editData(this.selectedData?.id, this.prepareFormData()).subscribe({
           next:(response) =>{
             let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
             this.dataSource.data[elementIndex] = response;
@@ -313,6 +329,32 @@ export class ProductRegistrationComponent implements OnInit{
         this.messageService.showError('Action failed with error' + error);
    }
 }
+
+  public prepareFormData(): FormData {
+    const formData = new FormData();
+    // demoFormData.append('demoForm', this.demoForm.value);
+    formData.append('prodRegForm', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
+
+    if (this.isFileSelected) {
+      formData.append('image', this.ProdRegForm.get('image')?.value, this.ProdRegForm.get('image')?.value.name);
+    } else {
+      const imageBlob = this.base64ToBlob(this.ProdRegForm.get('image')?.value, this.ProdRegForm.get('imageType')?.value);
+      const file = new File([imageBlob], this.ProdRegForm.get('imageName')?.value, { type: this.ProdRegForm.get('imageType')?.value });
+      formData.append('image', file, file.name);
+    }
+
+    return formData;
+  }
+
+    base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
 
   public resetData(): void{
     this.ProdRegForm.reset();

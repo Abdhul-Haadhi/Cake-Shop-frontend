@@ -27,7 +27,7 @@ export class ProductRegistrationFormService {
   //     return this.http.post(requestUrl,from_details,{headers:headers})
   //   }
 
-  serviceCall(formDetails: any, imageFile: File) {
+  serviceCall(formDetails: any) {
   console.log('In the service');
 
   const requestUrl = environment.baseUrl + '/product-registration';
@@ -41,11 +41,11 @@ export class ProductRegistrationFormService {
     };
   }
 
-  const formData = new FormData();
-  formData.append('product', new Blob([JSON.stringify(formDetails)], { type: 'application/json' }));
-  formData.append('image', imageFile);
+  // const formData = new FormData();
+  // formData.append('product', new Blob([JSON.stringify(formDetails)], { type: 'application/json' }));
+  // formData.append('image', imageFile);
 
-  return this.http.post(requestUrl, formData, { headers: headers });
+  return this.http.post(requestUrl, formDetails, { headers: headers });
 }
 
     getData(){
