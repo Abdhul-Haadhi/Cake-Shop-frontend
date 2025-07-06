@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+// @import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.css";
+
 .light-logo{
     width: 50px;
     border-radius: 50%;
@@ -6,4 +9,12 @@
 
 mat-label{
     font-size: 90%;
+}
+
+// .cart-icon{
+//     margin-left: auto;
+// }
+
+.flex-spacer {
+  flex: 1 1 auto; /* This fills remaining space and pushes next siblings right */
 }

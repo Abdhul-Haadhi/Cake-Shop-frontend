@@ -10,22 +10,24 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
 import { ItemRegistrationFormService } from 'src/app/services/item-registration/item-registration-form.service';
+import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
-interface Product {
-  value: string;
-  viewValue: string;
-}
+// interface Product {
+//   value: string;
+//   viewValue: string;
+// }
 
-interface Category {
-  value: string;
-  viewValue: string;
-}
+// interface Category {
+//   value: string;
+//   viewValue: string;
+// }
 
-interface RequiredItem {
-  value: string;
-  viewValue: string;
-}
+// interface RequiredItem {
+//   value: string;
+//   viewValue: string;
+// }
 
 @Component({
   selector: 'app-product-registration',
@@ -36,71 +38,52 @@ interface RequiredItem {
 export class ProductRegistrationComponent implements OnInit{
 
   ProdRegForm: FormGroup;
-  requiredItemsWithQuantities: {item:string, quantity:number, unitPrice?:number}[]=[];
-  itemsWithPrices: any[] = [];
+  // requiredItemsWithQuantities: {item:string, quantity:number, unitPrice?:number}[]=[];
+  // itemsWithPrices: ItemRegistrationFormService[] = [];
 
-  product: Product[] = [
-    {value: 'flour', viewValue: 'Flour'},
-    {value: 'sugar', viewValue: 'Sugar'},
-    {value: 'butter', viewValue: 'Butter'},
-    {value: 'eggs', viewValue: 'Eggs'},
-    {value: 'bakingPowder', viewValue: 'Baking powder'},
-    {value: 'bakingSoda', viewValue: 'Baking soda'},
-    {value: 'essence', viewValue: 'Essence'},
-    {value: 'cocoaPowder', viewValue: 'Cocoa powder'},
-    {value: 'icingSugar', viewValue: 'Icing sugar'},
-    {value: 'icingButter', viewValue: 'Icing butter'},
-    {value: 'milk', viewValue: 'Milk'},
-    {value: 'cashewNuts', viewValue: 'Cashew nuts'},
-    {value: 'plums', viewValue: 'Plums'},
-    {value: 'dates', viewValue: 'Dates'},
-    {value: 'dryFruits', viewValue: 'Dry fruits'},
-    {value: 'bakingPaper', viewValue: 'Baking paper'},
-    {value: 'foodColors', viewValue: 'Food colors'},
-  ];
-
-  category: Category[] = [
-    {value: 'weight', viewValue: 'Weight'},
-    {value: 'quantity', viewValue: 'Quantity'},
-  ];
+ 
+  // category: Category[] = [
+  //   {value: 'weight', viewValue: 'Weight'},
+  //   {value: 'quantity', viewValue: 'Quantity'},
+  // ];
 
 
+    // {value: 'flour', viewValue: 'Flour'},
+    // {value: 'sugar', viewValue: 'Sugar'},
+    // {value: 'butter', viewValue: 'Butter'},
+    // {value: 'eggs', viewValue: 'Eggs'},
+    // {value: 'bakingPowder', viewValue: 'Baking powder'},
+    // {value: 'bakingSoda', viewValue: 'Baking soda'},
+    // {value: 'essence', viewValue: 'Essence'},
+    // {value: 'cocoaPowder', viewValue: 'Cocoa powder'},
+    // {value: 'icingSugar', viewValue: 'Icing sugar'},
+    // {value: 'icingButter', viewValue: 'Icing butter'},
+    // {value: 'milk', viewValue: 'Milk'},
+    // {value: 'cashewNuts', viewValue: 'Cashew nuts'},
+    // {value: 'plums', viewValue: 'Plums'},
+    // {value: 'dates', viewValue: 'Dates'},
+    // {value: 'dryFruits', viewValue: 'Dry fruits'},
+    // {value: 'bakingPaper', viewValue: 'Baking paper'},
+    // {value: 'foodColors', viewValue: 'Food colors'},
 
-  requiredItem: RequiredItem[] = [
-    {value: 'flour', viewValue: 'Flour'},
-    {value: 'sugar', viewValue: 'Sugar'},
-    {value: 'butter', viewValue: 'Butter'},
-    {value: 'eggs', viewValue: 'Eggs'},
-    {value: 'bakingPowder', viewValue: 'Baking powder'},
-    {value: 'bakingSoda', viewValue: 'Baking soda'},
-    {value: 'essence', viewValue: 'Essence'},
-    {value: 'cocoaPowder', viewValue: 'Cocoa powder'},
-    {value: 'icingSugar', viewValue: 'Icing sugar'},
-    {value: 'icingButter', viewValue: 'Icing butter'},
-    {value: 'milk', viewValue: 'Milk'},
-    {value: 'cashewNuts', viewValue: 'Cashew nuts'},
-    {value: 'plums', viewValue: 'Plums'},
-    {value: 'dates', viewValue: 'Dates'},
-    {value: 'dryFruits', viewValue: 'Dry fruits'},
-    {value: 'bakingPaper', viewValue: 'Baking paper'},
-    {value: 'foodColors', viewValue: 'Food colors'},];
+
+  // requiredItem: {value: string; viewValue: string}[]= []; 
 
 
 
-    selectedFile: File | null = null;
-    previewUrl: string | ArrayBuffer | null = null;
-
-
+  selectedFile: File | null = null;
+    
 
   displayedColumns: string[] = [
     'productId',
+    'image',
     'product',
+    'description',
     'initialWeight',
-    'requiredItems',
-    'measurementCategory',
-    'usedAmount',
-    'unitPrice',
-    'totalCost',
+    // 'requiredItems',
+    // 'measurementCategory',
+    // 'totalCost',
+    'finalPrice',
     'actions',
   ];
 
@@ -114,56 +97,71 @@ export class ProductRegistrationComponent implements OnInit{
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
+  imagePreview: string | ArrayBuffer | null = null;
+  isFileSelected = false;
+  selectedImageUrl: any;
 
   constructor(
     private fb: FormBuilder,
     private prodService: ProductRegistrationFormService,
-    private itemService: ItemRegistrationFormService,
+    // private itemService: ItemRegistrationFormService,
     private messageService: MessageServiceService,
+    private sanitizer: DomSanitizer,
+    // private http: HttpClient,
   ){
 
     this.ProdRegForm = this.fb.group({
       productId : new FormControl('',[Validators.required]),
       product : new FormControl('',[Validators.required]),
+      description: new FormControl('',[Validators.required]),
       initialWeight : new FormControl('',[Validators.required]),
-      requiredItems : new FormControl([],[Validators.required]),
-      measurementCategory : new FormControl('',[Validators.required]),
-      usedAmount : new FormControl('',[Validators.required]),
+      // requiredItems : new FormControl([],[Validators.required]),
+      // measurementCategory : new FormControl('',[Validators.required]),
+      // usedAmount : new FormControl('',[Validators.required]),
       // unitPrice: new FormControl('',[Validators.required]),
-      // totalCost: new FormControl('',[Validators.required]),
-      totalCost: new FormControl({ value: '', disabled: true }),
-      requiredItemsQuantities: this.fb.group({}),
+      // totalCost: new FormControl({ value: '', disabled: true }),
+      finalPrice: new FormControl('',[Validators.required]),
+      // requiredItemsQuantities: this.fb.group({}),
+      // requiredItemsQuantities: new FormControl([],[Validators.required]),
+      image: new FormControl(''),
+      imageName: new FormControl(''),
+      imageType: new FormControl(''),
     });
   }
 
-  // onFileSelected(event: Event): void {
-  //   const fileInput = event.target as HTMLInputElement;
+  onFileSelected(event: any): void {
+    this.isFileSelected = true;
 
-  //   if (fileInput.files && fileInput.files.length > 0) {
-  //     this.selectedFile = fileInput.files[0];
+    if (event.target?.files) {
+      const file = event.target.files[0];
+      const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
+      this.selectedImageUrl = url;
+      this.isFileSelected = true;
+      this.ProdRegForm.get('image')?.setValue(file);
+    }
 
-  //     // Preview image
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       this.previewUrl = reader.result;
-  //     };
-  //     reader.readAsDataURL(this.selectedFile);
-  //   }
-  // }
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
+
+    }
+  }
+  
+
 
   ngOnInit(): void {
     // this.loadItemsWithPrices();
     this.populateData();
 
-    this.ProdRegForm.get('requiredItems')?.valueChanges.subscribe(items=>{
-      this.updateRequiredItemsQuantities(items);
-      this.calculateTotalCost();
-    })
+    // this.ProdRegForm.get('requiredItems')?.valueChanges.subscribe(items=>{
+    //   this.updateRequiredItemsQuantities(items);
+    //   this.calculateTotalCost();
+    // })
   }
 
   // loadItemsWithPrices():void{
   //   this.itemService.getData().subscribe({
-  //     next: (items) =>{
+  //     next: (items:any) =>{
   //       this.itemsWithPrices = items;
   //     },
   //     error:(error)=>{
@@ -172,47 +170,48 @@ export class ProductRegistrationComponent implements OnInit{
   //   })
   // }
 
-  updateRequiredItemsQuantities(selectedItems:string[]): void{
-    const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
+  // updateRequiredItemsQuantities(selectedItems:string[]): void{
+  //   const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
 
-    Object.keys(quantitiesGroup.controls).forEach(controlName => {
-      quantitiesGroup.removeControl(controlName);
-    });
+  //   Object.keys(quantitiesGroup.controls).forEach(controlName => {
+  //     quantitiesGroup.removeControl(controlName);
+  //   });
 
-    selectedItems.forEach(item => {
-      quantitiesGroup.addControl(item, new FormControl('', [Validators.required, Validators.min(0.01)]));
-    });
-  }
+  //   selectedItems.forEach(item => {
+  //     quantitiesGroup.addControl(item, new FormControl('', [Validators.required, Validators.min(0)]));
+  //   });
+  // }
 
-  calculateTotalCost(): void {
-    const selectedItems = this.ProdRegForm.get('requiredItems')?.value || [];
-    const quantities = this.ProdRegForm.get('requiredItemsQuantities')?.value || {};
-    let totalCost = 0;
+  // calculateTotalCost(): any {
+  //   const selectedItems = this.ProdRegForm.get('requiredItems')?.value || [];
+  //   const quantities = this.ProdRegForm.get('requiredItemsQuantities')?.value || {};
+  //   let totalCost = 0;
 
-    selectedItems.forEach((item: string) => {
-      const quantity = quantities[item] || 0;
-      const itemData = this.itemsWithPrices.find(i => i.item === item);
-      const unitPrice = itemData?.unitPrice || 0;
-      totalCost += quantity * unitPrice;
-    });
+  //   selectedItems.forEach((item: string) => {
+  //     const quantity = quantities[item] || 0;
+  //     const itemData = this.itemsWithPrices.find(i => i.item === item);
+  //     const unitPrice = itemData?.unitPrice || 0;
+  //     totalCost += quantity * unitPrice;
+  //     quantity * unitPrice
+  //   });
 
-    this.ProdRegForm.get('totalCost')?.setValue(totalCost.toFixed(2));
-  }
+  //   this.ProdRegForm.get('totalCost')?.setValue(totalCost.toFixed(2));
+  // }
 
-  getItemName(itemValue: string): string {
-    const item = this.requiredItem.find(i => i.value === itemValue);
-    return item ? item.viewValue : itemValue;
-  }
+  // getItemName(itemValue: string): string {
+  //   const item = this.requiredItem.find(i => i.value === itemValue);
+  //   return item ? item.viewValue : itemValue;
+  // }
   
-  getUnitPrice(itemValue: string): number {
-    const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
-    return itemData?.unitPrice || 0;
-  }
+  // getUnitPrice(itemValue: string): number {
+  //   const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
+  //   return itemData?.unitPrice || 0;
+  // }
   
-  getMeasurementCategory(itemValue: string): string {
-    const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
-    return itemData?.category === 'weight' ? 'kg' : 'units';
-  }
+  // getMeasurementCategory(itemValue: string): string {
+  //   const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
+  //   return itemData?.category === 'weight' ? 'kg' : 'units';
+  // }
 
   public populateData(): void{
     try{
@@ -227,12 +226,12 @@ export class ProductRegistrationComponent implements OnInit{
       this.dataSource.sort = this.sort;
     },
     error: (error) => {
-      this.messageService.showError('Action failed with error ' + error);
+      this.messageService.showError('Action failed with error' + error);
     }
   });
     }
     catch(error){
-      this.messageService.showError('Action failed with error ' + error);
+      this.messageService.showError('Action failed with error' + error);
     }
     
   }
@@ -246,48 +245,74 @@ export class ProductRegistrationComponent implements OnInit{
   }
 
   onSubmit(){
-    try{
-      this.submitted = true;
-      if(this.ProdRegForm.invalid){
-        return;
-      }
-      if(this.mode === 'add'){
-
-        this.prodService.serviceCall(this.ProdRegForm.value).subscribe({
-          next: (response: any) => {
-            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-                    this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-                  }
-                  else{
-                      this.dataSource = new MatTableDataSource([response]);
-                  }
-                  this.messageService.showSuccess('Data saved successfully!');
-          },
-          error: (error) =>{
-            this.messageService.showError('Action failed with error ' + error);
-          }
-        });
-    }
-    else if(this.mode === 'edit'){
-      this.prodService.editData(this.selectedData?.id, this.ProdRegForm.value).subscribe({
-        next:(response) =>{
-          let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-          this.dataSource.data[elementIndex] = response;
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data edited successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error ' + error);
+      try{
+        this.submitted = true;
+        if(this.ProdRegForm.invalid || !this.selectedFile){
+          return;
         }
-      })
+        if(this.mode === 'add'){
+
+          this.prodService.serviceCall(this.prepareFormData()).subscribe({
+            next: (response: any) => {
+              if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+                      this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+                    }
+                    else{
+                        this.dataSource = new MatTableDataSource([response]);
+                    }
+                    this.messageService.showSuccess('Data saved successfully!');
+            },
+            error: (error) =>{
+              this.messageService.showError('Action failed with error' + error);
+            }
+          });
+      }
+      else if(this.mode === 'edit'){
+        this.prodService.editData(this.selectedData?.id, this.prepareFormData()).subscribe({
+          next:(response) =>{
+            let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
+            this.dataSource.data[elementIndex] = response;
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data edited successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          }
+        })
+      }
+      this.mode = 'add';
+      this.ProdRegForm.disable();
+      this.isButtonDisabled = true;
+      }
+      catch(error){
+        this.messageService.showError('Action failed with error' + error);
+   }
+}
+
+  public prepareFormData(): FormData {
+    const formData = new FormData();
+    // demoFormData.append('demoForm', this.demoForm.value);
+    formData.append('prodRegForm', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
+
+    if (this.isFileSelected) {
+      formData.append('image', this.ProdRegForm.get('image')?.value, this.ProdRegForm.get('image')?.value.name);
+    } else {
+      const imageBlob = this.base64ToBlob(this.ProdRegForm.get('image')?.value, this.ProdRegForm.get('imageType')?.value);
+      const file = new File([imageBlob], this.ProdRegForm.get('imageName')?.value, { type: this.ProdRegForm.get('imageType')?.value });
+      formData.append('image', file, file.name);
     }
-    this.mode = 'add';
-    this.ProdRegForm.disable();
-    this.isButtonDisabled = true;
+
+    return formData;
+  }
+
+    base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-    catch(error){
-      this.messageService.showError('Action failed with error ' + error);
-    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
   }
 
   public resetData(): void{

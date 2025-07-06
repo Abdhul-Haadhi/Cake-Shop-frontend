@@ -19,6 +19,7 @@
                     <!-- Light Logo icon -->
                     <!-- <img src="assets/images/logo-light-icon.svg" alt="homepage" class="light-logo"> -->
                     <img src="assets/images/CakeLa_logo.jpg" alt="homepage" class="light-logo">
+                    
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text -->
@@ -37,11 +38,19 @@
         <button mat-icon-button (click)="snav.toggle()" value="sidebarclosed">
             <mat-icon>menu</mat-icon>
         </button>
+
+        <span class="flex-spacer"></span>
         <!-- ============================================================== -->
         <!-- app header component - style you can find in header.scss / header.component.ts-->
         <!-- ============================================================== -->
-         <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-        <app-header class="d-flex align-items-center ml-auto"></app-header>
+        <div class="d-flex align-items-center">
+            <div class="cart-icon">
+                <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+            </div>
+            <app-header></app-header>
+        </div> 
+        
+        
     </mat-toolbar>
     <!-- ============================================================== -->
     <!-- End Topbar - style you can find in pages.scss -->

@@ -1,24 +1,17 @@
 <mat-card appearance="outlined" class="flex">
-  <!-- <mat-card-header>
-    <mat-card-title> Featured products </mat-card-title>
-  </mat-card-header> -->
   <mat-toolbar color="warn">
         <span>Featured products</span>
         <span class="example-spacer"></span>
     </mat-toolbar>
 
   <div class="products">
-    <mat-card
-      class="example-card"
-      appearance="outlined"
-      *ngFor="let product of products"
-    >
+    <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>{{ product.name }}</mat-card-title>
+        <mat-card-title>{{ product.product }}</mat-card-title>
       </mat-card-header>
       <a (click)="openPopup(product)">
-        <img mat-card-image [src]="product.image" [alt]="product.name" />
+        <img mat-card-image [src]="product.image" [alt]="product.product" />
       </a>
       <mat-card-actions class="open-button">
         <button (click)="openPopup(product)" mat-raised-button color="primary">
@@ -26,6 +19,24 @@
         </button>
       </mat-card-actions>
     </mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- <mat-card class="example-card" appearance="outlined" *ngFor="let product of products">
       <mat-card-header>
