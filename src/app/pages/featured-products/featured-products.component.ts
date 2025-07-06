@@ -87,12 +87,11 @@ export class FeaturedProductsComponent implements OnInit{
 
   public getProducts(){
     try{
-      console.log("Hellooooo");
-      
       this.products = [];
       this.productService.getAllProducts().subscribe(response =>{
         response.forEach((element:(any)) =>{
-          element.image = 'data:image/jpge;base64,'
+          element.image = 'data:image/jpge;base64,'+element.image;
+          this.products.push(element);
         })
       });
     }
@@ -106,7 +105,7 @@ export class FeaturedProductsComponent implements OnInit{
     this.dialog.open(PopupBoxComponent,{
       width: '60%',
       height: '400px',
-      data: product
+      // data: product
     });
   }
 }
