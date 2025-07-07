@@ -1,17 +1,17 @@
 <div class="container">  
     <mat-card class="order-card" appearance="outlined">
         <div class="order-content">
-            <img [src]="product.image" [alt]="product.name" style="max-width: 300px;" class="product-image"/>
+            <img [src]="product.image" [alt]="product.product" style="max-width: 300px;" class="product-image"/>
             <div class="product-details">
-                <h2>{{product.name}}</h2>
+                <h2>{{product.product}}</h2>
                 <mat-card-content>
                     <p>
-                        {{product?.description}}
+                        {{product.description}}
                     </p>
                     
                     <ul>
-                        <li><strong>Price: Rs.</strong> {{ product.price }}</li>
-                        <li><strong>Size:</strong> {{ product.size }}g</li>
+                        <li><strong>Price: Rs.</strong> {{ product.finalPrice }}</li>
+                        <li><strong>Size:</strong> {{ product.initialWeight }}g</li>
                     </ul>
                     <form [formGroup]="OrderForm" (ngSubmit)="onSubmit()">
                          <mat-form-field>

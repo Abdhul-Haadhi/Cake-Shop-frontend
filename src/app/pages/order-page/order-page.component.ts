@@ -87,7 +87,7 @@ export class OrderPageComponent implements OnInit {
       let userId = this.httpService.getUserId();
       let currentDate = new Date();
       let product = this.productState.getProduct();
-      let itemPrice = product ? product.price:null;
+      let itemPrice = product ? product.finalPrice:null;
       this.OrderForm.patchValue({
         user: userId,
         date: currentDate,
@@ -110,7 +110,7 @@ export class OrderPageComponent implements OnInit {
           }
         });
     }
-    this.mode = 'add';
+    // this.mode = 'add';
     // this.OrderForm.disable();
     // this.isButtonDisabled = true;
     }
