@@ -10,7 +10,7 @@ export class CustomerRegistrationFormService {
 
   constructor(private http: HttpClient, private httpService: HttpService) { }
 
-  serviceCall(from_details:any){
+    serviceCall(from_details:any){
       console.log('In the service');
   
       const requestUrl = environment.baseUrl + '/customer-registration';

@@ -1,6 +1,7 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component,OnDestroy,AfterViewInit} from '@angular/core';
 import { MenuItems } from '../../shared/menu-items/menu-items';
+import { Router } from '@angular/router';
 
 
 /** @title Responsive sidenav */
@@ -17,6 +18,7 @@ export class FullComponent implements OnDestroy, AfterViewInit {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
+    private router: Router,
     public menuItems: MenuItems
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 1024px)');
@@ -28,4 +30,8 @@ export class FullComponent implements OnDestroy, AfterViewInit {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
   ngAfterViewInit() {}
+
+  goToCart(){
+    this.router.navigate(['/pages/cart-page']);
+  }
 }

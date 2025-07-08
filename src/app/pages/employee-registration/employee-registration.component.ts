@@ -19,11 +19,12 @@ interface JobRole {
   templateUrl: './employee-registration.component.html',
   providers: [provideNativeDateAdapter()],
   styleUrl: './employee-registration.component.scss',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class EmployeeRegistrationComponent implements OnInit  {
   EmpRegForm: FormGroup;
+
+  maxDate: Date;
 
   jobRole: JobRole[] = [
     {value: 'cakeMaker', viewValue: 'Cake maker'},
@@ -61,18 +62,18 @@ export class EmployeeRegistrationComponent implements OnInit  {
     private empService: EmployeeRegistrationFormService,
     private messageService: MessageServiceService,
   ){
+
+    this.maxDate = new Date();
+
     this.EmpRegForm = this.fb.group({
       employeeNumber : new FormControl('',[Validators.required]),
       fullName : new FormControl('',[Validators.required]),
-      // callingName : new FormControl('',[Validators.required]),
       nic : new FormControl('',[Validators.required,Validators.minLength(9),Validators.maxLength(12)]),
       birthday : new FormControl('',[Validators.required]),
-      // age : new FormControl('',[Validators.required,Validators.min(20),Validators.max(60),this.customAgeValidator]),
       address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
       contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
       gender : new FormControl('',[Validators.required]),
-      email : new FormControl('',[Validators.email]),
-      // emergencyContact : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      email : new FormControl('',[Validators.required,Validators.email]),
       jobRole : new FormControl('',[Validators.required]),
     });
   }
@@ -80,26 +81,6 @@ export class EmployeeRegistrationComponent implements OnInit  {
     this.populateData();
   }
 
-  customAgeValidator(control:AbstractControl){
-    if(!control){
-      return null;
-    }
-
-    const controlValue = +control.value;
-
-    if(isNaN(controlValue)){
-      return{
-        customAgeValidator: true
-      };
-    }
-
-    if(!Number.isInteger(controlValue)){
-      return{
-        customAgeValidator: true
-      }
-    }
-    return null;
-  }
   
   public populateData(): void{
     try{
@@ -134,61 +115,61 @@ export class EmployeeRegistrationComponent implements OnInit  {
   }
 
   onSubmit(){
-      try{
-        this.submitted = true;
-        if(this.EmpRegForm.invalid){
-          return;
-        }
-        if(this.mode === 'add'){
-
-        //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
-        //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-        //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
-        //     }
-        //     else{
-        //         this.dataSource = new MatTableDataSource([Response]);
-        //     }
-        //     this.messageService.showSuccess('Data saved successfully!');
-
-        // });
-
-
-          this.empService.serviceCall(this.EmpRegForm.value).subscribe({
-            next: (response: any) => {
-              if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-                      this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-                    }
-                    else{
-                        this.dataSource = new MatTableDataSource([response]);
-                    }
-                    this.messageService.showSuccess('Data saved successfully!');
-            },
-            error: (error) =>{
-              this.messageService.showError('Action failed with error' + error);
-            }
-          });
+    try{
+      this.submitted = true;
+      if(this.EmpRegForm.invalid){
+        return;
       }
-      else if(this.mode === 'edit'){
-        this.empService.editData(this.selectedData?.id, this.EmpRegForm.value).subscribe({
-          next:(response) =>{
-            let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-            this.dataSource.data[elementIndex] = response;
-            this.dataSource = new MatTableDataSource(this.dataSource.data);
-            this.messageService.showSuccess('Data edited successfully!');
+      if(this.mode === 'add'){
+
+      //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
+      //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+      //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
+      //     }
+      //     else{
+      //         this.dataSource = new MatTableDataSource([Response]);
+      //     }
+      //     this.messageService.showSuccess('Data saved successfully!');
+
+      // });
+
+
+        this.empService.serviceCall(this.EmpRegForm.value).subscribe({
+          next: (response: any) => {
+            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+                    this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+                  }
+                  else{
+                      this.dataSource = new MatTableDataSource([response]);
+                  }
+                  this.messageService.showSuccess('Data saved successfully!');
           },
-          error: (error) => {
+          error: (error) =>{
             this.messageService.showError('Action failed with error' + error);
           }
-        })
-      }
-      this.mode = 'add';
-      this.EmpRegForm.disable();
-      this.isButtonDisabled = true;
-      }
-      catch(error){
-        this.messageService.showError('Action failed with error' + error);
-   }
-}
+        });
+    }
+    else if(this.mode === 'edit'){
+      this.empService.editData(this.selectedData?.id, this.EmpRegForm.value).subscribe({
+        next:(response) =>{
+          let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
+          this.dataSource.data[elementIndex] = response;
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.messageService.showSuccess('Data edited successfully!');
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        }
+      })
+    }
+    this.mode = 'add';
+    this.EmpRegForm.disable();
+    this.isButtonDisabled = true;
+    }
+    catch(error){
+      this.messageService.showError('Action failed with error' + error);
+    }
+  }
 
   
   
@@ -202,7 +183,17 @@ export class EmployeeRegistrationComponent implements OnInit  {
   }
 
   public editData(data: any): void {
-    this.EmpRegForm.patchValue(data);
+    const patchedData = { ...data };
+    if (patchedData.birthday) {
+      const dateParts = patchedData.birthday.split('-');
+      patchedData.birthday = new Date(
+        +dateParts[0],
+        +dateParts[1] - 1,
+        +dateParts[2],
+        12, 0, 0
+      );
+    }
+    this.EmpRegForm.patchValue(patchedData);
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;

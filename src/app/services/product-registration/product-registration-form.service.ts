@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductRegistrationFormService {
+
+  private product: any = null;
   constructor(private http: HttpClient, private httpService: HttpService) { }
 
   // serviceCall(from_details:any){
@@ -38,19 +40,29 @@ export class ProductRegistrationFormService {
   if (this.httpService.getAuthToken() !== null) {
     headers = {
       Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-      // DO NOT set 'Content-Type' header here for multipart
     };
   }
 
-  // const formData = new FormData();
-  // formData.append('product', new Blob([JSON.stringify(formDetails)], { type: 'application/json' }));
-  // formData.append('image', imageFile);
 
   return this.http.post(requestUrl, formDetails, { headers: headers });
 }
 
     getData(){
       const requestUrl = environment.baseUrl + '/product-registration';
+  
+      let headers = {};
+  
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+  
+      return this.http.get(requestUrl,headers)
+    }
+
+    getOrderData(){
+      const requestUrl = environment.baseUrl + '/order-page';
   
       let headers = {};
   
@@ -74,6 +86,25 @@ export class ProductRegistrationFormService {
           Authorization: 'Bearer ' + this.httpService.getAuthToken(),
         };
       }
+
+      return this.http.get(requestUrl,headers)
+    }
+
+    getCartProducts(): Observable<any>{
+      const requestUrl = environment.baseUrl + '/cart-page';
+
+      let headers = {};
+
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+
+      if(this.product){
+      return this.product;
+    }
+
 
       return this.http.get(requestUrl,headers)
     }

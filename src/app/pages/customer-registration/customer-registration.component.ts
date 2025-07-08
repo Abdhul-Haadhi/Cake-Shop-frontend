@@ -26,6 +26,8 @@ interface CustomerCategory {
 export class CustomerRegistrationComponent implements OnInit{
   CustRegForm: FormGroup;
 
+  maxDate: Date;
+
   private readonly _formBuilder = inject(FormBuilder);
 
   readonly toppings = this._formBuilder.group({
@@ -66,9 +68,17 @@ export class CustomerRegistrationComponent implements OnInit{
     private messageService: MessageServiceService,
   ){
 
+
+    const today = new Date();
+    this.maxDate = new Date(
+      today.getFullYear() - 20,
+      today.getMonth(),
+      today.getDate()
+    );
+
     this.CustRegForm = this.fb.group({
       customerName : new FormControl('',[Validators.required]),
-      email : new FormControl('',[Validators.email]),
+      email : new FormControl('',[Validators.required,Validators.email]),
       address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
       contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
       birthday : new FormControl('',[Validators.required]),
@@ -182,7 +192,11 @@ export class CustomerRegistrationComponent implements OnInit{
   }
 
   public editData(data: any): void {
-    this.CustRegForm.patchValue(data);
+    const patchedData = { ...data };
+    if (patchedData.birthday) {
+      patchedData.birthday = new Date(patchedData.birthday);
+    }
+    this.CustRegForm.patchValue(patchedData);
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;

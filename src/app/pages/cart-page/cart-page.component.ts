@@ -9,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductStateServiceService } from 'src/app/services/product-registration/product-state-service.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
+import { OrderPageServiceService } from 'src/app/services/order-page/order-page-service.service';
 
 
 @Component({
@@ -34,6 +36,8 @@ export class CartPageComponent implements OnInit{
   ];
   
     dataSource!: MatTableDataSource<any>;
+    dataSources!: MatTableDataSource<any>;
+
 
       @ViewChild(MatPaginator) paginator!: MatPaginator;
       @ViewChild(MatSort) sort!: MatSort;
@@ -46,7 +50,8 @@ export class CartPageComponent implements OnInit{
     selectedProducts: any;
   
     constructor(private fb: FormBuilder,
-      private productState: ProductStateServiceService, 
+      private productState: ProductStateServiceService,
+      private productService: ProductRegistrationFormService,
       private router: Router, 
       private cartService: CartPageServiceService,
       private messageService: MessageServiceService,
@@ -65,6 +70,7 @@ export class CartPageComponent implements OnInit{
 
      ngOnInit(): void {
     this.populateData();
+    // this.populateDatas();
   }
 
   isAllSelected() {
@@ -97,6 +103,14 @@ export class CartPageComponent implements OnInit{
           totalPrice:(item.price) * (item.quantity)
         }));
 
+        // updatedDataList.forEach((product: any) => {
+        //   this.cartService.getData().subscribe({
+        //     next: () => console.log('Product state updated for item', product),
+        //     error: err => this.messageService.showError('Failed to update product state: ' + err)
+        //   });
+        // });
+
+
         // const updatedDataList = dataList.map((item: any) => {
         //   const price = parseFloat(item.itemPrice) || 0;
         //   const quantity = parseFloat(item.quantity) || 0;
@@ -118,6 +132,7 @@ export class CartPageComponent implements OnInit{
         // });
 
         // console.log(updatedDataList);
+        
 
       this.dataSource = new MatTableDataSource(updatedDataList);
       this.dataSource.paginator = this.paginator;
@@ -133,6 +148,29 @@ export class CartPageComponent implements OnInit{
     }
     
   }
+
+  // For using product service -------------------
+
+  // public populateDatas(): void{
+  //   try{
+  //     this.productService.getData().subscribe({
+  //     next: (dataList: any) => {
+  //       if(dataList.length <= 0){
+  //         return;
+  //       }
+  //     this.dataSources = new MatTableDataSource(dataList);
+      
+  //   },
+  //   error: (error) => {
+  //     this.messageService.showError('Action failed with error' + error);
+  //   }
+  // });
+  //   }
+  //   catch(error){
+  //     this.messageService.showError('Action failed with error' + error);
+  //   }
+    
+  // }
 
 
   public deleteData(data: any): void {
@@ -178,6 +216,22 @@ export class CartPageComponent implements OnInit{
     this.router.navigate(['/pages/checkout-page'],{state:{
       products: selectedProducts
     }});
+  }
+
+  closePage(){
+    this.router.navigate(['/pages/featured-products']);
+  }
+
+  
+
+   public base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
   }
 
 

@@ -51,10 +51,9 @@
               </mat-form-field>
               <mat-form-field class="full-width">
                 <mat-label>Birthday</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="birthday">
+                <input matInput [matDatepicker]="picker" formControlName="birthday" [max]="maxDate">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
-                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <span class="text-danger" *ngIf="(CustRegForm.get('birthday')?.touched || submitted) && CustRegForm.get('birthday')?.errors && CustRegForm.get('birthday')?.errors!['required']">
@@ -108,10 +107,6 @@
     
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     
-          <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-        
-        
           <ng-container matColumnDef="customerName">
             <th mat-header-cell *matHeaderCellDef> Customer name </th>
             <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
@@ -134,7 +129,7 @@
 
           <ng-container matColumnDef="birthday">
             <th mat-header-cell *matHeaderCellDef> Birthday </th>
-            <td mat-cell *matCellDef="let element"> {{element.birthday | date: 'yyyy-MM-dd'}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.birthday | date: 'MM-dd-YYYY'}} </td>
           </ng-container>
   
           <ng-container matColumnDef="customerCategory">

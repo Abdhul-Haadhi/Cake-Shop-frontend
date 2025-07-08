@@ -329,20 +329,21 @@ export class ProductRegistrationComponent implements OnInit{
       productId: data.productId,
       product: data.product,
       initialWeight: data.initialWeight,
-      requiredItems: data.requiredItems,
-      measurementCategory: data.measurementCategory,
-      usedAmount: data.usedAmount,
-      totalCost: data.totalCost
+      description: data.description,
+      // requiredItems: data.requiredItems,
+      // measurementCategory: data.measurementCategory,
+      // usedAmount: data.usedAmount,
+      finalPrice: data.finalPrice,
     });
 
-    if (data.requiredItemsQuantities) {
-      const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
-      Object.keys(data.requiredItemsQuantities).forEach(item => {
-        if (quantitiesGroup.get(item)) {
-          quantitiesGroup.get(item)?.setValue(data.requiredItemsQuantities[item]);
-        }
-      });
-    }
+    // if (data.requiredItemsQuantities) {
+    //   const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
+    //   Object.keys(data.requiredItemsQuantities).forEach(item => {
+    //     if (quantitiesGroup.get(item)) {
+    //       quantitiesGroup.get(item)?.setValue(data.requiredItemsQuantities[item]);
+    //     }
+    //   });
+    // }
 
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';

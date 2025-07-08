@@ -23,7 +23,7 @@ export class SupplierRegistrationComponent implements OnInit {
     displayedColumns: string[] = [
       'companyName',
       'businessRegNumber',
-      // 'supplierID',
+      'supplierID',
       'contactPersonName',
       'contactPersonDesignation',
       'contactPersonPhoneNumber',
