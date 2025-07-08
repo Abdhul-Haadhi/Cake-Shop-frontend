@@ -64,7 +64,7 @@ export class OrderPageComponent implements OnInit {
         size: new FormControl('',[Validators.required]),
         price: new FormControl('',[]),
         quantity : new FormControl(1,[Validators.required,Validators.min(1),Validators.max(10)]),
-        // productId: new FormControl('',[]),
+        productId: new FormControl('',[]),
     });
   }
 
@@ -108,7 +108,7 @@ export class OrderPageComponent implements OnInit {
         user: userId,
         date: currentDate,
         price: itemPrice,
-        // productId: product_id,
+        productId: product.id,
       })
 
       if(this.mode === 'add'){

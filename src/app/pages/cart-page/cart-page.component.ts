@@ -137,6 +137,8 @@ export class CartPageComponent implements OnInit{
       this.dataSource = new MatTableDataSource(updatedDataList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      this.getProductListData(dataList);
     },
     error: (error) => {
       this.messageService.showError('Action failed with error' + error);
@@ -147,6 +149,49 @@ export class CartPageComponent implements OnInit{
       this.messageService.showError('Action failed with error' + error);
     }
     
+  }
+
+  public getProductListData(dataList: any): void {
+
+    dataList.forEach((data: any)=> {
+
+      let prodId = data.productId
+
+      if (prodId) {
+        this.getProdData(prodId);
+      }
+    })
+
+  }
+
+  public getProdData(prodId: any) {
+    // backend call to get image and item name
+
+    this.productService.getCartProductDetails(prodId).subscribe({
+      next: (dataList: any) => {
+        console.log(dataList);
+
+        let tableData = this.dataSource.data;
+        tableData.forEach((data: any) => {
+
+          if (data.productId) {
+            const prodItem = dataList.find((dataItem: any) => dataItem.id = data.productId);
+            console.log(prodItem);
+
+            data.item = prodItem.product;
+            data.image = prodItem.image;
+          }
+
+        });
+      this.dataSource = new MatTableDataSource(tableData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+      },
+      error:  (error: any)=> {
+        console.log(error);
+      }
+    })
   }
 
   // For using product service -------------------

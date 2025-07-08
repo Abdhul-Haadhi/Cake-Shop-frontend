@@ -109,6 +109,25 @@ export class ProductRegistrationFormService {
       return this.http.get(requestUrl,headers)
     }
 
+    getCartProductDetails(id: any): Observable<any>{
+      const requestUrl = environment.baseUrl + '/cart-page/' + id.toString();
+
+      let headers = {};
+
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+
+    //   if(this.product){
+    //   return this.product;
+    // }
+
+
+      return this.http.get(requestUrl,headers)
+    }
+
 
     editData(id:number,from_details: any){
       console.log('In edit data');
