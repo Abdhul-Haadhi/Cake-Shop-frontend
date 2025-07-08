@@ -64,7 +64,7 @@ export class OrderPageComponent implements OnInit {
         size: new FormControl('',[Validators.required]),
         price: new FormControl('',[]),
         quantity : new FormControl(1,[Validators.required,Validators.min(1),Validators.max(10)]),
-        // productId: new FormControl('',[]),
+        productId: new FormControl('',[]),
     });
   }
 
@@ -102,13 +102,12 @@ export class OrderPageComponent implements OnInit {
       let userId = this.httpService.getUserId();
       let currentDate = new Date();
       let product = this.productState.getProduct();
-      // let product_id = this.productService.getOrderData();
       let itemPrice = product ? product.finalPrice:null;
       this.OrderForm.patchValue({
         user: userId,
         date: currentDate,
         price: itemPrice,
-        // productId: product_id,
+        productId: product.id,
       })
 
       if(this.mode === 'add'){
