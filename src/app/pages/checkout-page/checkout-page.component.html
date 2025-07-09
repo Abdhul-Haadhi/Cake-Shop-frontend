@@ -67,20 +67,24 @@
             <mat-card-content>
                 <div *ngFor="let element of dataSource?.data" class="summary-product-row">
                     <div class="summary-product-main">
-                        <div class="summary-product-name">{{ product.itemName }}</div>
+                        <div class="summary-product-name">{{ element.item }}</div>
                         <div class="summary-product-details">
-                            <div *ngIf="element.size">Size: {{ element.size }}</div>
+                            <div *ngIf="element.size">Base size: {{ element.baseSize+'g' }}</div>
+                            <div *ngIf="element.size">Selected Size: {{ element.size+'g' }}</div>
                             <div *ngIf="element.quantity">Qty: {{ element.quantity }}</div>
                         </div>
                     </div>
-                    <div>
+                    <div class="price">
+                        <div class="summary-product-price">
                         <!-- {{ element.totalPrice | currency:'LKR' }} -->
-                          {{ "Rs."+element.price }}
+                          Base price: {{ "Rs."+element.price }}
                     </div>
                     <div class="summary-product-price">
                         <!-- {{ element.totalPrice | currency:'LKR' }} -->
-                          {{ "Rs."+element.totalPrice }}
+                          Total price: {{ "Rs."+element.totalPrice }}
                     </div>
+                    </div>
+                    
                 </div>
                 <hr class="summary-divider" />
                 

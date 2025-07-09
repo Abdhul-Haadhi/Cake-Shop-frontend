@@ -28,6 +28,7 @@ export class CartPageComponent implements OnInit{
     'select',
     'image',
     'item',
+    'baseSize',
     'size',
     'quantity',
     'itemPrice',
@@ -98,10 +99,32 @@ export class CartPageComponent implements OnInit{
           return;
         }
 
+        
+// ------------the correct one---------
         const updatedDataList = dataList.map((item:any) => ({
-          ...item,
-          totalPrice:(item.price) * (item.quantity)
+          ...item
+          // totalPrice:(item.price) * (item.quantity)
         }));
+
+
+        // ----------Total price = initial price × (selected weight ÷ initial weight) × quantity-----------
+
+        // const updatedDataList = dataList.map((item: any) => {
+        //   const initialPrice = item.price;            // price for base weight
+        //   const initialWeight = this.product.initialWeight;      // e.g. 500g
+        //   const selectedWeight = item.size;  // e.g. 1000g
+        //   const quantity = item.quantity;
+
+        //   const unitPrice = initialPrice * (selectedWeight / initialWeight);
+        //   const totalPrice = unitPrice * quantity;
+
+        //   return {
+        //     ...item,
+        //     unitPrice: unitPrice,
+        //     totalPrice: totalPrice
+        //   };
+        // });
+
 
         // updatedDataList.forEach((product: any) => {
         //   this.cartService.getData().subscribe({
@@ -180,6 +203,18 @@ export class CartPageComponent implements OnInit{
 
             data.item = prodItem.product;
             data.image = prodItem.image;
+            data.baseSize = prodItem.initialWeight;
+
+            const initialPrice = data.price;
+            const baseWeight = prodItem.initialWeight;
+            const selectedWeight = data.size;
+            const quantity = data.quantity;
+
+            const unitPrice = initialPrice * (selectedWeight / baseWeight);
+            const totalPrice = unitPrice * quantity;
+
+            data.unitPrice = unitPrice;
+            data.totalPrice = totalPrice;
           }
         });
         this.dataSource = new MatTableDataSource(tableData);
@@ -220,12 +255,12 @@ export class CartPageComponent implements OnInit{
     
   }
 
-  backToOrderPage(){
-    this.product = this.router.getCurrentNavigation()?.extras.state?.['product'];
-    if (!this.product) {
-        this.router.navigate(['/pages/order-page']); 
-      }
-  }
+  // backToOrderPage(){
+  //   this.product = this.router.getCurrentNavigation()?.extras.state?.['product.'];
+  //   if (!this.product) {
+  //       this.router.navigate(['/pages/order-page']); 
+  //     }
+  // }
 
   checkOutBtn(){
     const selectedProducts = this.selection.selected;
