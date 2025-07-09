@@ -172,10 +172,10 @@ export class CartPageComponent implements OnInit{
         console.log(dataList);
 
         let tableData = this.dataSource.data;
+        
         tableData.forEach((data:any)=>{
-
           if (data.productId){
-            const prodItem = dataList.find((dataItem: any) => dataItem.id = data.productId);
+            const prodItem = dataList.find((dataItem: any) => dataItem.id === data.productId);
             console.log(prodItem);
 
             data.item = prodItem.product;
