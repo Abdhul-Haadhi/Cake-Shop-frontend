@@ -12,6 +12,7 @@ import { CartPageComponent } from './cart-page/cart-page.component';
 import { SupplierRegistrationComponent } from './supplier-registration/supplier-registration.component';
 import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import { GrnComponent } from './grn/grn.component';
+import { EmployeeListComponent } from './reports/Static Report/app/components/employee-list/employee-list.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -66,4 +67,8 @@ export const PagesRoutes: Routes = [
         path:'grn',
         component: GrnComponent
     },
+    {
+        path: 'reports/employee-report',
+        component: EmployeeListComponent
+    }
 ];
