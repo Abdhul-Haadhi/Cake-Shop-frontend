@@ -65,6 +65,15 @@ const MENUITEMS = [
   // },
   {
     state: 'pages',
+    childState: 'order-list',
+    name: 'Order list',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
     childState: 'employee-registration',
     name: 'Employee registration',
     type: 'link',

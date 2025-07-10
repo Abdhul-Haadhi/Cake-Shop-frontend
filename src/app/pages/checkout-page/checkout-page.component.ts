@@ -8,6 +8,7 @@ import {MatTableModule} from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ProductStateServiceService } from 'src/app/services/product-registration/product-state-service.service';
 import { HttpService } from 'src/app/services/http.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface Transaction {
   item: string;
@@ -37,6 +38,8 @@ export class CheckoutPageComponent implements OnInit{
   //   {item: 'Swim suit', cost: 15},
   // ];
 
+  selectedFile: File | null = null;
+
   displayedColumns: string[] = [
     'itemName', 
     'size', 
@@ -46,11 +49,13 @@ export class CheckoutPageComponent implements OnInit{
   ];
     
     isButtonDisabled = false;
-    saveButtonLabel: string = 'Save';
+    saveButtonLabel: string = 'Order';
     submitted = false;
     mode = 'add';
     selectedData!: { id: any; };
     selection: any;
+    isFileSelected = false;
+    selectedImageUrl: any;
   
   
     constructor(private fb: FormBuilder,
@@ -58,7 +63,8 @@ export class CheckoutPageComponent implements OnInit{
       private messageService: MessageServiceService,
       private router: Router,
       private productState: ProductStateServiceService, 
-      private httpService: HttpService
+      private httpService: HttpService,
+      private sanitizer: DomSanitizer,
     ){
 
       const nav = this.router.getCurrentNavigation();
@@ -70,14 +76,42 @@ export class CheckoutPageComponent implements OnInit{
       this.BillingForm = this.fb.group({
         date : new FormControl('',[]),
         user : new FormControl('',[]),
-        name : new FormControl('',[Validators.required]),
+        orderId : new FormControl('',[]),
+        totalPrice: new FormControl('',[]),
+        items: new FormControl([],[]),
+        selectedSize: new FormControl([],[]),
+        quantities: new FormControl([],[]),
+        CustomerName : new FormControl('',[Validators.required]),
         email : new FormControl('',[Validators.required,Validators.email]),
         address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
-        contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+        contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
+        receipt: new FormControl(''),
+        receiptName: new FormControl(''),
+        receiptType: new FormControl(''),
       });
     }
 
-     ngOnInit(): void {
+
+  onReceiptFileSelected(event: any): void {
+    this.isFileSelected = true;
+    
+    if (event.target?.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
+      this.selectedImageUrl = url;
+      this.isFileSelected = true;
+      this.BillingForm.get('receipt')?.setValue(file);
+      this.BillingForm.get('receiptName')?.setValue(file.name);
+      this.BillingForm.get('receiptType')?.setValue(file.type);
+    }
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
+
+    }
+  }
+
+    ngOnInit(): void {
     // this.populateData();
   }
 
@@ -115,17 +149,16 @@ export class CheckoutPageComponent implements OnInit{
   onSubmit(){
     try{
       this.submitted = true;
-      if(this.BillingForm.invalid){
+      if(this.BillingForm.invalid || !this.selectedFile){
         return;
       }
-
 
       let userId = this.httpService.getUserId();
         let currentDate = new Date();
         this.BillingForm.patchValue({
           user: userId,
           date: currentDate
-        })
+        });
 
 
       if(this.mode === 'add'){
@@ -145,25 +178,45 @@ export class CheckoutPageComponent implements OnInit{
           }
         });
     }
-    // else if(this.mode === 'edit'){
-    //   this.checkoutService.editData(this.selectedData?.id, this.BillingForm.value).subscribe({
-    //     next:(response) =>{
-    //       let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-    //       this.dataSource.data[elementIndex] = response;
-    //       this.dataSource = new MatTableDataSource(this.dataSource.data);
-    //       this.messageService.showSuccess('Data edited successfully!');
-    //     },
-    //     error: (error) => {
-    //       this.messageService.showError('Action failed with error' + error);
-    //     }
-    //   })
-    // }
+    
     this.mode = 'add';
     this.BillingForm.disable();
+    this.isButtonDisabled = true;
     }
     catch(error){
       this.messageService.showError('Action failed with error' + error);
     }
+  }
+
+  public prepareFormData(): FormData {
+    const formData = new FormData();
+    // demoFormData.append('demoForm', this.demoForm.value);
+    formData.append('BillingForm', new Blob([JSON.stringify(this.BillingForm.value)], { type: 'application/json' }));
+
+    
+    if (this.isFileSelected) {
+      formData.append('image', this.BillingForm.get('image')?.value, this.BillingForm.get('image')?.value.name);
+    } else {
+      const imageBlob = this.base64ToBlob(this.BillingForm.get('image')?.value, this.BillingForm.get('imageType')?.value);
+      const file = new File([imageBlob], this.BillingForm.get('imageName')?.value, { type: this.BillingForm.get('imageType')?.value });
+      formData.append('image', file, file.name);
+    }
+
+    if (this.BillingForm.get('receipt')?.value) {
+      formData.append('receipt', this.BillingForm.get('receipt')?.value, this.BillingForm.get('receipt')?.value.name);
+    }
+
+    return formData;
+  }
+
+  base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
   }
 
   backToCartPage(){
@@ -175,5 +228,14 @@ export class CheckoutPageComponent implements OnInit{
 
   closePage(){
     this.router.navigate(['/pages/featured-products']);
+  }
+
+  public resetData(): void{
+    this.BillingForm.reset();
+    this.BillingForm.updateValueAndValidity();
+    this.saveButtonLabel = 'Order';
+    this.BillingForm.enable();
+    this.isButtonDisabled = false;
+    this.submitted = false;
   }
 }

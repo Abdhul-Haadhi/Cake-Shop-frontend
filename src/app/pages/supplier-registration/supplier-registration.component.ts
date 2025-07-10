@@ -21,13 +21,10 @@ export class SupplierRegistrationComponent implements OnInit {
   
   
     displayedColumns: string[] = [
-      'companyName',
-      'businessRegNumber',
+      'supplierName',
       'supplierID',
-      'contactPersonName',
-      'contactPersonDesignation',
-      'contactPersonPhoneNumber',
-      'contactPersonEmailAddress',
+      'contactNumber',
+      'supplierEmailAddress',
       'address',
       'actions',
     ];
@@ -42,6 +39,7 @@ export class SupplierRegistrationComponent implements OnInit {
     submitted = false;
     mode = 'add';
     selectedData!: { id: any; };
+    showForm = false;
    
     
   
@@ -51,21 +49,16 @@ export class SupplierRegistrationComponent implements OnInit {
       private messageService: MessageServiceService,
     ){
       this.SuppRegForm = this.fb.group({
-        companyName : new FormControl('',[Validators.required]),
-        businessRegNumber : new FormControl('',[Validators.required]),
+        supplierName : new FormControl('',[Validators.required]),
         supplierID : new FormControl(''),
-        contactPersonName : new FormControl('',[Validators.required]),
-        contactPersonDesignation : new FormControl('',[Validators.required]),
-        contactPersonPhoneNumber : new FormControl('',[Validators.required]),
-        contactPersonEmailAddress : new FormControl('',[Validators.required,Validators.email]),
+        contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
+        supplierEmailAddress : new FormControl('',[Validators.required,Validators.email]),
         address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
       });
     }
     ngOnInit(): void {
       this.populateData();
     }
-  
-    
     
     public populateData(): void{
       try{
@@ -79,6 +72,7 @@ export class SupplierRegistrationComponent implements OnInit {
         this.dataSource = new MatTableDataSource(dataList);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
 
         this.lastID = dataList[dataList.length - 1].id;
         console.log('lastID', this.lastID);
@@ -209,4 +203,10 @@ export class SupplierRegistrationComponent implements OnInit {
     public refreshData(): void{
       this.populateData();
     }
+
+    closeForm() {
+    this.showForm = false;
+    this.SuppRegForm.reset();
+    this.submitted = false;
+  }
 }

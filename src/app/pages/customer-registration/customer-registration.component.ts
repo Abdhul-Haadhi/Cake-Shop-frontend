@@ -61,6 +61,7 @@ export class CustomerRegistrationComponent implements OnInit{
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
+  showForm = false;
 
 
   constructor(private fb: FormBuilder,
@@ -70,17 +71,13 @@ export class CustomerRegistrationComponent implements OnInit{
 
 
     const today = new Date();
-    this.maxDate = new Date(
-      today.getFullYear() - 20,
-      today.getMonth(),
-      today.getDate()
-    );
+    this.maxDate = new Date();
 
     this.CustRegForm = this.fb.group({
       customerName : new FormControl('',[Validators.required]),
       email : new FormControl('',[Validators.required,Validators.email]),
-      address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
+      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
       birthday : new FormControl('',[Validators.required]),
       customerCategory : new FormControl('',[Validators.required]),
       loyaltyCustomer: new FormControl(''),
@@ -229,6 +226,12 @@ export class CustomerRegistrationComponent implements OnInit{
   }
   public refreshData(): void{
     this.populateData();
+  }
+
+  closeForm() {
+    this.showForm = false;
+    this.CustRegForm.reset();
+    this.submitted = false;
   }
   
 }

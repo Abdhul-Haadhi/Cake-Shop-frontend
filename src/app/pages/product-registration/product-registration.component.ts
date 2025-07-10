@@ -97,9 +97,11 @@ export class ProductRegistrationComponent implements OnInit{
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
-  imagePreview: string | ArrayBuffer | null = null;
+  // imagePreview: string | ArrayBuffer | null = null;
   isFileSelected = false;
   selectedImageUrl: any;
+  showForm = false;
+
 
   constructor(
     private fb: FormBuilder,
@@ -325,16 +327,8 @@ export class ProductRegistrationComponent implements OnInit{
   }
 
   public editData(data: any): void {
-    this.ProdRegForm.patchValue({
-      productId: data.productId,
-      product: data.product,
-      initialWeight: data.initialWeight,
-      description: data.description,
-      // requiredItems: data.requiredItems,
-      // measurementCategory: data.measurementCategory,
-      // usedAmount: data.usedAmount,
-      finalPrice: data.finalPrice,
-    });
+    
+      this.ProdRegForm.patchValue(data);
 
     // if (data.requiredItemsQuantities) {
     //   const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
@@ -377,6 +371,12 @@ export class ProductRegistrationComponent implements OnInit{
   }
   public refreshData(): void{
     this.populateData();
+  }
+
+  closeForm() {
+    this.showForm = false;
+    this.ProdRegForm.reset();
+    this.submitted = false;
   }
 
 }

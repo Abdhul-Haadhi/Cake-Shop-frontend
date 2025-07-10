@@ -28,7 +28,7 @@ export class CheckoutPageServiceService {
       }
   
     getData(){
-          const requestUrl = environment.baseUrl + '/order-page';
+          const requestUrl = environment.baseUrl + '/checkout-page';
       
           let headers = {};
       

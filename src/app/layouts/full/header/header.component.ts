@@ -20,4 +20,8 @@ export class AppHeaderComponent {
     this.httpService.removeToken();
     this.router.navigate(['/authentication/login']);
   }
+
+  public dashboard(): void {
+    this.router.navigate(['/dashboard'])
+  }
 }
