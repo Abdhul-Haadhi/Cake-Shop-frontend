@@ -1,8 +1,11 @@
 <div class="container">
     
     <div class="form-section">
+        <button (click)="backToCartPage()" class="mb-2" mat-raised-button color="warn">
+            Back to Cart
+        </button>
         <mat-toolbar color="primary">
-            <span>Customer registration</span>
+            <span>Billing Details</span>
             <span class="example-spacer"></span>
         </mat-toolbar>
         <form [formGroup]="BillingForm" class="example-form" (ngSubmit)="onSubmit()">
@@ -49,8 +52,8 @@
               </mat-form-field>
             </div>
           
-          <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
-  
+            <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
+            <button mat-raised-button color="warn ms-2" (click)="closePage()">Close</button>
         </form>
     </div>
     <div class="table-section">
@@ -64,21 +67,30 @@
             <mat-card-content>
                 <div *ngFor="let element of dataSource?.data" class="summary-product-row">
                     <div class="summary-product-main">
-                        <div class="summary-product-name">{{ product.name }}</div>
+                        <div class="summary-product-name">{{ element.item }}</div>
                         <div class="summary-product-details">
-                            <div *ngIf="element.size">Size: {{ element.size }}</div>
+                            <div *ngIf="element.size">Base size: {{ element.baseSize+'g' }}</div>
+                            <div *ngIf="element.size">Selected Size: {{ element.size+'g' }}</div>
                             <div *ngIf="element.quantity">Qty: {{ element.quantity }}</div>
                         </div>
                     </div>
-                    <div class="summary-product-price">
-                        {{ element.totalPrice | currency:'LKR' }}
+                    <div class="price">
+                        <div class="summary-product-price">
+                        <!-- {{ element.totalPrice | currency:'LKR' }} -->
+                          Base price: {{ "Rs."+element.price }}
                     </div>
+                    <div class="summary-product-price">
+                        <!-- {{ element.totalPrice | currency:'LKR' }} -->
+                          Total price: {{ "Rs."+element.totalPrice }}
+                    </div>
+                    </div>
+                    
                 </div>
                 <hr class="summary-divider" />
                 
                 <div class="summary-row grand-total">
                     <span><strong>Order Total</strong></span>
-                    <span><strong>{{ grandTotal | currency:'LKR' }}</strong></span>
+                    <span><strong>{{ "Rs."+grandTotal }}</strong></span>
                 </div>
                 <div class="checkout-container">
                     <button mat-raised-button color="primary" class="checkOutBtn">Checkout</button>

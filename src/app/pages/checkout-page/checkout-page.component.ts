@@ -38,7 +38,7 @@ export class CheckoutPageComponent implements OnInit{
   // ];
 
   displayedColumns: string[] = [
-    // 'itemName', 
+    'itemName', 
     'size', 
     'quantity', 
     'itemPrice', 
@@ -50,7 +50,7 @@ export class CheckoutPageComponent implements OnInit{
     submitted = false;
     mode = 'add';
     selectedData!: { id: any; };
-selection: any;
+    selection: any;
   
   
     constructor(private fb: FormBuilder,
@@ -164,6 +164,13 @@ selection: any;
     catch(error){
       this.messageService.showError('Action failed with error' + error);
     }
+  }
+
+  backToCartPage(){
+    this.product = this.router.getCurrentNavigation()?.extras.state?.['product'];
+    if (!this.product) {
+        this.router.navigate(['/pages/cart-page']); 
+      }
   }
 
   closePage(){

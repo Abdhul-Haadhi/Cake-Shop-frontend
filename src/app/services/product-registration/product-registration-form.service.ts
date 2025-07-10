@@ -109,7 +109,7 @@ export class ProductRegistrationFormService {
       return this.http.get(requestUrl,headers)
     }
 
-    getCartProductDetails(id: any): Observable<any>{
+    getCartProductDetails(id:any): Observable<any>{
       const requestUrl = environment.baseUrl + '/cart-page/' + id.toString();
 
       let headers = {};
@@ -119,11 +119,6 @@ export class ProductRegistrationFormService {
           Authorization: 'Bearer ' + this.httpService.getAuthToken(),
         };
       }
-
-    //   if(this.product){
-    //   return this.product;
-    // }
-
 
       return this.http.get(requestUrl,headers)
     }

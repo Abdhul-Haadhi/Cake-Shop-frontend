@@ -28,6 +28,7 @@ export class CartPageComponent implements OnInit{
     'select',
     'image',
     'item',
+    'baseSize',
     'size',
     'quantity',
     'itemPrice',
@@ -98,10 +99,32 @@ export class CartPageComponent implements OnInit{
           return;
         }
 
+        
+// ------------the correct one---------
         const updatedDataList = dataList.map((item:any) => ({
-          ...item,
-          totalPrice:(item.price) * (item.quantity)
+          ...item
+          // totalPrice:(item.price) * (item.quantity)
         }));
+
+
+        // ----------Total price = initial price × (selected weight ÷ initial weight) × quantity-----------
+
+        // const updatedDataList = dataList.map((item: any) => {
+        //   const initialPrice = item.price;            // price for base weight
+        //   const initialWeight = this.product.initialWeight;      // e.g. 500g
+        //   const selectedWeight = item.size;  // e.g. 1000g
+        //   const quantity = item.quantity;
+
+        //   const unitPrice = initialPrice * (selectedWeight / initialWeight);
+        //   const totalPrice = unitPrice * quantity;
+
+        //   return {
+        //     ...item,
+        //     unitPrice: unitPrice,
+        //     totalPrice: totalPrice
+        //   };
+        // });
+
 
         // updatedDataList.forEach((product: any) => {
         //   this.cartService.getData().subscribe({
@@ -151,71 +174,59 @@ export class CartPageComponent implements OnInit{
     
   }
 
-  public getProductListData(dataList: any): void {
-
-    dataList.forEach((data: any)=> {
-
+  
+  public getProductListData(dataList: any):void{
+    dataList.forEach((data:any)=>{
+      
       let prodId = data.productId
 
-      if (prodId) {
+      if (prodId){
         this.getProdData(prodId);
       }
-    })
 
+    })
   }
 
-  public getProdData(prodId: any) {
-    // backend call to get image and item name
+  public getProdData(prodId:any){
+    //  backend call to get image and item name
 
     this.productService.getCartProductDetails(prodId).subscribe({
-      next: (dataList: any) => {
+      next: (dataList: any)=>{
         console.log(dataList);
 
         let tableData = this.dataSource.data;
-        tableData.forEach((data: any) => {
-
-          if (data.productId) {
-            const prodItem = dataList.find((dataItem: any) => dataItem.id = data.productId);
+        
+        tableData.forEach((data:any)=>{
+          if (data.productId){
+            const prodItem = dataList.find((dataItem: any) => dataItem.id === data.productId);
             console.log(prodItem);
 
             data.item = prodItem.product;
             data.image = prodItem.image;
+            data.baseSize = prodItem.initialWeight;
+
+            const initialPrice = data.price;
+            const baseWeight = prodItem.initialWeight;
+            const selectedWeight = data.size;
+            const quantity = data.quantity;
+
+            const unitPrice = initialPrice * (selectedWeight / baseWeight);
+            const totalPrice = unitPrice * quantity;
+
+            data.unitPrice = unitPrice;
+            data.totalPrice = totalPrice;
           }
-
         });
-      this.dataSource = new MatTableDataSource(tableData);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
+        this.dataSource = new MatTableDataSource(tableData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
-      error:  (error: any)=> {
+      error: (error:any)=>{
         console.log(error);
+        
       }
     })
   }
-
-  // For using product service -------------------
-
-  // public populateDatas(): void{
-  //   try{
-  //     this.productService.getData().subscribe({
-  //     next: (dataList: any) => {
-  //       if(dataList.length <= 0){
-  //         return;
-  //       }
-  //     this.dataSources = new MatTableDataSource(dataList);
-      
-  //   },
-  //   error: (error) => {
-  //     this.messageService.showError('Action failed with error' + error);
-  //   }
-  // });
-  //   }
-  //   catch(error){
-  //     this.messageService.showError('Action failed with error' + error);
-  //   }
-    
-  // }
 
 
   public deleteData(data: any): void {
@@ -244,12 +255,12 @@ export class CartPageComponent implements OnInit{
     
   }
 
-  backToOrderPage(){
-    this.product = this.router.getCurrentNavigation()?.extras.state?.['product'];
-    if (!this.product) {
-        this.router.navigate(['/pages/order-page']); 
-      }
-  }
+  // backToOrderPage(){
+  //   this.product = this.router.getCurrentNavigation()?.extras.state?.['product.'];
+  //   if (!this.product) {
+  //       this.router.navigate(['/pages/order-page']); 
+  //     }
+  // }
 
   checkOutBtn(){
     const selectedProducts = this.selection.selected;

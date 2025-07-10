@@ -102,7 +102,6 @@ export class OrderPageComponent implements OnInit {
       let userId = this.httpService.getUserId();
       let currentDate = new Date();
       let product = this.productState.getProduct();
-      // let product_id = this.productService.getOrderData();
       let itemPrice = product ? product.finalPrice:null;
       this.OrderForm.patchValue({
         user: userId,
