@@ -40,6 +40,27 @@ export class AppSidebarComponent implements OnInit, OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
+  /*
+  
+  this needed to be added in the database
+  
+DROP TABLE IF EXISTS `system_authentications`;
+CREATE TABLE `system_authentications` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `auth_description` varchar(255) DEFAULT NULL,
+  `assigned` int DEFAULT '0',
+  `auth_id` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+LOCK TABLES `system_authentications` WRITE;
+
+INSERT INTO `system_authentications` VALUES (1,'Super Admin',1,1),(2,'Featured Products',1,2),(3,'Dashboard',1,3),(4,'System Privileges',0,4),(5,'Privilege Groups',0,5),(6,'Employee Registration',0,6),(7,'Customer Registration',0,7),(8,'Item Registratin',0,8),(9,'GRN',0,9),(10,'Product Registration',0,10),(11,'Feedback and Rating',1,11),(12,'Supplier Registration',0,12),(13,'Employee List Report',0,13);
+UNLOCK TABLES;
+
+
+  */
+
   ngOnInit(): void {
     this.cacheSubscription = this.cacheService.cache$.subscribe((data) => {
       this.data = data;
