@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { EmployeeRegistrationFormService } from 'src/app/services/employee-registration/employee-registration-form.service';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 interface JobRole {
   value: string;
@@ -61,6 +62,7 @@ export class EmployeeRegistrationComponent implements OnInit  {
   constructor(private fb: FormBuilder,
     private empService: EmployeeRegistrationFormService,
     private messageService: MessageServiceService,
+    private notificationService: NotificationService
   ){
 
     this.maxDate = new Date();
@@ -143,6 +145,7 @@ export class EmployeeRegistrationComponent implements OnInit  {
                       this.dataSource = new MatTableDataSource([response]);
                   }
                   this.messageService.showSuccess('Data saved successfully!');
+                  this.addNotification("Employee Added Successfully");
           },
           error: (error) =>{
             this.messageService.showError('Action failed with error' + error);
@@ -227,6 +230,9 @@ export class EmployeeRegistrationComponent implements OnInit  {
   }
   public refreshData(): void{
     this.populateData();
+  }
+  public addNotification(details: any): void {
+    this.notificationService.addNotification('Employee Added Successfully', 'success', 1);
   }
 }
  
