@@ -68,7 +68,7 @@ export const PagesRoutes: Routes = [
         component: GrnComponent
     },
     {
-        path: 'reports/employee-report',
+        path: 'employee-report',
         component: EmployeeListComponent
     }
 ];
