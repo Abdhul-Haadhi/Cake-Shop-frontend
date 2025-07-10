@@ -4,14 +4,16 @@ const checkUserAuthentication = (val: number) => {
 
 export enum authenticationEnum {
   Super_Admin = 1,
-  Home = 2,
-  Home_Dashboard = 3,
-  Auth = 4,
-  Auth_Login = 5,
-  Auth_Register = 6,
-  Privileges = 7,
-  System_Privileges = 8,
-  Privilege_Groups = 9,
-  Users = 10,
-  Test = 11
+  Featured_Products = 2,
+  Dashboard = 3,
+  System_Privileges = 4,
+  Privilege_Groups = 5,
+  Employee_Registration = 6,
+  Customer_Registration = 7,
+  Item_Registratin = 8,
+  GRN = 9,
+  Product_Registration = 10,
+  Feedback_and_Rating = 11,
+  Supplier_Registration = 12,
+  Employee_List_Report = 13
 }

@@ -17,7 +17,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Featured_Products,
   },
   {
     state: 'dashboard',
@@ -25,7 +25,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Dashboard,
   },
   {
     state: 'privileges',
@@ -34,7 +34,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.System_Privileges,
   },
   {
     state: 'privileges',
@@ -43,7 +43,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Privilege_Groups,
   },
   // {
   //   state: 'pages',
@@ -70,7 +70,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Employee_Registration,
   },
   {
     state: 'pages',
@@ -79,7 +79,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Customer_Registration,
   },
   {
     state: 'pages',
@@ -88,7 +88,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Item_Registratin,
   },
   {
     state: 'pages',
@@ -97,7 +97,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.GRN,
   },
   {
     state: 'pages',
@@ -106,7 +106,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Product_Registration,
   },
   {
     state: 'pages',
@@ -115,7 +115,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Feedback_and_Rating,
   },
   {
     state: 'pages',
@@ -124,7 +124,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Supplier_Registration,
   },
   {
     state: 'pages',
@@ -133,7 +133,7 @@ const MENUITEMS = [
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
+    auth: authenticationEnum.Employee_List_Report,
   },
   {
     state: 'button',
