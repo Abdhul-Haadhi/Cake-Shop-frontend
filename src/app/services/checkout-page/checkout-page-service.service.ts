@@ -41,22 +41,22 @@ export class CheckoutPageServiceService {
           return this.http.get(requestUrl,headers)
         }
 
-    //     editData(id:number,from_details: any){
-    //   console.log('In edit data');
+        editData(id:number,from_details: any){
+      console.log('In edit data');
   
-    //   const requestUrl = environment.baseUrl + '/checkout-page/' + id.toString();
+      const requestUrl = environment.baseUrl + '/checkout-page/' + id.toString();
   
   
-    //   let headers = {};
+      let headers = {};
   
-    //   if (this.httpService.getAuthToken() !== null) {
-    //     headers = {
-    //       Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-    //     };
-    //   }
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
   
-    //   return this.http.put(requestUrl,from_details,{headers:headers})
-    // }
+      return this.http.put(requestUrl,from_details,{headers:headers})
+    }
     
       
     //     deleteData(id:number){

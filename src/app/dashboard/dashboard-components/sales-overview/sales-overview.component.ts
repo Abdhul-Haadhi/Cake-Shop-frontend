@@ -15,6 +15,8 @@ import {
   NgApexchartsModule
 } from "ng-apexcharts";
 import { DemoMaterialModule } from "src/app/demo-material-module";
+import { GrnServiceService } from "src/app/services/grn/grn-service.service";
+
 
 export interface ChartOptions {
   series: ApexAxisChartSeries | any;
@@ -40,7 +42,9 @@ export class SalesOverviewComponent implements OnInit {
   @ViewChild("chart") chart: ChartComponent = Object.create(null);
   public chartOptions: Partial<ChartOptions>;
 
-  constructor() {
+  constructor(
+    private stockService: GrnServiceService
+  ) {
     this.chartOptions = {
       series: [
         {
@@ -90,5 +94,39 @@ export class SalesOverviewComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void { }
+ngOnInit(): void {
+  
+}
+
+//   ngOnInit(): void {
+//   this.stockService.getData().subscribe({
+//     next: (response: any) => {
+//       this.chartOptions.series = [
+//         {
+//           name: 'Quantity',
+//           data: response.quantities
+//         }
+//       ];
+//       this.chartOptions.xaxis = {
+//         categories: response.categories
+//       };
+//     },
+//     error: (error) => {
+//       console.error(error);
+//     }
+//   });
+// }
+
+  // getItems(): void {
+  //   this.stockService.getItem().subscribe({
+  //     next: (response: any) => {
+  //       console.log(response);
+  //       // this.filteredItems = response;
+  //       // this.items = response;
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     },
+  //   });
+  // }
 }

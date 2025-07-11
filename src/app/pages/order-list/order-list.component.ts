@@ -9,6 +9,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 import {inject} from '@angular/core';
 import { OrderListServiceService } from 'src/app/services/order-list/order-list-service.service';
 import { HttpService } from 'src/app/services/http.service';
+import { CheckoutPageServiceService } from 'src/app/services/checkout-page/checkout-page-service.service';
 
 
 interface orderStatus {
@@ -59,7 +60,7 @@ export class OrderListComponent implements OnInit{
 
   constructor(
     private fb: FormBuilder,
-    private orderListService: OrderListServiceService,
+    private orderListService: CheckoutPageServiceService,
     private messageService: MessageServiceService,
     private httpService: HttpService
   ){
@@ -85,6 +86,7 @@ export class OrderListComponent implements OnInit{
     try{
       this.orderListService.getData().subscribe({
       next: (dataList: any) => {
+        console.log('Component received dataList:', dataList);
         if(dataList.length <= 0){
           return;
         }
@@ -181,31 +183,31 @@ export class OrderListComponent implements OnInit{
     this.selectedData = data;
   }
 
-  public deleteData(data: any): void {
+  // public deleteData(data: any): void {
     
-    const id = data.id;
+  //   const id = data.id;
 
-    try{
-      this.orderListService.deleteData(id).subscribe({
-        next: (response) =>{
-          const index = this.dataSource.data.findIndex((element) => element.id === id);
-        if(index !== -1){
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
-        this.messageService.showSuccess('Data edited successfully!');
-        },
-        error: (error) =>{
-          this.messageService.showError('Action failed with error' + error);
-        }
-      });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
+  //   try{
+  //     this.orderListService.deleteData(id).subscribe({
+  //       next: (response) =>{
+  //         const index = this.dataSource.data.findIndex((element) => element.id === id);
+  //       if(index !== -1){
+  //         this.dataSource.data.splice(index, 1);
+  //       }
+  //       this.dataSource = new MatTableDataSource(this.dataSource.data);
+  //       this.messageService.showSuccess('Data edited successfully!');
+  //       },
+  //       error: (error) =>{
+  //         this.messageService.showError('Action failed with error' + error);
+  //       }
+  //     });
+  //   }
+  //   catch(error){
+  //     this.messageService.showError('Action failed with error' + error);
+  //   }
 
     
-  }
+  // }
   public refreshData(): void{
     this.populateData();
   }
