@@ -168,7 +168,7 @@ export class CheckoutPageComponent implements OnInit{
 
       if(this.mode === 'add'){
         
-        this.checkoutService.serviceCall(this.BillingForm.value).subscribe({
+        this.checkoutService.serviceCall(this.prepareFormData()).subscribe({
           next: (response: any) => {
             if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
                     this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
@@ -197,7 +197,7 @@ export class CheckoutPageComponent implements OnInit{
     const formData = new FormData();
     // demoFormData.append('demoForm', this.demoForm.value);
     console.log(JSON.stringify(this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data)));
-    formData.append('BillingForm', new Blob([JSON.stringify(this.BillingForm.value)], { type: 'application/json' }));
+    formData.append('orderDetailsForm', new Blob([JSON.stringify(this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data))], { type: 'application/json' }));
 
     
     if (this.isFileSelected) {

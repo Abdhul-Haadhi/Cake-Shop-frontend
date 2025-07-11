@@ -69,9 +69,8 @@ export class ProductRegistrationComponent implements OnInit{
 
   // requiredItem: {value: string; viewValue: string}[]= []; 
 
-
-
-  selectedFile: File | null = null;
+    selectedFile: File | null = null;
+    // previewUrl: string | ArrayBuffer | null = null;
     
 
   displayedColumns: string[] = [
@@ -97,11 +96,10 @@ export class ProductRegistrationComponent implements OnInit{
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
-  // imagePreview: string | ArrayBuffer | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
   isFileSelected = false;
   selectedImageUrl: any;
   showForm = false;
-
 
   constructor(
     private fb: FormBuilder,
@@ -119,8 +117,11 @@ export class ProductRegistrationComponent implements OnInit{
       initialWeight : new FormControl('',[Validators.required]),
       // requiredItems : new FormControl([],[Validators.required]),
       // measurementCategory : new FormControl('',[Validators.required]),
+      // name: ['', Validators.required],
       // usedAmount : new FormControl('',[Validators.required]),
       // unitPrice: new FormControl('',[Validators.required]),
+      // name: ['', Validators.required],
+      // image: new FormControl('',[Validators.required]),
       // totalCost: new FormControl({ value: '', disabled: true }),
       finalPrice: new FormControl('',[Validators.required]),
       // requiredItemsQuantities: this.fb.group({}),
@@ -149,6 +150,7 @@ export class ProductRegistrationComponent implements OnInit{
     }
   }
   
+
 
 
   ngOnInit(): void {
@@ -253,6 +255,10 @@ export class ProductRegistrationComponent implements OnInit{
           return;
         }
         if(this.mode === 'add'){
+
+          // const formData = new FormData();
+          //  formData.append('product', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
+          // formData.append('image', this.selectedFile);
 
           this.prodService.serviceCall(this.prepareFormData()).subscribe({
             next: (response: any) => {

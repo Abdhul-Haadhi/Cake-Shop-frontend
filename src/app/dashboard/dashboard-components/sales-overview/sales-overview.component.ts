@@ -44,12 +44,8 @@ export class SalesOverviewComponent implements OnInit {
     this.chartOptions = {
       series: [
         {
-          name: "Pixel",
-          data: [44, 55, 57, 56, 61, 58],
-        },
-        {
-          name: "Ample",
-          data: [76, 85, 101, 98, 87, 105],
+          name: "Quantity",
+          data: [15, 10, 8, 1, 12, 3],
         },
       ],
       chart: {
@@ -78,14 +74,14 @@ export class SalesOverviewComponent implements OnInit {
         colors: ["transparent"],
       },
       xaxis: {
-        categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        categories: ["Flour", "Sugar", "Butter", "Baking powder","Icing sugar","Chocoa powder"],
       },
 
       legend: {
         show: false,
       },
       fill: {
-        colors: ["#26c6da", "#1e88e5"],
+        colors: ["#a389ff", "#a389ff"],
         opacity: 1,
       },
       tooltip: {

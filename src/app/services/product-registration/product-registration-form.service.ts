@@ -58,7 +58,7 @@ export class ProductRegistrationFormService {
         };
       }
   
-      return this.http.get(requestUrl,headers)
+      return this.http.get(requestUrl,{headers:headers})
     }
 
     getOrderData(){

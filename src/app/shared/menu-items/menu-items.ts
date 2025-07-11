@@ -136,6 +136,15 @@ const MENUITEMS = [
     auth: authenticationEnum.Home_Dashboard,
   },
   {
+    state: 'pages',
+    childState: 'employee-report',
+    name: 'Employee List Report',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
     state: 'button',
     type: 'link',
     name: 'Buttons',
