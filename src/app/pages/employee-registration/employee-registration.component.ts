@@ -74,7 +74,7 @@ export class EmployeeRegistrationComponent implements OnInit  {
       nic : new FormControl('',[Validators.required,Validators.minLength(9),Validators.maxLength(12)]),
       birthday : new FormControl('',[Validators.required]),
       address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
       gender : new FormControl('',[Validators.required]),
       email : new FormControl('',[Validators.required,Validators.email]),
       jobRole : new FormControl('',[Validators.required]),
@@ -203,13 +203,10 @@ export class EmployeeRegistrationComponent implements OnInit  {
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;
-    // this.EmpRegForm = data;
   }
 
   public deleteData(data: any): void {
-    
     const id = data.id;
-
     try{
       this.empService.deleteData(id).subscribe({
         next: (Response) =>{
@@ -228,9 +225,9 @@ export class EmployeeRegistrationComponent implements OnInit  {
     catch(error){
       this.messageService.showError('Action failed with error' + error);
     }
-
-    
   }
+
+
   public refreshData(): void{
     this.populateData();
   }
