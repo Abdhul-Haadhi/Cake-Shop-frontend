@@ -14,6 +14,12 @@ interface Items {
   itemId: string;
 }
 
+interface Supplers {
+  id: number;
+  supplierName: string;
+  supplierId: string;
+}
+
 
 @Component({
   selector: 'app-grn',
@@ -36,6 +42,7 @@ export class GrnComponent implements OnInit{
   innerColumns: string[] = ['item', 'qty', 'cost', 'ucost', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
+  suppliers: any;
   displayedColumns: string[] = ['grnno', 'supplier', 'tcost', 'addedDate', 'actions'];
   dataSourceOuter = new MatTableDataSource<any>();
 
@@ -89,6 +96,7 @@ export class GrnComponent implements OnInit{
   this.grnForm = this.fb.group({
     grnno: new FormControl(''),
     supplier: new FormControl('', Validators.required),
+    supplierId: new FormControl(''),
     addedUser: new FormControl(localStorage.getItem('user_name')),
     tcost: new FormControl('',Validators.min(1)),
     addedDate: new FormControl(new Date(), Validators.required),
@@ -112,6 +120,7 @@ export class GrnComponent implements OnInit{
 
   ngOnInit(): void {
     this.getItems();
+    this.getSupplier();
     this.getGrn();
     this.getInnerGRN();
     this.dataPopulate();
@@ -145,6 +154,7 @@ export class GrnComponent implements OnInit{
   }
   }
   
+   // ------- for item selection---------------
   onItemChange(selectedItem: any): void{
   console.log("selectedItem");
 
@@ -173,6 +183,21 @@ export class GrnComponent implements OnInit{
   else{
     console.log('No item selected or item ID is undefined');
   }
+
+  }
+
+  // ------- for supplier selection---------------
+  onSupplierChange(selectedSupplier: any): void{
+    console.log("selectedSupplier");
+
+    const newSupplier = this.suppliers.find(
+      (supplier: { id: any }) => supplier.id === selectedSupplier
+    );
+
+    if (selectedSupplier) {
+      this.innerForm.patchValue({ supplier: newSupplier?.supplierName });
+      console.log(newSupplier?.supplierName);
+    }
 
   }
 
@@ -496,6 +521,18 @@ export class GrnComponent implements OnInit{
         console.log(response);
         this.filteredItems = response;
         this.items = response;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  getSupplier(): void {
+    this.grnService.getSupplier().subscribe({
+      next: (response: any) => {
+        console.log(response);
+        this.suppliers = response;
       },
       error: (error) => {
         console.log(error);

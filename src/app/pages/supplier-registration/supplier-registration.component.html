@@ -17,14 +17,14 @@
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Supplier name</mat-label>
-              <input matInput placeholder="Company name" formControlName="supplierName">
+              <input matInput placeholder="Supplier name" formControlName="supplierName">
               <span class="text-danger" *ngIf="(SuppRegForm.get('supplierName')?.touched || submitted) && SuppRegForm.get('supplierName')?.errors && SuppRegForm.get('supplierName')?.errors!['required']">
                 Supplier name is required
               </span>
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Supplier contact number</mat-label>
-              <input type="tel" matInput placeholder="Contact Person Phone Number" formControlName="contactNumber">
+              <input type="tel" matInput placeholder="Supplier contact number" formControlName="contactNumber">
               <span class="text-danger" *ngIf="(SuppRegForm.get('contactNumber')?.touched || submitted) && SuppRegForm.get('contactNumber')?.errors && SuppRegForm.get('contactNumber')?.errors!['required']">
                 Phone Number is required
               </span>
@@ -64,6 +64,7 @@
 
         <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
         <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
+        <button mat-raised-button type="button" class="form-button" color="warn" (click)="closeForm()">Cancel</button>
 
       </form>
     </div>

@@ -23,7 +23,7 @@ export class CheckoutPageServiceService {
             Authorization: 'Bearer ' + this.httpService.getAuthToken(),
           };
         }
-    
+        console.log(from_details);
         return this.http.post(requestUrl,from_details,{headers:headers})
       }
   

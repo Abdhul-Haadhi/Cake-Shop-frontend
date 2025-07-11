@@ -149,7 +149,7 @@
         <input matInput placeholder="total cost" formControlName="tcost" readonly="">
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
+      <!-- <mat-form-field class="example-full-width">
         <mat-label>Supplier</mat-label>
         <mat-select formControlName="supplier">
           <mat-option value="sup1">Supplier 1</mat-option>
@@ -157,7 +157,16 @@
           <mat-option value="sup3">Supplier 3</mat-option>
         </mat-select>
 
-      </mat-form-field>
+      </mat-form-field> -->
+
+      <mat-form-field class="example-full-width">
+          <mat-label>Supplier</mat-label>
+          <mat-select formControlName="supplierID" (selectionChange)="onSupplierChange($event.value)">
+            @for (supplier of suppliers; track supplier) {
+            <mat-option [value]="supplier.id">{{ supplier.supplierName }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
 
       <button type="submit" class="btn btn-success" [disabled]="isButtonDisabled"
         [disabled]="!grnForm.valid">{{saveBtnLabel}}</button>

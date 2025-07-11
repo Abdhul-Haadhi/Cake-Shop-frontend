@@ -22,6 +22,9 @@ export class FeedbackAndRatingComponent implements OnInit {
   // }
 
   setRating(value: number) {
+    if(this.feedbackForm.get('rating')?.disabled){
+      return;
+    }
   this.feedbackForm.get('rating')?.setValue(value);
 }
 
@@ -107,6 +110,8 @@ export class FeedbackAndRatingComponent implements OnInit {
       }
       this.mode = 'add';
       this.feedbackForm.disable();
+      // this.setRating(0);
+      this.feedbackForm.get('rating')?.disable();
       this.isButtonDisabled = true;
       }
       catch(error){
@@ -119,8 +124,8 @@ export class FeedbackAndRatingComponent implements OnInit {
   public resetData(): void{
     this.feedbackForm.reset();
     this.feedbackForm.updateValueAndValidity();
-    // this.saveButtonLabel = 'Save';
     this.feedbackForm.enable();
+    this.feedbackForm.get('rating')?.enable();
     this.isButtonDisabled = false;
     this.submitted = false;
   }

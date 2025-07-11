@@ -192,6 +192,23 @@ export class GrnServiceService {
     return this.http.get(requestUrl,{headers:headers});
   }
 
+  getSupplier(){
+    console.log("get suppliers");
+
+    const requestUrl = environment.baseUrl + '/supplier-registration';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl,{headers:headers});
+    
+  }
+
 
   getInnerGRN(grnno:number){
     const requestUrl = environment.baseUrl + '/get-inner/' + grnno.toString();
