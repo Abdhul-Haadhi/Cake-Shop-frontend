@@ -148,10 +148,13 @@ export class CheckoutPageComponent implements OnInit{
 
   onSubmit(){
     try{
+      console.log(this.BillingForm.value);
+      console.log(this.dataSource.data);
       this.submitted = true;
       if(this.BillingForm.invalid || !this.selectedFile){
         return;
       }
+      // return;
 
       let userId = this.httpService.getUserId();
         let currentDate = new Date();
@@ -161,9 +164,11 @@ export class CheckoutPageComponent implements OnInit{
         });
 
 
+        const formDataDto =  this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data)
+
       if(this.mode === 'add'){
         
-        this.checkoutService.serviceCall(this.BillingForm.value).subscribe({
+        this.checkoutService.serviceCall(this.prepareFormData()).subscribe({
           next: (response: any) => {
             if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
                     this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
@@ -191,19 +196,16 @@ export class CheckoutPageComponent implements OnInit{
   public prepareFormData(): FormData {
     const formData = new FormData();
     // demoFormData.append('demoForm', this.demoForm.value);
-    formData.append('BillingForm', new Blob([JSON.stringify(this.BillingForm.value)], { type: 'application/json' }));
+    console.log(JSON.stringify(this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data)));
+    formData.append('orderDetailsForm', new Blob([JSON.stringify(this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data))], { type: 'application/json' }));
 
     
     if (this.isFileSelected) {
-      formData.append('image', this.BillingForm.get('image')?.value, this.BillingForm.get('image')?.value.name);
+      formData.append('receipt', this.BillingForm.get('receipt')?.value, this.BillingForm.get('receipt')?.value.name);
     } else {
       const imageBlob = this.base64ToBlob(this.BillingForm.get('image')?.value, this.BillingForm.get('imageType')?.value);
       const file = new File([imageBlob], this.BillingForm.get('imageName')?.value, { type: this.BillingForm.get('imageType')?.value });
       formData.append('image', file, file.name);
-    }
-
-    if (this.BillingForm.get('receipt')?.value) {
-      formData.append('receipt', this.BillingForm.get('receipt')?.value, this.BillingForm.get('receipt')?.value.name);
     }
 
     return formData;
@@ -217,6 +219,39 @@ export class CheckoutPageComponent implements OnInit{
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mimeType });
+  }
+
+  public prepareOrderFormData(billingFormData: any, orderItemsData: any): any {
+
+
+    let orderItems: Object[] = [];
+
+    orderItemsData.forEach((item: any) => {
+      const itemData = {
+        orderId: null,
+        itemName: item.item,
+        itemQty: item.quantity,
+        itemPrice: item.totalPrice
+      };
+
+      orderItems.push(itemData);
+    });
+
+    const billingData = {
+      name: billingFormData.CustomerName,
+      email: billingFormData.emial,
+      address: billingFormData.address
+    };
+
+    const orderDetailsDto = {
+      user: this.httpService.getUserId(),
+      date: new Date(),
+      totalPrice: this.grandTotal,
+      items: orderItems,
+      billingFormDto: billingData
+    };
+
+    return orderDetailsDto;
   }
 
   backToCartPage(){
