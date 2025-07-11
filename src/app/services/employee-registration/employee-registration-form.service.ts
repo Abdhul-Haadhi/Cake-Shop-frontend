@@ -10,22 +10,22 @@ export class EmployeeRegistrationFormService {
 
   constructor(private http: HttpClient, private httpService: HttpService) { }
 
-  serviceCall(from_details:any){
-    console.log('In the service');
-
-    const requestUrl = environment.baseUrl + '/employee-registration';
-
-
-    let headers = {};
-
-    if (this.httpService.getAuthToken() !== null) {
-      headers = {
-        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-      };
+    serviceCall(from_details:any){
+      console.log('In the service');
+  
+      const requestUrl = environment.baseUrl + '/employee-registration';
+  
+  
+      let headers = {};
+  
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+  
+      return this.http.post(requestUrl,from_details,{headers:headers})
     }
-
-    return this.http.post(requestUrl,from_details,{headers:headers})
-  }
 
   getData(){
     const requestUrl = environment.baseUrl + '/employee-registration';

@@ -6,7 +6,13 @@ import { OrderPageServiceService } from 'src/app/services/order-page/order-page-
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpService } from 'src/app/services/http.service';
 import { ProductStateServiceService } from 'src/app/services/product-registration/product-state-service.service';
+import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
 
+
+interface cakeSize {
+  value: string;
+  viewValue: string; 
+}
 
 @Component({
   selector: 'app-order-page',
@@ -19,11 +25,18 @@ import { ProductStateServiceService } from 'src/app/services/product-registratio
 export class OrderPageComponent implements OnInit {
   OrderForm: FormGroup;
 
+
+  size: cakeSize[] = [
+    {value: '500', viewValue: 'Small (500g)'},
+    {value: '1000', viewValue: 'Medium (1000g)'},
+    {value: '1500', viewValue: 'Large (1500g)'},
+    {value: '2000', viewValue: 'Extra Large (2000)'},
+  ];
+
   product: any;
 
   dataSource!: MatTableDataSource<any>;
 
-  // isButtonDisabled = false;
   saveButtonLabel: string = 'Add to cart';
   submitted = false;
   mode = 'add';
@@ -31,13 +44,14 @@ export class OrderPageComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private productState: ProductStateServiceService, 
+    private productService: ProductRegistrationFormService,
     private router: Router, 
     private orderService: OrderPageServiceService,
     private messageService: MessageServiceService,
     private httpService: HttpService,
   ){
 
-      this.product = this.productState.getProduct();
+      this.product = this.productState.getProduct()
 
       if (!this.product) {
         this.router.navigate(['/pages/featured-products']); 
@@ -49,7 +63,8 @@ export class OrderPageComponent implements OnInit {
         customizeNote : new FormControl('',[]),
         size: new FormControl('',[Validators.required]),
         price: new FormControl('',[]),
-        quantity : new FormControl('',[Validators.required,Validators.min(1)]),
+        quantity : new FormControl(1,[Validators.required,Validators.min(1),Validators.max(10)]),
+        productId: new FormControl('',[]),
     });
   }
 
@@ -87,11 +102,12 @@ export class OrderPageComponent implements OnInit {
       let userId = this.httpService.getUserId();
       let currentDate = new Date();
       let product = this.productState.getProduct();
-      let itemPrice = product ? product.price:null;
+      let itemPrice = product ? product.finalPrice:null;
       this.OrderForm.patchValue({
         user: userId,
         date: currentDate,
         price: itemPrice,
+        productId: product.id,
       })
 
       if(this.mode === 'add'){
@@ -110,9 +126,7 @@ export class OrderPageComponent implements OnInit {
           }
         });
     }
-    this.mode = 'add';
-    // this.OrderForm.disable();
-    // this.isButtonDisabled = true;
+    
     }
     catch(error){
       this.messageService.showError('Action failed with error' + error);

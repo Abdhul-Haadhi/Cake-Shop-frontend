@@ -26,6 +26,8 @@ interface CustomerCategory {
 export class CustomerRegistrationComponent implements OnInit{
   CustRegForm: FormGroup;
 
+  maxDate: Date;
+
   private readonly _formBuilder = inject(FormBuilder);
 
   readonly toppings = this._formBuilder.group({
@@ -59,6 +61,7 @@ export class CustomerRegistrationComponent implements OnInit{
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
+  showForm = false;
 
 
   constructor(private fb: FormBuilder,
@@ -66,11 +69,15 @@ export class CustomerRegistrationComponent implements OnInit{
     private messageService: MessageServiceService,
   ){
 
+
+    const today = new Date();
+    this.maxDate = new Date();
+
     this.CustRegForm = this.fb.group({
       customerName : new FormControl('',[Validators.required]),
-      email : new FormControl('',[Validators.email]),
-      address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+      email : new FormControl('',[Validators.required,Validators.email]),
+      address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
+      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
       birthday : new FormControl('',[Validators.required]),
       customerCategory : new FormControl('',[Validators.required]),
       loyaltyCustomer: new FormControl(''),
@@ -182,7 +189,11 @@ export class CustomerRegistrationComponent implements OnInit{
   }
 
   public editData(data: any): void {
-    this.CustRegForm.patchValue(data);
+    const patchedData = { ...data };
+    if (patchedData.birthday) {
+      patchedData.birthday = new Date(patchedData.birthday);
+    }
+    this.CustRegForm.patchValue(patchedData);
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
     this.selectedData = data;
@@ -215,6 +226,12 @@ export class CustomerRegistrationComponent implements OnInit{
   }
   public refreshData(): void{
     this.populateData();
+  }
+
+  closeForm() {
+    this.showForm = false;
+    this.CustRegForm.reset();
+    this.submitted = false;
   }
   
 }

@@ -9,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductStateServiceService } from 'src/app/services/product-registration/product-state-service.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
+import { OrderPageServiceService } from 'src/app/services/order-page/order-page-service.service';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class CartPageComponent implements OnInit{
     'select',
     'image',
     'item',
+    'baseSize',
     'size',
     'quantity',
     'itemPrice',
@@ -46,7 +49,8 @@ export class CartPageComponent implements OnInit{
     selectedProducts: any;
   
     constructor(private fb: FormBuilder,
-      private productState: ProductStateServiceService, 
+      private productState: ProductStateServiceService,
+      private productService: ProductRegistrationFormService,
       private router: Router, 
       private cartService: CartPageServiceService,
       private messageService: MessageServiceService,
@@ -65,6 +69,7 @@ export class CartPageComponent implements OnInit{
 
      ngOnInit(): void {
     this.populateData();
+    // this.populateDatas();
   }
 
   isAllSelected() {
@@ -92,10 +97,40 @@ export class CartPageComponent implements OnInit{
           return;
         }
 
+        
+// ------------the correct one---------
         const updatedDataList = dataList.map((item:any) => ({
-          ...item,
-          totalPrice:(item.price) * (item.quantity)
+          ...item
+          // totalPrice:(item.price) * (item.quantity)
         }));
+
+
+        // ----------Total price = initial price × (selected weight ÷ initial weight) × quantity-----------
+
+        // const updatedDataList = dataList.map((item: any) => {
+        //   const initialPrice = item.price;            // price for base weight
+        //   const initialWeight = this.product.initialWeight;      // e.g. 500g
+        //   const selectedWeight = item.size;  // e.g. 1000g
+        //   const quantity = item.quantity;
+
+        //   const unitPrice = initialPrice * (selectedWeight / initialWeight);
+        //   const totalPrice = unitPrice * quantity;
+
+        //   return {
+        //     ...item,
+        //     unitPrice: unitPrice,
+        //     totalPrice: totalPrice
+        //   };
+        // });
+
+
+        // updatedDataList.forEach((product: any) => {
+        //   this.cartService.getData().subscribe({
+        //     next: () => console.log('Product state updated for item', product),
+        //     error: err => this.messageService.showError('Failed to update product state: ' + err)
+        //   });
+        // });
+
 
         // const updatedDataList = dataList.map((item: any) => {
         //   const price = parseFloat(item.itemPrice) || 0;
@@ -118,10 +153,13 @@ export class CartPageComponent implements OnInit{
         // });
 
         // console.log(updatedDataList);
+        
 
       this.dataSource = new MatTableDataSource(updatedDataList);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      this.getProductListData(dataList);
     },
     error: (error) => {
       this.messageService.showError('Action failed with error' + error);
@@ -132,6 +170,60 @@ export class CartPageComponent implements OnInit{
       this.messageService.showError('Action failed with error' + error);
     }
     
+  }
+
+  
+  public getProductListData(dataList: any):void{
+    dataList.forEach((data:any)=>{
+      
+      let prodId = data.productId
+
+      if (prodId){
+        this.getProdData(prodId);
+      }
+
+    })
+  }
+
+  public getProdData(prodId:any){
+    //  backend call to get image and item name
+
+    this.productService.getCartProductDetails(prodId).subscribe({
+      next: (dataList: any)=>{
+        console.log(dataList);
+
+        let tableData = this.dataSource.data;
+        
+        tableData.forEach((data:any)=>{
+          if (data.productId){
+            const prodItem = dataList.find((dataItem: any) => dataItem.id === data.productId);
+            console.log(prodItem);
+
+            data.item = prodItem.product;
+            data.image = prodItem.image;
+            data.baseSize = prodItem.initialWeight;
+
+            const initialPrice = data.price;
+            const baseWeight = prodItem.initialWeight;
+            const selectedWeight = data.size;
+            const quantity = data.quantity;
+
+            const unitPrice = initialPrice * (selectedWeight / baseWeight);
+            const totalPrice = unitPrice * quantity;
+
+            data.unitPrice = unitPrice;
+            data.totalPrice = totalPrice;
+          }
+        });
+        this.dataSource = new MatTableDataSource(tableData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (error:any)=>{
+        console.log(error);
+        
+      }
+    })
   }
 
 
@@ -161,12 +253,12 @@ export class CartPageComponent implements OnInit{
     
   }
 
-  backToOrderPage(){
-    this.product = this.router.getCurrentNavigation()?.extras.state?.['product'];
-    if (!this.product) {
-        this.router.navigate(['/pages/order-page']); 
-      }
-  }
+  // backToOrderPage(){
+  //   this.product = this.router.getCurrentNavigation()?.extras.state?.['product.'];
+  //   if (!this.product) {
+  //       this.router.navigate(['/pages/order-page']); 
+  //     }
+  // }
 
   checkOutBtn(){
     const selectedProducts = this.selection.selected;
@@ -179,6 +271,22 @@ export class CartPageComponent implements OnInit{
       products: selectedProducts
     }});
   }
+
+  closePage(){
+    this.router.navigate(['/pages/featured-products']);
+  }
+
+  
+
+   public base64ToBlob(base64: string, mimeType: string): Blob {
+      const byteCharacters = atob(base64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      return new Blob([byteArray], { type: mimeType });
+    }
 
 
 

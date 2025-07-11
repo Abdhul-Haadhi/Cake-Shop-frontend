@@ -5,8 +5,12 @@
     <mat-toolbar color="primary">
         <span>Customer registration</span>
         <span class="example-spacer"></span>
+        <button class="form-button" mat-raised-button color="warn" (click)="showForm = true" *ngIf="!showForm">
+          +Add Customer
+        </button>
     </mat-toolbar>
-    <div class="form-section">
+    
+    <div *ngIf="showForm" class="form-section">
         <form [formGroup]="CustRegForm" class="example-form" (ngSubmit)="onSubmit()">
           <div class="example-form-div">
               <mat-form-field class="full-width">
@@ -42,6 +46,9 @@
                 <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['required']">
                   Contact number is required
                 </span>
+                <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['pattern']">
+                  Phone number should be an integer
+                </span>
                 <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['minlength']">
                   Enter a valid number
                 </span>
@@ -51,10 +58,9 @@
               </mat-form-field>
               <mat-form-field class="full-width">
                 <mat-label>Birthday</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="birthday">
+                <input matInput [matDatepicker]="picker" formControlName="birthday" [max]="maxDate">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker">
-                  <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
                 </mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <span class="text-danger" *ngIf="(CustRegForm.get('birthday')?.touched || submitted) && CustRegForm.get('birthday')?.errors && CustRegForm.get('birthday')?.errors!['required']">
@@ -84,6 +90,8 @@
   
           <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
           <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
+          <button mat-raised-button type="button" class="form-button" color="warn" (click)="closeForm()">Cancel</button>
+          
   
         </form>
       </div>
@@ -93,77 +101,74 @@
 
 
       <div class="table-section">
-        <div class="refresh-filter-section">
-            <div class="refresh-button">
-             <button mat-icon-button color="primary" (click)="refreshData()">
-              <mat-icon>refresh</mat-icon>
-             </button>
-            </div>
+        <div class="add-button">
+          <div class="refresh-filter-section">
+              <div class="refresh-button">
+              <button mat-icon-button color="primary" (click)="refreshData()">
+                <mat-icon>refresh</mat-icon>
+              </button>
+              </div>
+            
+            <mat-form-field class="filter">
+              <mat-label>Search</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+            </mat-form-field>
+          </div>
+      
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+            <ng-container matColumnDef="customerName">
+              <th mat-header-cell *matHeaderCellDef> Customer name </th>
+              <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef> Email </th>
+              <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="address">
+              <th mat-header-cell *matHeaderCellDef> Address </th>
+              <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="contactNumber">
+              <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+              <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="birthday">
+              <th mat-header-cell *matHeaderCellDef> Birthday </th>
+              <td mat-cell *matCellDef="let element"> {{element.birthday | date: 'MM-dd-YYYY'}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="customerCategory">
+              <th mat-header-cell *matHeaderCellDef> Customer category </th>
+              <td mat-cell *matCellDef="let element"> {{element.customerCategory}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loyaltyCustomer">
+              <th mat-header-cell *matHeaderCellDef> Loyalty </th>
+              <td mat-cell *matCellDef="let element"> {{element.loyaltyCustomer ? 'Regular' : 'No'}} </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Actions </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button color="warn" (click)="editData(element)" (click)="showForm = true" *ngIf="!showForm" matTooltip="edit">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
           
-          <mat-form-field class="filter">
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-          </mat-form-field>
-        </div>
-    
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    
-          <!--- Note that these columns can be defined in any order.
-                The actual rendered columns are set as a property on the row definition" -->
-        
-        
-          <ng-container matColumnDef="customerName">
-            <th mat-header-cell *matHeaderCellDef> Customer name </th>
-            <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="address">
-            <th mat-header-cell *matHeaderCellDef> Address </th>
-            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="contactNumber">
-            <th mat-header-cell *matHeaderCellDef> Contact Number </th>
-            <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="birthday">
-            <th mat-header-cell *matHeaderCellDef> Birthday </th>
-            <td mat-cell *matCellDef="let element"> {{element.birthday | date: 'yyyy-MM-dd'}} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="customerCategory">
-            <th mat-header-cell *matHeaderCellDef> Customer category </th>
-            <td mat-cell *matCellDef="let element"> {{element.customerCategory}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="loyaltyCustomer">
-            <th mat-header-cell *matHeaderCellDef> Loyalty </th>
-            <td mat-cell *matCellDef="let element"> {{element.loyaltyCustomer ? 'Regular' : 'No'}} </td>
-          </ng-container>
-    
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Actions </th>
-            <td mat-cell *matCellDef="let element">
-              <button mat-icon-button color="warn" (click)="editData(element)" matTooltip="edit">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-        
-        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+          
+          
       </div>
 </div>
