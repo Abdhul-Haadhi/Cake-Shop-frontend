@@ -10,7 +10,7 @@ export class PrintService {
 
   /**
    * Print employee report
-   * This method creates a print-optimized version of the employee report
+   * This method creates a print optimized version of the employee report
    */
   printEmployeeReport(employees: any): void {
     console.log(employees);
