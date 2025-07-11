@@ -40,4 +40,38 @@ export class OrderPageServiceService {
   
       return this.http.get(requestUrl,headers)
     }
+    
+    editData(id:number,from_details: any){
+      console.log('In edit data');
+  
+      const requestUrl = environment.baseUrl + '/order-page/' + id.toString();
+  
+  
+      let headers = {};
+  
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+  
+      return this.http.put(requestUrl,from_details,{headers:headers})
+    }
+  
+    deleteData(id:number){
+      console.log('In delete data');
+  
+      const requestUrl = environment.baseUrl + '/order-page/' + id.toString();
+  
+  
+      let headers = {};
+  
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
+  
+      return this.http.delete(requestUrl,{headers:headers})
+    }
 }

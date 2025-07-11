@@ -13,6 +13,7 @@ import { SupplierRegistrationComponent } from './supplier-registration/supplier-
 import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import { GrnComponent } from './grn/grn.component';
 import { EmployeeListComponent } from './reports/Static Report/app/components/employee-list/employee-list.component';
+import { OrderListComponent } from './order-list/order-list.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -71,4 +72,7 @@ export const PagesRoutes: Routes = [
         path: 'employee-report',
         component: EmployeeListComponent
     }
+        path:'order-list',
+        component: OrderListComponent
+    },
 ];

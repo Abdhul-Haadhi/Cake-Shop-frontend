@@ -4,7 +4,7 @@
   gap: 20px;
 }
 
-.form-section{
+.billing-form{
   // flex: 1;
   width: 60%;
   padding: 5px;
@@ -27,6 +27,10 @@
 
 .filter{
   width: 100%;
+}
+
+.receiptFile{
+  margin-bottom: 20px;
 }
 
 
@@ -107,32 +111,7 @@
 
 
 
-
-.checkout-container{
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px;
-}
-
-
 .checkOutBtn{
   margin-left: auto;
 }
 
-
-
-
-.borderless-table {
-  border: none;
-
-  th, td {
-    border: none !important;
-  }
-
-  tr {
-    border: none !important;
-  }
-
-  // Remove box-shadow if using mat-elevation-z8
-  box-shadow: none !important;
-}

@@ -104,7 +104,7 @@ export class FeaturedProductsComponent implements OnInit{
   openPopup(product:any){
     this.dialog.open(PopupBoxComponent,{
       width: '60%',
-      height: '400px',
+      height: '450px',
       data: product
     });
   }
