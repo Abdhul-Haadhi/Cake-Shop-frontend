@@ -47,19 +47,19 @@ export class ProductRegistrationFormService {
   return this.http.post(requestUrl, formDetails, { headers: headers });
 }
 
-    // getData(){
-    //   const requestUrl = environment.baseUrl + '/product-registration';
+    getData(){
+      const requestUrl = environment.baseUrl + '/product-registration';
   
-  //     let headers = {};
+      let headers = {};
   
-  //     if (this.httpService.getAuthToken() !== null) {
-  //       headers = {
-  //         Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-  //       };
-  //     }
+      if (this.httpService.getAuthToken() !== null) {
+        headers = {
+          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+        };
+      }
   
-    //   return this.http.post(requestUrl,from_details,{headers:headers})
-    // }
+      return this.http.get(requestUrl,{headers:headers})
+    }
 
     getOrderData(){
       const requestUrl = environment.baseUrl + '/order-page';

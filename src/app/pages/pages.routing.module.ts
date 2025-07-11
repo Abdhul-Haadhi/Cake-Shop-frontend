@@ -71,7 +71,8 @@ export const PagesRoutes: Routes = [
     {
         path: 'employee-report',
         component: EmployeeListComponent
-    }
+    },
+    {
         path:'order-list',
         component: OrderListComponent
     },
