@@ -25,10 +25,11 @@ import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import { GrnComponent } from './grn/grn.component';
 import { EmployeeListComponent } from './reports/Static Report/app/components/employee-list/employee-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { ItemListComponent } from './reports/Static Report/app/components/item-list/item-list.component';
 
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent,SupplierRegistrationComponent,CheckoutPageComponent,GrnComponent,EmployeeListComponent,OrderListComponent],
+  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent,SupplierRegistrationComponent,CheckoutPageComponent,GrnComponent,EmployeeListComponent,OrderListComponent,ItemListComponent],
   imports: [
     CommonModule,
     DemoMaterialModule,
