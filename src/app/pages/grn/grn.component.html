@@ -161,9 +161,9 @@
 
       <mat-form-field class="example-full-width">
           <mat-label>Supplier</mat-label>
-          <mat-select formControlName="supplierID" (selectionChange)="onSupplierChange($event.value)">
+          <mat-select formControlName="supplier" (selectionChange)="onSupplierChange($event.value)">
             @for (supplier of suppliers; track supplier) {
-            <mat-option [value]="supplier.id">{{ supplier.supplierName }}</mat-option>
+            <mat-option [value]="supplier.supplierName">{{ supplier.supplierName }}</mat-option>
             }
           </mat-select>
         </mat-form-field>

@@ -70,15 +70,14 @@
                 matInput
               />
             </mat-form-field>
-            <span
-              class="text-danger"
-              *ngIf="
-                (formControl['firstName'].touched || submitted) &&
-                formControl['firstName'].errors &&
-                formControl['firstName'].errors['required']
-              "
-            >
-              First name is required
+            <span class="text-danger" *ngIf="(registerForm.get('firstName')?.touched || submitted) && registerForm.get('firstName')?.errors && registerForm.get('firstName')?.errors!['required']">
+              First name is required.
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('firstName')?.errors && registerForm.get('firstName')?.errors!['pattern']">
+              FIrst name should be letters.
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('firstName')?.errors && registerForm.get('firstName')?.errors!['maxlength']">
+              Maximum lenghtfor the first name is 15.
             </span>
 
             <mat-label
@@ -95,15 +94,14 @@
                 matInput
               />
             </mat-form-field>
-            <span
-              class="text-danger"
-              *ngIf="
-                (formControl['lastName'].touched || submitted) &&
-                formControl['lastName'].errors &&
-                formControl['lastName'].errors['required']
-              "
-            >
-              Last name is required
+            <span class="text-danger" *ngIf="(registerForm.get('lastName')?.touched || submitted) && registerForm.get('lastName')?.errors && registerForm.get('lastName')?.errors!['required']">
+              Last name is required.
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('lastName')?.errors && registerForm.get('lastName')?.errors!['pattern']">
+              Last name should be letters.
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('lastName')?.errors && registerForm.get('lastName')?.errors!['maxlength']">
+              Maximum lenght for the last name is 15.
             </span>
 
             <mat-label
@@ -120,15 +118,14 @@
                 matInput
               />
             </mat-form-field>
-            <span
-              class="text-danger"
-              *ngIf="
-                (formControl['login'].touched || submitted) &&
-                formControl['login'].errors &&
-                formControl['login'].errors['required']
-              "
-            >
-              User name is required
+            <span class="text-danger" *ngIf="(registerForm.get('login')?.touched || submitted) && registerForm.get('login')?.errors && registerForm.get('login')?.errors!['required']">
+              User name is required.
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('login')?.errors && registerForm.get('login')?.errors!['pattern']">
+              User name should be letters.
+            </span>
+            <span class="text-danger" *ngIf="registerForm.get('login')?.errors && registerForm.get('login')?.errors!['maxlength']">
+              Maximum lenght for the user name is 20.
             </span>
 
             <!-- <mat-label for="email" class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"

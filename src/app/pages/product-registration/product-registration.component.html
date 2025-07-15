@@ -12,24 +12,33 @@
         <div class="example-form-div">
                 <mat-form-field class="full-width">
                   <mat-label>Product Id</mat-label>
-                  <input matInput placeholder="Enter item Id" formControlName="productId">
+                  <input matInput placeholder="Enter product Id: PRD_ _ _" formControlName="productId">
                   <span class="text-danger" *ngIf="(ProdRegForm.get('productId')?.touched || submitted) && ProdRegForm.get('productId')?.errors && ProdRegForm.get('productId')?.errors!['required']">
                     Product Id is required
+                  </span>
+                  <span class="text-danger" *ngIf="ProdRegForm.get('productId')?.errors && ProdRegForm.get('productId')?.errors!['pattern']">
+                    Product code should start with 'PRD'
                   </span>
                 </mat-form-field>
 
                 <mat-form-field>
                   <mat-label>Product name</mat-label>
-                  <textarea matInput placeholder="Select the product name" formControlName="product"></textarea>
+                  <input matInput placeholder="Select the product name" formControlName="product">
                   <span class="text-danger" *ngIf="(ProdRegForm.get('product')?.touched || submitted) && ProdRegForm.get('product')?.errors && ProdRegForm.get('product')?.errors!['required']">
-                    Product name is required
+                    Product name is required.
+                  </span>
+                  <span class="text-danger" *ngIf="ProdRegForm.get('product')?.errors && ProdRegForm.get('product')?.errors!['maxlength']">
+                    Maximum 25 letters.
                   </span>
                 </mat-form-field>
                 <mat-form-field>
                   <mat-label>About product</mat-label>
-                  <input matInput placeholder="Describe about the product" formControlName="description">
+                  <textarea matInput placeholder="Describe about the product" formControlName="description"></textarea>
                   <span class="text-danger" *ngIf="(ProdRegForm.get('description')?.touched || submitted) && ProdRegForm.get('description')?.errors && ProdRegForm.get('description')?.errors!['required']">
                     Description is required.
+                  </span>
+                  <span class="text-danger" *ngIf="ProdRegForm.get('description')?.errors && ProdRegForm.get('description')?.errors!['maxlength']">
+                    Maximum 200 letters.
                   </span>
                 </mat-form-field>
 
@@ -40,9 +49,9 @@
                 </mat-form-field> -->
 
 
-                <div class="imgFile">
+                <!-- <div class="imgFile">
                   <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput id="file">
-                </div>
+                </div> -->
                 <!-- Image Preview (optional, but user-friendly) -->
                 <!-- <div *ngIf="imagePreview" style="margin-bottom: 16px;">
                   <img [src]="imagePreview" alt="Preview" style="max-width: 200px; max-height: 200px;">
@@ -56,6 +65,9 @@
                   <input matInput placeholder="Enter the final price" formControlName="finalPrice">
                   <span class="text-danger" *ngIf="(ProdRegForm.get('finalPrice')?.touched || submitted) && ProdRegForm.get('finalPrice')?.errors && ProdRegForm.get('finalPrice')?.errors!['required']">
                     Final price is required
+                  </span>
+                  <span class="text-danger" *ngIf="ProdRegForm.get('finalPrice')?.errors && ProdRegForm.get('finalPrice')?.errors!['pattern']">
+                    Enter a valid price.
                   </span>
                 </mat-form-field>
                 
@@ -71,12 +83,6 @@
                   </span>
                 </mat-form-field> -->
 
-
-                <mat-label>Insert an image of the product</mat-label>
-                <div class="imgFile">
-                  <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput id="file">
-                </div>
-                
               
                 <mat-form-field class="full-width">
                   <mat-label>Initial weight</mat-label>
@@ -84,15 +90,18 @@
                   <span class="text-danger" *ngIf="(ProdRegForm.get('initialWeight')?.touched || submitted) && ProdRegForm.get('initialWeight')?.errors && ProdRegForm.get('initialWeight')?.errors!['required']">
                     Initial weight is required
                   </span>
-                </mat-form-field>
-
-                <mat-form-field class="full-width">
-                  <mat-label>Final price</mat-label>
-                  <input matInput placeholder="Enter the final price" formControlName="finalPrice">
-                  <span class="text-danger" *ngIf="(ProdRegForm.get('finalPrice')?.touched || submitted) && ProdRegForm.get('finalPrice')?.errors && ProdRegForm.get('finalPrice')?.errors!['required']">
-                    Final price is required
+                  <span class="text-danger" *ngIf="ProdRegForm.get('initialWeight')?.errors && ProdRegForm.get('initialWeight')?.errors!['pattern']">
+                    Enter a valid weight
                   </span>
                 </mat-form-field>
+
+                <mat-label>Insert an image of the product</mat-label>
+                <div class="imgFile">
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput id="file">
+                  <div class="text-danger" *ngIf="(ProdRegForm.get('image')?.touched || submitted) && ProdRegForm.get('image')?.errors && ProdRegForm.get('image')?.errors!['required']">
+                    Image is required
+                  </div>
+                </div>
 
                 
                 <!-- <mat-form-field class="full-width">

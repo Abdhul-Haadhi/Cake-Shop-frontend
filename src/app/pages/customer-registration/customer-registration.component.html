@@ -46,14 +46,8 @@
                 <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['required']">
                   Contact number is required
                 </span>
-                <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['pattern']">
-                  Phone number should be an integer
-                </span>
-                <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['minlength']">
-                  Enter a valid number
-                </span>
-                <span class="text-danger" *ngIf="(CustRegForm.get('contactNumber')?.touched || submitted) && CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['maxlength']">
-                  Enter a valid number
+                <span class="text-danger" *ngIf="CustRegForm.get('contactNumber')?.errors && CustRegForm.get('contactNumber')?.errors!['pattern']">
+                  Phone number should be 10 digits
                 </span>
               </mat-form-field>
               <mat-form-field class="full-width">

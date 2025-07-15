@@ -16,9 +16,12 @@
             <div class="form-part">
               <mat-form-field class="full-width">
                 <mat-label>Employee number</mat-label>
-                <input matInput placeholder="Employee number" formControlName="employeeNumber">
+                <input matInput placeholder="Employee number: EMP_ _ _" formControlName="employeeNumber">
                 <span class="text-danger" *ngIf="(EmpRegForm.get('employeeNumber')?.touched || submitted) && EmpRegForm.get('employeeNumber')?.errors && EmpRegForm.get('employeeNumber')?.errors!['required']">
                   Employee number is required
+                </span>
+                <span class="text-danger" *ngIf="(EmpRegForm.get('employeeNumber')?.touched || submitted) && EmpRegForm.get('employeeNumber')?.errors && EmpRegForm.get('employeeNumber')?.errors!['pattern']">
+                  Employee number should start with 'EMP'
                 </span>
               </mat-form-field>
 
@@ -28,6 +31,9 @@
                 <span class="text-danger" *ngIf="(EmpRegForm.get('fullName')?.touched || submitted) && EmpRegForm.get('fullName')?.errors && EmpRegForm.get('fullName')?.errors!['required']">
                   Name is required
                 </span>
+                <span class="text-danger" *ngIf="(EmpRegForm.get('fullName')?.touched || submitted) && EmpRegForm.get('fullName')?.errors && EmpRegForm.get('fullName')?.errors!['pattern']">
+                  Name should be letters
+                </span>
               </mat-form-field>
 
               <mat-form-field class="full-width">
@@ -36,10 +42,13 @@
                 <span class="text-danger" *ngIf="(EmpRegForm.get('nic')?.touched || submitted) && EmpRegForm.get('nic')?.errors && EmpRegForm.get('nic')?.errors!['required']">
                 Enter the NIC number
                 </span>
-                <span class="text-danger" *ngIf="(EmpRegForm.get('nic')?.touched || submitted) && EmpRegForm.get('nic')?.errors && EmpRegForm.get('nic')?.errors!['minlength']">
+                <!-- <span class="text-danger" *ngIf="(EmpRegForm.get('nic')?.touched || submitted) && EmpRegForm.get('nic')?.errors && EmpRegForm.get('nic')?.errors!['minlength']">
                   Enter a valid NIC number
                 </span>
                 <span class="text-danger" *ngIf="(EmpRegForm.get('nic')?.touched || submitted) && EmpRegForm.get('nic')?.errors && EmpRegForm.get('nic')?.errors!['maxlength']">
+                  Enter a valid NIC number
+                </span> -->
+                <span class="text-danger" *ngIf="EmpRegForm.get('nic')?.errors && EmpRegForm.get('nic')?.errors!['pattern']">
                   Enter a valid NIC number
                 </span>
               </mat-form-field>
@@ -77,15 +86,10 @@
                 <span class="text-danger" *ngIf="(EmpRegForm.get('contactNumber')?.touched || submitted) && EmpRegForm.get('contactNumber')?.errors && EmpRegForm.get('contactNumber')?.errors!['required']">
                   Contact number is required
                 </span>
-                <span class="text-danger" *ngIf="(EmpRegForm.get('contactNumber')?.touched || submitted) && EmpRegForm.get('contactNumber')?.errors && EmpRegForm.get('contactNumber')?.errors!['pattern']">
-                  Phone number should be an integer
+                <span class="text-danger" *ngIf="EmpRegForm.get('contactNumber')?.errors && EmpRegForm.get('contactNumber')?.errors!['pattern']">
+                  Phone number should be 10 digits
                 </span>
-                <span class="text-danger" *ngIf="(EmpRegForm.get('contactNumber')?.touched || submitted) && EmpRegForm.get('contactNumber')?.errors && EmpRegForm.get('contactNumber')?.errors!['minlength']">
-                  Enter a valid number
-                </span>
-                <span class="text-danger" *ngIf="(EmpRegForm.get('contactNumber')?.touched || submitted) && EmpRegForm.get('contactNumber')?.errors && EmpRegForm.get('contactNumber')?.errors!['maxlength']">
-                  Enter a valid number
-                </span>
+                
               </mat-form-field>
 
               <mat-form-field class="full-width">
@@ -94,7 +98,7 @@
                 <span class="text-danger" *ngIf="(EmpRegForm.get('email')?.touched || submitted) && EmpRegForm.get('email')?.errors && EmpRegForm.get('email')?.errors!['required']">
                   Email is required
                 </span>
-                <span class="text-danger" *ngIf="(EmpRegForm.get('email')?.touched || submitted) && EmpRegForm.get('email')?.errors && EmpRegForm.get('email')?.errors!['email']">
+                <span class="text-danger" *ngIf="EmpRegForm.get('email')?.errors && EmpRegForm.get('email')?.errors!['email']">
                   Enter a valid email
                 </span>
               </mat-form-field>

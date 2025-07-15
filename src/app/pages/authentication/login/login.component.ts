@@ -27,7 +27,7 @@ export class AppSideLoginComponent implements OnInit {
     private _messageService: MessageServiceService
   ) {
     this.loginForm = this.formBuilder.group({
-      loginName: ['', [Validators.required]],
+      loginName: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('^[A-Za-z ]+$')]],
       password: ['', [Validators.required]],
     });
   }

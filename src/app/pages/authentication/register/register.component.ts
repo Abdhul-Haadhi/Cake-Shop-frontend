@@ -24,9 +24,9 @@ export class AppSideRegisterComponent implements OnInit {
     private httpService: HttpService
   ) {
     this.registerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      login: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.maxLength(15), Validators.pattern('^[A-Za-z]+$')]],
+      lastName: ['', [Validators.required, Validators.maxLength(15), Validators.pattern('^[A-Za-z]+$')]],
+      login: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('^[A-Za-z ]+$')]],
       password: ['', [Validators.required]],
     });
   }

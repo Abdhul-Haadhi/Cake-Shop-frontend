@@ -21,6 +21,9 @@
               <span class="text-danger" *ngIf="(SuppRegForm.get('supplierName')?.touched || submitted) && SuppRegForm.get('supplierName')?.errors && SuppRegForm.get('supplierName')?.errors!['required']">
                 Supplier name is required
               </span>
+              <span class="text-danger" *ngIf="(SuppRegForm.get('supplierName')?.touched || submitted) && SuppRegForm.get('supplierName')?.errors && SuppRegForm.get('supplierName')?.errors!['maxlength']">
+                Maximum 25 letters
+              </span>
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Supplier contact number</mat-label>
@@ -28,16 +31,10 @@
               <span class="text-danger" *ngIf="(SuppRegForm.get('contactNumber')?.touched || submitted) && SuppRegForm.get('contactNumber')?.errors && SuppRegForm.get('contactNumber')?.errors!['required']">
                 Phone Number is required
               </span>
-              <span class="text-danger" *ngIf="(SuppRegForm.get('contactNumber')?.touched || submitted) && SuppRegForm.get('contactNumber')?.errors && SuppRegForm.get('contactNumber')?.errors!['pattern']">
-                  Phone number should be an integer
-                </span>
-              <span class="text-danger" *ngIf="(SuppRegForm.get('contactNumber')?.touched || submitted) && SuppRegForm.get('contactNumber')?.errors && SuppRegForm.get('contactNumber')?.errors!['minlength']">
-                  Enter a valid number
+              <span class="text-danger" *ngIf="SuppRegForm.get('contactNumber')?.errors && SuppRegForm.get('contactNumber')?.errors!['pattern']">
+                Enter a valid phone number  
               </span>
-              <span class="text-danger" *ngIf="(SuppRegForm.get('contactNumber')?.touched || submitted) && SuppRegForm.get('contactNumber')?.errors && SuppRegForm.get('contactNumber')?.errors!['maxlength']">
-                  Enter a valid number
-              </span>
-                
+              
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Supplier Email Address</mat-label>

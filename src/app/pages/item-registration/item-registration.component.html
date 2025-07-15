@@ -12,16 +12,21 @@
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Code</mat-label>
-          <input matInput placeholder="code" formControlName="itemId">
+          <input matInput placeholder="code: ITM_ _ _" formControlName="itemId">
           <div class="errorMsg"
             *ngIf="ItemRegForm.get('itemId')?.hasError('required') && (ItemRegForm.get('itemId')?.touched || ItemRegForm.get('itemId')?.dirty)">
             *Item code is required
-          </div> </mat-form-field>
+          </div> 
+          <div class="errorMsg"
+            *ngIf="ItemRegForm.get('itemId')?.errors && ItemRegForm.get('itemId')?.errors!['pattern']">
+            *Item code should start with 'ITM'
+          </div> 
+        </mat-form-field>
 
         <mat-form-field class="example-full-width">
           <mat-label>Category</mat-label>
           <mat-select formControlName="category">
-            <mat-option *ngFor="let category of ['Liter', 'kg', 'Pcs']" [value]="category">
+            <mat-option *ngFor="let category of ['Liter', 'g', 'Pcs']" [value]="category">
               {{ category }}
             </mat-option>
           </mat-select>

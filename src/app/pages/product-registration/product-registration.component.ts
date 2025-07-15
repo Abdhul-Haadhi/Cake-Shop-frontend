@@ -12,6 +12,7 @@ import { ProductRegistrationFormService } from 'src/app/services/product-registr
 import { ItemRegistrationFormService } from 'src/app/services/item-registration/item-registration-form.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NotificationService } from "src/app/services/notification-service/notification.service";
 
 
 // interface Product {
@@ -107,14 +108,15 @@ export class ProductRegistrationComponent implements OnInit{
     // private itemService: ItemRegistrationFormService,
     private messageService: MessageServiceService,
     private sanitizer: DomSanitizer,
+    private notificationService: NotificationService,
     // private http: HttpClient,
   ){
 
     this.ProdRegForm = this.fb.group({
-      productId : new FormControl('',[Validators.required]),
-      product : new FormControl('',[Validators.required]),
-      description: new FormControl('',[Validators.required]),
-      initialWeight : new FormControl('',[Validators.required]),
+      productId : new FormControl('',[Validators.required, Validators.pattern('^PRD[0-9]+$')]),
+      product : new FormControl('',[Validators.required, Validators.maxLength(25)]),
+      description: new FormControl('',[Validators.required, Validators.maxLength(200)]),
+      initialWeight : new FormControl('',[Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItems : new FormControl([],[Validators.required]),
       // measurementCategory : new FormControl('',[Validators.required]),
       // name: ['', Validators.required],
@@ -123,10 +125,10 @@ export class ProductRegistrationComponent implements OnInit{
       // name: ['', Validators.required],
       // image: new FormControl('',[Validators.required]),
       // totalCost: new FormControl({ value: '', disabled: true }),
-      finalPrice: new FormControl('',[Validators.required]),
+      finalPrice: new FormControl('',[Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItemsQuantities: this.fb.group({}),
       // requiredItemsQuantities: new FormControl([],[Validators.required]),
-      image: new FormControl(''),
+      image: new FormControl('',[Validators.required]),
       imageName: new FormControl(''),
       imageType: new FormControl(''),
     });
@@ -269,6 +271,7 @@ export class ProductRegistrationComponent implements OnInit{
                         this.dataSource = new MatTableDataSource([response]);
                     }
                     this.messageService.showSuccess('Data saved successfully!');
+                    this.addNotification("Product Added Successfully");
             },
             error: (error) =>{
               this.messageService.showError('Action failed with error' + error);
@@ -330,6 +333,10 @@ export class ProductRegistrationComponent implements OnInit{
     this.ProdRegForm.enable();
     this.isButtonDisabled = false;
     this.submitted = false;
+  }
+
+  public addNotification(details: any): void {
+    this.notificationService.addNotification('Product Added Successfully', 'success', 1);
   }
 
   public editData(data: any): void {

@@ -1,5 +1,3 @@
-
-
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
@@ -7,6 +5,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ItemRegistrationFormService } from "src/app/services/item-registration/item-registration-form.service";
 import { MessageServiceService } from "src/app/services/message-service/message-service.service";
+import { NotificationService } from "src/app/services/notification-service/notification.service";
 
 
 
@@ -38,11 +37,12 @@ export class ItemRegistrationComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private itemService: ItemRegistrationFormService,
-    private msgService: MessageServiceService
+    private msgService: MessageServiceService,
+    private notificationService: NotificationService,
   ) {
     this.ItemRegForm = this.fb.group({
       itemName : new FormControl('',[Validators.required]),
-      itemId : new FormControl('',[Validators.required]),
+      itemId : new FormControl('',[Validators.required, Validators.pattern('^ITM[0-9]+$')]),
       category : new FormControl('',[Validators.required]),
     });
   }
@@ -84,6 +84,7 @@ export class ItemRegistrationComponent implements OnInit{
             this.dataSource.sort = this.sort; // Reassign sort
             console.log('post data Server Response', response);
             this.msgService.showSuccess('Record Successfully Added');
+            this.addNotification("Item Added Successfully");
 
             this.lastAddedRow = response; // Track the last added row
             console.log('Added new row:', (response as { id: number }).id);
@@ -179,6 +180,10 @@ export class ItemRegistrationComponent implements OnInit{
 
   public refreshData(): void{
     this.PopulateData();
+  }
+
+  public addNotification(details: any): void {
+    this.notificationService.addNotification('Item Added Successfully', 'success', 1);
   }
 
   applyFilter(event: Event) {

@@ -14,7 +14,7 @@ interface Items {
   itemId: string;
 }
 
-interface Supplers {
+interface Suppliers {
   id: number;
   supplierName: string;
   supplierId: string;
@@ -187,16 +187,16 @@ export class GrnComponent implements OnInit{
   }
 
   // ------- for supplier selection---------------
-  onSupplierChange(selectedSupplier: any): void{
+  onSupplierChange(selectedSupplierId: any): void{
     console.log("selectedSupplier");
 
-    const newSupplier = this.suppliers.find(
-      (supplier: { id: any }) => supplier.id === selectedSupplier
+    const selectedSupplier = this.suppliers.find
+      ((supplier: { id: any; }) => supplier.id === selectedSupplierId
     );
 
     if (selectedSupplier) {
-      this.innerForm.patchValue({ supplier: newSupplier?.supplierName });
-      console.log(newSupplier?.supplierName);
+      this.grnForm.patchValue({ supplier: selectedSupplier.id, supplierId: selectedSupplier.supplierId, });
+      // console.log(newSupplier?.supplierName);
     }
 
   }

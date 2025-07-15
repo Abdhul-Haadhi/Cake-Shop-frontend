@@ -34,15 +34,14 @@
                 matInput
               />
             </mat-form-field>
-            <span
-              class="text-danger"
-              *ngIf="
-                (formControl['loginName'].touched || submitted) &&
-                formControl['loginName'].errors &&
-                formControl['loginName'].errors['required']
-              "
-            >
-              User name is required
+            <span class="text-danger" *ngIf="(loginForm.get('loginName')?.touched || submitted) && loginForm.get('loginName')?.errors && loginForm.get('loginName')?.errors!['required']">
+              User name is required.
+            </span>
+            <span class="text-danger" *ngIf="loginForm.get('loginName')?.errors && loginForm.get('loginName')?.errors!['pattern']">
+              User name should be letters.
+            </span>
+            <span class="text-danger" *ngIf="loginForm.get('loginName')?.errors && loginForm.get('loginName')?.errors!['maxlength']">
+              Maximum lenghtfor the user name is 20.
             </span>
             <!-- password -->
             <mat-label
@@ -58,14 +57,7 @@
                 formControlName="password"
               />
             </mat-form-field>
-            <span
-              class="text-danger"
-              *ngIf="
-                (formControl['password'].touched || submitted) &&
-                formControl['password'].errors &&
-                formControl['password'].errors['required']
-              "
-            >
+            <span class="text-danger" *ngIf="(formControl['password'].touched || submitted) && formControl['password'].errors && formControl['password'].errors['required']">
               Password is required
             </span>
 

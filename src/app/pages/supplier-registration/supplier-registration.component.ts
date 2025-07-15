@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { SupplierRegistrationFormService } from 'src/app/services/sipplier-registration/supplier-registration-form.service';
 import { HttpService } from 'src/app/services/http.service';
+import { NotificationService } from "src/app/services/notification-service/notification.service";
 
 @Component({
   selector: 'app-supplier-registration',
@@ -47,13 +48,14 @@ export class SupplierRegistrationComponent implements OnInit {
       private httpService : HttpService,
       private suppService: SupplierRegistrationFormService,
       private messageService: MessageServiceService,
+      private notificationService: NotificationService,
     ){
       this.SuppRegForm = this.fb.group({
-        supplierName : new FormControl('',[Validators.required]),
+        supplierName : new FormControl('',[Validators.required, Validators.maxLength(25)]),
         supplierID : new FormControl(''),
-        contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
-        supplierEmailAddress : new FormControl('',[Validators.required,Validators.email]),
-        address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
+        contactNumber : new FormControl('',[Validators.required, Validators.pattern('^[0-9]{10}$')]),
+        supplierEmailAddress : new FormControl('',[Validators.required, Validators.email]),
+        address : new FormControl('',[Validators.required, Validators.maxLength(150)]),
       });
     }
     ngOnInit(): void {
@@ -124,6 +126,7 @@ export class SupplierRegistrationComponent implements OnInit {
                           this.dataSource = new MatTableDataSource([response]);
                       }
                       this.messageService.showSuccess('Data saved successfully!');
+                      this.addNotification("Supplier Added Successfully");
               },
               error: (error) =>{
                 this.messageService.showError('Action failed with error' + error);
@@ -203,6 +206,10 @@ export class SupplierRegistrationComponent implements OnInit {
     public refreshData(): void{
       this.populateData();
     }
+
+    public addNotification(details: any): void {
+    this.notificationService.addNotification('Supplier Added Successfully', 'success', 1);
+  }
 
     closeForm() {
     this.showForm = false;

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpService } from '../http.service';
 import { environment } from 'src/app/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class GrnServiceService {
 
 
   //get all GRN
-  getData(){
+  getData(): Observable<any[]>{
     console.log("get data");
 
     const requestUrl = environment.baseUrl + '/allgrn';
@@ -71,7 +72,7 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.get(requestUrl,{headers:headers});
+    return this.http.get<any[]>(requestUrl,{headers:headers});
   }
 
 
@@ -176,7 +177,7 @@ export class GrnServiceService {
   }
 
 
-  getItem(){
+  getItem(): Observable<any[]>{
     console.log("get items");
 
     const requestUrl = environment.baseUrl + '/grn/get-item';
@@ -189,7 +190,7 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.get(requestUrl,{headers:headers});
+    return this.http.get<any[]>(requestUrl,{headers:headers});
   }
 
   getSupplier(){

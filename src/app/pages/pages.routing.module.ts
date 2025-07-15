@@ -14,6 +14,7 @@ import { CheckoutPageComponent } from './checkout-page/checkout-page.component';
 import { GrnComponent } from './grn/grn.component';
 import { EmployeeListComponent } from './reports/Static Report/app/components/employee-list/employee-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { ItemListComponent } from './reports/Static Report/app/components/item-list/item-list.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -73,7 +74,11 @@ export const PagesRoutes: Routes = [
         component: EmployeeListComponent
     },
     {
-        path:'order-list',
+        path: 'order-list',
         component: OrderListComponent
+    },
+    {
+        path: 'item-report',
+        component: ItemListComponent
     },
 ];

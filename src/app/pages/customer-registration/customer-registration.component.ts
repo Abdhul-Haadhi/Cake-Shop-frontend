@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import {inject} from '@angular/core';
 import { CustomerRegistrationFormService } from 'src/app/services/customer-registration/customer-registration-form.service';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 
 interface CustomerCategory {
@@ -67,6 +68,7 @@ export class CustomerRegistrationComponent implements OnInit{
   constructor(private fb: FormBuilder,
     private custService: CustomerRegistrationFormService,
     private messageService: MessageServiceService,
+    private notificationService: NotificationService,
   ){
 
 
@@ -77,7 +79,7 @@ export class CustomerRegistrationComponent implements OnInit{
       customerName : new FormControl('',[Validators.required]),
       email : new FormControl('',[Validators.required,Validators.email]),
       address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
+      contactNumber : new FormControl('',[Validators.required,Validators.pattern('^[0-9]{10}$')]),
       birthday : new FormControl('',[Validators.required]),
       customerCategory : new FormControl('',[Validators.required]),
       loyaltyCustomer: new FormControl(''),
@@ -149,6 +151,7 @@ export class CustomerRegistrationComponent implements OnInit{
                       this.dataSource = new MatTableDataSource([response]);
                   }
                   this.messageService.showSuccess('Data saved successfully!');
+                  this.addNotification("Cutomer Added Successfully");
           },
           error: (error) =>{
             this.messageService.showError('Action failed with error' + error);
@@ -226,6 +229,10 @@ export class CustomerRegistrationComponent implements OnInit{
   }
   public refreshData(): void{
     this.populateData();
+  }
+
+  public addNotification(details: any): void{
+    this.notificationService.addNotification('Customer added Successfully', 'success',1);
   }
 
   closeForm() {

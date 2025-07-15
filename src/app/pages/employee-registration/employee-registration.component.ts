@@ -66,15 +66,20 @@ export class EmployeeRegistrationComponent implements OnInit  {
     private notificationService: NotificationService
   ){
 
-    this.maxDate = new Date();
+    const today = new Date();
+    this.maxDate = new Date(
+      today.getFullYear() - 20,
+      today.getMonth(),
+      today.getDate()
+    );
 
     this.EmpRegForm = this.fb.group({
-      employeeNumber : new FormControl('',[Validators.required]),
-      fullName : new FormControl('',[Validators.required]),
-      nic : new FormControl('',[Validators.required,Validators.minLength(9),Validators.maxLength(12)]),
+      employeeNumber : new FormControl('',[Validators.required, Validators.pattern('^EMP[0-9]+$')]),
+      fullName : new FormControl('',[Validators.required, Validators.pattern('^[A-Za-z ]+$')]),
+      nic : new FormControl('',[Validators.required, Validators.pattern('^[0-9]{9}[vVxX]$|^[0-9]{12}')]),
       birthday : new FormControl('',[Validators.required]),
       address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
+      contactNumber : new FormControl('',[Validators.required,Validators.pattern('^[0-9]{10}$')]),
       gender : new FormControl('',[Validators.required]),
       email : new FormControl('',[Validators.required,Validators.email]),
       jobRole : new FormControl('',[Validators.required]),
