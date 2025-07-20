@@ -122,8 +122,6 @@ export class ProductRegistrationComponent implements OnInit{
       // name: ['', Validators.required],
       // usedAmount : new FormControl('',[Validators.required]),
       // unitPrice: new FormControl('',[Validators.required]),
-      // name: ['', Validators.required],
-      // image: new FormControl('',[Validators.required]),
       // totalCost: new FormControl({ value: '', disabled: true }),
       finalPrice: new FormControl('',[Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItemsQuantities: this.fb.group({}),

@@ -11,6 +11,7 @@ import { Item } from '../../models/item.model';
 import { GrnServiceService } from 'src/app/services/grn/grn-service.service';
 import { ItemService } from '../../services/item.service';
 import { forkJoin } from 'rxjs';
+import { ItemRegistrationFormService } from 'src/app/services/item-registration/item-registration-form.service';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class ItemListComponent implements OnInit{
     private itemService: ItemService,
     private printService: PrintService,
     private itmService: GrnServiceService,
+    private itemReportService: ItemRegistrationFormService,
     private messageService: MessageServiceService
   ) {}
 
@@ -60,7 +62,7 @@ export class ItemListComponent implements OnInit{
 
   // public populateData(): void{
   //   try{
-  //     this.itmService.getData().subscribe({
+  //     this.itemReportService.getReportData().subscribe({
   //     next: (dataList: any) => {
   //       this.itmService.getItem().subscribe({
   //         next: (itemList: any) => {
@@ -102,30 +104,57 @@ export class ItemListComponent implements OnInit{
     
   // }
 
+
   public populateData(): void{
     try{
-      forkJoin([
-        this.itmService.getData(),this.itmService.getItem()
-      ]).subscribe({
-        next:([dataList,itemList]) =>{
-          const bothService = [...dataList, ...itemList];
-          this.dataSource = new MatTableDataSource(bothService);
-
-          // console.log('dataList:', dataList);
-          // console.log('itemList:', itemList);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error ' + error);
+      this.itemReportService.getReportData().subscribe({
+      next: (dataList: any) => {
+        if(dataList.length <= 0){
+          return;
         }
-      });
+
+      this.dataSource = new MatTableDataSource(dataList);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    },
+    error: (error) => {
+      this.messageService.showError('Action failed with error' + error);
     }
-    catch (error) {
-      this.messageService.showError('Action failed with error ' + error);
+  });
+    }
+    catch(error){
+      this.messageService.showError('Action failed with error' + error);
     }
     
   }
+
+
+
+
+  // public populateData(): void{
+  //   try{
+  //     forkJoin([
+  //       this.itmService.getData(),this.itmService.getItem()
+  //     ]).subscribe({
+  //       next:([dataList,itemList]) =>{
+  //         const bothService = [...dataList, ...itemList];
+  //         this.dataSource = new MatTableDataSource(bothService);
+
+  //         // console.log('dataList:', dataList);
+  //         // console.log('itemList:', itemList);
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       },
+  //       error: (error) => {
+  //         this.messageService.showError('Action failed with error ' + error);
+  //       }
+  //     });
+  //   }
+  //   catch (error) {
+  //     this.messageService.showError('Action failed with error ' + error);
+  //   }
+    
+  // }
 
   loadEmployees(): void {
     this.loading = true;

@@ -72,6 +72,24 @@ export class ItemRegistrationFormService {
 
         return this.http.get(requestUrl,{headers:headers});
       }
+
+
+      getReportData() {
+        console.log("get data");
+
+        const requestUrl = environment.baseUrl + '/item-report'; //'http://localhost:8080/item-report'
+
+        //get authtoken and set it to header
+        let headers = {};
+
+        if (this.httpService.getAuthToken() !== null) {
+          headers = {
+            Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+          };
+        }
+
+        return this.http.get(requestUrl,{headers:headers});
+      }
   
   
       // editData(id:number,from_details: any){

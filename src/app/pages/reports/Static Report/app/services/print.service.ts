@@ -135,8 +135,8 @@ export class PrintService {
   }
 
 
-  printItemReport(employees: any): void {
-    console.log(employees);
+  printItemReport(items: any): void {
+    console.log(items);
     const printContent = `
       <!DOCTYPE html>
       <html>
@@ -201,7 +201,7 @@ export class PrintService {
         </style>
       </head>
       <body>
-        <h1>Employee Report</h1>
+        <h1>Stock Item Report</h1>
         <div class="report-date">Generated on ${new Date().toLocaleDateString()}</div>
 
         <table>
@@ -217,14 +217,14 @@ export class PrintService {
           </thead>
           <tbody>
             ${
-              employees.map((emp: any) => `
+              items.map((itm: any) => `
               <tr>
-                <td>${emp.employeeNumber}</td>
-                <td>${emp.fullName} </td>
-                <td>${this.formatDate(emp.birthday)}</td>
-                <td>${emp.contactNumber}</td>
-                <td>${emp.email}</td>
-                <td>${emp.gender}</td>
+                <td>${itm.itemId}</td>
+                <td>${itm.itemName} </td>
+                <td>${itm.category}</td>
+                <td>${this.formatDate(itm.addedDate)}</td>
+                <td>${this.formatDate(itm.expDate)}</td>
+                <td>${itm.qty}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -232,7 +232,7 @@ export class PrintService {
 
         <div class="footer">
           <p>Confidential - For internal use only</p>
-          <p>Total Employees: ${employees.length}</p>
+          <p>Total Employees: ${items.length}</p>
         </div>
       </body>
       </html>

@@ -36,7 +36,8 @@ export class OrderListComponent implements OnInit{
 
   displayedColumns: string[] = [
     'orderId',
-    'userId',
+    'itemName',
+    // 'userId',
     'customerName',
     'contactNumber',
     'email',
@@ -67,6 +68,7 @@ export class OrderListComponent implements OnInit{
 
     this.orderListForm = this.fb.group({
       orderId : new FormControl('',[]),
+      itemName: new FormControl('',[]),
       user : new FormControl('',[]),
       customerName : new FormControl('',[]),
       contactNumber : new FormControl('',[]),

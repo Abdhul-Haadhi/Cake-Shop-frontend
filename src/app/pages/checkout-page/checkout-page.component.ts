@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ProductStateServiceService } from 'src/app/services/product-registration/product-state-service.service';
 import { HttpService } from 'src/app/services/http.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NotificationService } from 'src/app/services/notification-service/notification.service';
 
 export interface Transaction {
   item: string;
@@ -63,6 +64,7 @@ export class CheckoutPageComponent implements OnInit{
       private messageService: MessageServiceService,
       private router: Router,
       private productState: ProductStateServiceService, 
+      // private notificationService: NotificationService,
       private httpService: HttpService,
       private sanitizer: DomSanitizer,
     ){
@@ -81,10 +83,11 @@ export class CheckoutPageComponent implements OnInit{
         items: new FormControl([],[]),
         selectedSize: new FormControl([],[]),
         quantities: new FormControl([],[]),
-        CustomerName : new FormControl('',[Validators.required]),
+        customerName : new FormControl([],[Validators.required]),
         email : new FormControl('',[Validators.required,Validators.email]),
-        address : new FormControl('',[Validators.required,Validators.maxLength(100)]),
-        contactNumber : new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10),Validators.pattern('^[0-9]*$')]),
+        address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
+        contactNumber : new FormControl([],[Validators.required, Validators.pattern('^[0-9]{10}$')]),
+        orderStatus : new FormControl([],[]), 
         receipt: new FormControl(''),
         receiptName: new FormControl(''),
         receiptType: new FormControl(''),
@@ -146,59 +149,101 @@ export class CheckoutPageComponent implements OnInit{
     
   }
 
-  onSubmit(){
-    try{
-      console.log(this.BillingForm.value);
-      console.log(this.dataSource.data);
-      this.submitted = true;
-      if(this.BillingForm.invalid || !this.selectedFile){
-        return;
-      }
-      // return;
+  // onSubmit(){
+  //   try{
+  //     console.log(this.BillingForm.value);
+  //     // console.log(this.dataSource.data);
+  //     this.submitted = true;
+  //     if(this.BillingForm.invalid || !this.selectedFile){
+  //       return;
+  //     }
 
-      let userId = this.httpService.getUserId();
-        let currentDate = new Date();
-        this.BillingForm.patchValue({
-          user: userId,
-          date: currentDate
-        });
+  //     let userId = this.httpService.getUserId();
+  //       let currentDate = new Date();
+  //       this.BillingForm.patchValue({
+  //         user: userId,
+  //         date: currentDate
+  //       });
 
 
-        const formDataDto =  this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data)
+  //       const formDataDto =  this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data)
 
-      if(this.mode === 'add'){
+  //     if(this.mode === 'add'){
         
-        this.checkoutService.serviceCall(this.prepareFormData()).subscribe({
-          next: (response: any) => {
-            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-                    this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-                  }
-                  else{
-                      this.dataSource = new MatTableDataSource([response]);
-                  }
-                  this.messageService.showSuccess('Data saved successfully!');
-          },
-          error: (error) =>{
-            this.messageService.showError('Action failed with error' + error);
-          }
-        });
-    }
+  //       this.checkoutService.serviceCall(this.prepareFormData()).subscribe({
+  //         next: (response: any) => {
+  //           if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+  //                   this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+  //                 }
+  //                 else{
+  //                     this.dataSource = new MatTableDataSource([response]);
+  //                 }
+  //                 this.messageService.showSuccess('Data saved successfully!');
+  //         },
+  //         error: (error) =>{
+  //           this.messageService.showError('Action failed with error' + error);
+  //         }
+  //       });
+  //   }
     
+  //   this.mode = 'add';
+  //   this.BillingForm.disable();
+  //   this.isButtonDisabled = true;
+  //   }
+  //   catch(error){
+  //     this.messageService.showError('Action failed with error' + error);
+  //   }
+  // }
+
+  onSubmit() {
+  try {
+    this.submitted = true;
+
+    if (this.BillingForm.invalid || !this.selectedFile) {
+      return;
+    }
+
+    const userId = this.httpService.getUserId();
+    const currentDate = new Date();
+
+    this.BillingForm.patchValue({
+      user: userId,
+      date: currentDate
+    });
+
+    const formDataDto = this.prepareFormData();
+
+    if (this.mode === 'add') {
+      this.checkoutService.serviceCall(formDataDto).subscribe({
+        next: (response: any) => {
+          this.messageService.showSuccess('Order placed successfully!');
+      
+          this.dataSource = new MatTableDataSource<any>([]);
+          this.BillingForm.disable();
+          this.isButtonDisabled = true;
+
+      
+          // this.router.navigate(['/pages/featured-products']);
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error: ' + error);
+        }
+      });
+    }
+
     this.mode = 'add';
-    this.BillingForm.disable();
-    this.isButtonDisabled = true;
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
+
+  } catch (error) {
+    this.messageService.showError('Action failed with error: ' + error);
   }
+}
+
 
   public prepareFormData(): FormData {
     const formData = new FormData();
     // demoFormData.append('demoForm', this.demoForm.value);
     console.log(JSON.stringify(this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data)));
     formData.append('orderDetailsForm', new Blob([JSON.stringify(this.prepareOrderFormData(this.BillingForm.value, this.dataSource.data))], { type: 'application/json' }));
-
     
     if (this.isFileSelected) {
       formData.append('receipt', this.BillingForm.get('receipt')?.value, this.BillingForm.get('receipt')?.value.name);
@@ -238,9 +283,11 @@ export class CheckoutPageComponent implements OnInit{
     });
 
     const billingData = {
-      name: billingFormData.CustomerName,
-      email: billingFormData.emial,
-      address: billingFormData.address
+      customerName: billingFormData.customerName,
+      email: billingFormData.email,
+      address: billingFormData.address,
+      contactNumber: billingFormData.contactNumber,
+      receipt: billingFormData.receipt,
     };
 
     const orderDetailsDto = {
@@ -248,6 +295,7 @@ export class CheckoutPageComponent implements OnInit{
       date: new Date(),
       totalPrice: this.grandTotal,
       items: orderItems,
+
       billingFormDto: billingData
     };
 
@@ -260,6 +308,10 @@ export class CheckoutPageComponent implements OnInit{
         this.router.navigate(['/pages/cart-page']); 
       }
   }
+
+  // public addNotification(details: any): void{
+  //   this.notificationService.addNotification('Order placed Successfully', 'success',1);
+  // }
 
   closePage(){
     this.router.navigate(['/pages/featured-products']);
