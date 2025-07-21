@@ -58,6 +58,25 @@ export class OrderListServiceService {
       
           return this.http.put(requestUrl,from_details,{headers:headers})
         }
+
+        filterByDate(startDate: string, endDate: string){
+          const requestUrl = environment.baseUrl + '/order-list/filter';
+
+          let headers = {};
+
+          if (this.httpService.getAuthToken() !== null) {
+            headers = {
+              Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+            };
+          }
+
+          const params = {
+            startDate: startDate,
+            endDate: endDate
+          };
+
+          return this.http.get(requestUrl, { headers: headers, params: params });
+        }
       
         deleteData(id:number){
           console.log('In delete data');

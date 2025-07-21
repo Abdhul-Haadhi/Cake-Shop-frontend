@@ -27,6 +27,9 @@ interface orderStatus {
 export class OrderListComponent implements OnInit{
   orderListForm: FormGroup;
 
+  startDate!: Date;
+  endDate!: Date;
+
   orderStatus: orderStatus[] = [
     {value: 'pending', viewValue: 'Pending'},
     {value: 'inProgress', viewValue: 'In progress'},
@@ -62,6 +65,7 @@ export class OrderListComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private orderListService: CheckoutPageServiceService,
+    private dateFilterService: OrderListServiceService,
     private messageService: MessageServiceService,
     private httpService: HttpService
   ){
@@ -114,6 +118,20 @@ export class OrderListComponent implements OnInit{
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  filterOrders(){
+    this.dateFilterService.filterByDate(
+      this.startDate.toISOString(),
+      this.endDate.toISOString()
+    ).subscribe({
+      next: (data:any) => {
+        this.dataSource.data = data;
+      },
+      error: (err: any) => {
+        console.error(err);
+      }
+    });
   }
 
   onSubmit(){
@@ -185,31 +203,6 @@ export class OrderListComponent implements OnInit{
     this.selectedData = data;
   }
 
-  // public deleteData(data: any): void {
-    
-  //   const id = data.id;
-
-  //   try{
-  //     this.orderListService.deleteData(id).subscribe({
-  //       next: (response) =>{
-  //         const index = this.dataSource.data.findIndex((element) => element.id === id);
-  //       if(index !== -1){
-  //         this.dataSource.data.splice(index, 1);
-  //       }
-  //       this.dataSource = new MatTableDataSource(this.dataSource.data);
-  //       this.messageService.showSuccess('Data edited successfully!');
-  //       },
-  //       error: (error) =>{
-  //         this.messageService.showError('Action failed with error' + error);
-  //       }
-  //     });
-  //   }
-  //   catch(error){
-  //     this.messageService.showError('Action failed with error' + error);
-  //   }
-
-    
-  // }
   public refreshData(): void{
     this.populateData();
   }

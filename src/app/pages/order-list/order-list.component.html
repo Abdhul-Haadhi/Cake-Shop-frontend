@@ -73,11 +73,49 @@
                 <mat-icon>refresh</mat-icon>
                </button>
               </div>
+              <div class="search">
+                <mat-form-field class="filter">
+                  <mat-label>Search</mat-label>
+                  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+                </mat-form-field>
+              </div>
             
-            <mat-form-field class="filter">
-              <mat-label>Search</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-            </mat-form-field>
+            <!-- <div class="date-filter">
+              <label for="sel1" class="form-label">Date Filter:</label>
+              <input class="form-control" type="date" class="dateadded form-control">
+            </div> -->
+
+            <div class="date-filter">
+              <mat-form-field class="date-filter">
+                <mat-label>From date</mat-label>
+                <input matInput [matDatepicker]="picker1" placeholder="Start Date" [(ngModel)]="startDate">
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="picker1">
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+
+            <div>
+              <mat-form-field class="date-filter">
+                <mat-label>To date</mat-label>
+                <input matInput [matDatepicker]="picker2" placeholder="End Date" [(ngModel)]="endDate">
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="picker2">
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="filter-button">
+              <button mat-raised-button (click)="filterOrders()">Filter</button>
+            </div>
+            
+              
+            
+            
+
           </div>
       
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
