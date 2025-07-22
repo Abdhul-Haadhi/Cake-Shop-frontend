@@ -65,7 +65,7 @@ export class OrderListComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private orderListService: CheckoutPageServiceService,
-    private dateFilterService: OrderListServiceService,
+    // private dateFilterService: OrderListServiceService,
     private messageService: MessageServiceService,
     private httpService: HttpService
   ){
@@ -121,10 +121,10 @@ export class OrderListComponent implements OnInit{
   }
 
   filterOrders(){
-    this.dateFilterService.filterByDate(
-      this.startDate.toISOString(),
-      this.endDate.toISOString()
-    ).subscribe({
+    const start = this.startDate.toISOString().split('T')[0];
+    const end = this.endDate.toISOString().split('T')[0];
+
+    this.orderListService.filterByDate(start,end).subscribe({
       next: (data:any) => {
         this.dataSource.data = data;
       },

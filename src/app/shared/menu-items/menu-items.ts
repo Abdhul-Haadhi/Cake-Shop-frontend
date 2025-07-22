@@ -63,15 +63,7 @@ const MENUITEMS = [
   //   isVisible: false,
   //   auth: authenticationEnum.Home_Dashboard,
   // },
-  {
-    state: 'pages',
-    childState: 'order-list',
-    name: 'Order list',
-    type: 'link',
-    icon: 'av_timer',
-    isVisible: false,
-    auth: authenticationEnum.Home_Dashboard,
-  },
+  
   {
     state: 'pages',
     childState: 'employee-registration',
@@ -130,6 +122,15 @@ const MENUITEMS = [
     state: 'pages',
     childState: 'supplier-registration',
     name: 'Supplier registration',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
+    childState: 'order-list',
+    name: 'Order list',
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
