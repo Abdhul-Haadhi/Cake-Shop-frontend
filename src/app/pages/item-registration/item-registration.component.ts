@@ -17,7 +17,7 @@ import { NotificationService } from "src/app/services/notification-service/notif
   templateUrl: './item-registration.component.html',
   styleUrl: './item-registration.component.scss'
 })
-export class ItemRegistrationComponent implements OnInit{
+export class ItemRegistrationComponent implements OnInit {
   ItemRegForm: FormGroup;
 
   displayedColumns: string[] = ['itemName', 'itemId', 'category', 'actions'];
@@ -41,9 +41,9 @@ export class ItemRegistrationComponent implements OnInit{
     private notificationService: NotificationService,
   ) {
     this.ItemRegForm = this.fb.group({
-      itemName : new FormControl('',[Validators.required]),
-      itemId : new FormControl('',[Validators.required, Validators.pattern('^ITM[0-9]+$')]),
-      category : new FormControl('',[Validators.required]),
+      itemName: new FormControl('', [Validators.required]),
+      itemId: new FormControl('', [Validators.required, Validators.pattern('^ITM[0-9]+$')]),
+      category: new FormControl('', [Validators.required]),
     });
   }
 
@@ -55,60 +55,60 @@ export class ItemRegistrationComponent implements OnInit{
     try {
       if (this.mode === 'edit') {
         this.itemService.editData(this.selectedData?.id, this.ItemRegForm.value).subscribe({
-            next: (response: any) => {
-              console.log('put data Server Response', response);
-              this.msgService.showSuccess('Record Successfully Edited');
-              this.PopulateData();
-              setTimeout(() => {
-                this.selectedRow = null;
-              }, 2000);
-            },
-            error: (error) => {
-              console.log(error);
-              this.msgService.showError('Error in Edit Record' + error);
-            },
-          });
+          next: (response: any) => {
+            console.log('put data Server Response', response);
+            this.msgService.showSuccess('Record Successfully Edited');
+            this.PopulateData();
+            setTimeout(() => {
+              this.selectedRow = null;
+            }, 2000);
+          },
+          error: (error) => {
+            console.log(error);
+            this.msgService.showError('Error in Edit Record' + error);
+          },
+        });
       } else if (this.mode === 'Save') {
-      
+
 
         this.ItemRegForm.patchValue(this.ItemRegForm); // Ensures correct format
         console.log('Form Submitted');
         console.log(this.ItemRegForm.value);
 
         this.itemService.serviceCallPost(this.ItemRegForm.value).subscribe((response) => {
-            this.dataSource = new MatTableDataSource([
-              response,
-              ...this.dataSource.data,
-            ]);
-            this.dataSource.paginator = this.paginator; // Reassign paginator
-            this.dataSource.sort = this.sort; // Reassign sort
-            console.log('post data Server Response', response);
-            this.msgService.showSuccess('Record Successfully Added');
-            this.addNotification("Item Added Successfully");
+          this.dataSource = new MatTableDataSource([
+            response,
+            ...this.dataSource.data,
+          ]);
+          this.dataSource.paginator = this.paginator; // Reassign paginator
+          this.dataSource.sort = this.sort; // Reassign sort
+          console.log('post data Server Response', response);
+          this.msgService.showSuccess('Record Successfully Added');
+          this.addNotification("Item Added Successfully");
 
-            this.lastAddedRow = response; // Track the last added row
-            console.log('Added new row:', (response as { id: number }).id);
-            const addedID = (response as { id: number }).id;
+          this.lastAddedRow = response; // Track the last added row
+          console.log('Added new row:', (response as { id: number }).id);
+          const addedID = (response as { id: number }).id;
 
-            setTimeout(() => {
-              this.lastAddedRow = null;
-              const dataObj = {
-                stockItemID: addedID,
-                qty: 0,
-                stockItemName: this.ItemRegForm.value.itemName,
-              };
-              console.log(dataObj);
+          setTimeout(() => {
+            this.lastAddedRow = null;
+            const dataObj = {
+              stockItemID: addedID,
+              qty: 0,
+              stockItemName: this.ItemRegForm.value.itemName,
+            };
+            console.log(dataObj);
 
-              this.itemService.createStock(dataObj).subscribe({
-                next: (response: any) => {
-                  console.log('stock data Server Response', response);
-                },
-                error: (error) => {
-                  console.log(error);
-                },
-              });
-            }, 3000);
-          });
+            this.itemService.createStock(dataObj).subscribe({
+              next: (response: any) => {
+                console.log('stock data Server Response', response);
+              },
+              error: (error) => {
+                console.log(error);
+              },
+            });
+          }, 3000);
+        });
       }
 
       setTimeout(() => {
@@ -155,30 +155,30 @@ export class ItemRegistrationComponent implements OnInit{
   }
 
   public deleteData(data: any): void {
-    
+
     const id = data.id;
 
-    try{
+    try {
       this.itemService.deleteData(id).subscribe({
-        next: (response) =>{
+        next: (response) => {
           const index = this.dataSource.data.findIndex((element) => element.id === id);
-        if(index !== -1){
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
-        this.msgService.showSuccess('Data deleted successfully!');
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+          }
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.msgService.showSuccess('Data deleted successfully!');
         },
-        error: (error) =>{
+        error: (error) => {
           this.msgService.showError('Action failed with error ' + error);
         }
       });
     }
-    catch(error){
+    catch (error) {
       this.msgService.showError('Action failed with error ' + error);
     }
   }
 
-  public refreshData(): void{
+  public refreshData(): void {
     this.PopulateData();
   }
 
@@ -195,5 +195,5 @@ export class ItemRegistrationComponent implements OnInit{
   }
 
 
-  
+
 }

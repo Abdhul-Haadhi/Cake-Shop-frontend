@@ -11,6 +11,14 @@ export interface Menu {
 
 const MENUITEMS = [
   {
+    state: 'dashboard',
+    name: 'Dashboard',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
     state: 'pages',
     childState: 'featured-products',
     name: 'Featured products',
@@ -20,8 +28,9 @@ const MENUITEMS = [
     auth: authenticationEnum.Home_Dashboard,
   },
   {
-    state: 'dashboard',
-    name: 'Dashboard',
+    state: 'pages',
+    childState: 'feedback-and-rating',
+    name: 'Feedback and Rating',
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
@@ -63,7 +72,7 @@ const MENUITEMS = [
   //   isVisible: false,
   //   auth: authenticationEnum.Home_Dashboard,
   // },
-  
+
   {
     state: 'pages',
     childState: 'employee-registration',
@@ -111,8 +120,8 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
-    childState: 'feedback-and-rating',
-    name: 'Feedback and Rating',
+    childState: 'supplier-registration',
+    name: 'Supplier registration',
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
@@ -120,8 +129,8 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
-    childState: 'supplier-registration',
-    name: 'Supplier registration',
+    childState: 'customer-feedback',
+    name: 'Customer feedbacks',
     type: 'link',
     icon: 'av_timer',
     isVisible: false,
@@ -182,11 +191,12 @@ const MENUITEMS = [
     icon: 'view_headline',
     isVisible: false,
   },
-  { state: 'tabs', 
-    type: 'link', 
-    name: 'Tabs', 
-    icon: 'tab', 
-    isVisible: false 
+  {
+    state: 'tabs',
+    type: 'link',
+    name: 'Tabs',
+    icon: 'tab',
+    isVisible: false
   },
   {
     state: 'stepper',

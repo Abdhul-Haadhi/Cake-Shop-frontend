@@ -10,12 +10,7 @@
   <div class="main-body">
     <mat-form-field>
       <mat-label>Filter</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Ex. Admin"
-        #input
-      />
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Admin" #input />
     </mat-form-field>
 
     <div class="table-container">
@@ -44,31 +39,18 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
           <td mat-cell *matCellDef="let row">
-            <button
-              mat-icon-button
-              color="primary"
-              (click)="onEditPrivilageGroupClick(row)"
-            >
+            <button mat-icon-button color="primary" (click)="onEditPrivilageGroupClick(row)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="onDeletePrivilageGroupClick(row.id, row)"
-            >
+            <button mat-icon-button color="warn" (click)="onDeletePrivilageGroupClick(row.id, row)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          [cdkContextMenuTriggerFor]="row_menu"
-          [ngClass]="{ highlight: selectedRowIndex == row.id }"
-          (mouseup)="detectRightMouseClick($event, row)"
-        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [cdkContextMenuTriggerFor]="row_menu"
+          [ngClass]="{ highlight: selectedRowIndex == row.id }" (mouseup)="detectRightMouseClick($event, row)"></tr>
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
@@ -81,20 +63,15 @@
       <ng-template #row_menu>
         <ul class="menu" cdkMenu>
           <li (click)="onAddRemovePrivilegesClick()">
-            <a
-              ><i class="fa fa-eye" aria-hidden="true"></i>Add Remove
-              Privileges</a
-            >
+            <a><i class="fa fa-eye" aria-hidden="true"></i>Add Remove
+              Privileges</a>
           </li>
           <li (click)="onAddRemoveUsersClick()">
             <a><i class="fa fa-eye" aria-hidden="true"></i>Add Remove Users</a>
           </li>
         </ul>
       </ng-template>
-      <mat-paginator
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        aria-label="Select page of users"
-      ></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </div>
   </div>
 </div>

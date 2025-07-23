@@ -34,7 +34,7 @@ export class SystemPrivilegesComponent implements OnInit {
     private httpService: HttpService,
     private cacheService: CacheService,
     private _messageService: MessageServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.httpService.getSystemPrivileges().then((response: any) => {
@@ -88,18 +88,16 @@ export class SystemPrivilegesComponent implements OnInit {
     if (!row) {
       return `${this.isAllSourceSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${
-      this.sourceSelection.isSelected(row) ? 'deselect' : 'select'
-    } row ${row.position + 1}`;
+    return `${this.sourceSelection.isSelected(row) ? 'deselect' : 'select'
+      } row ${row.position + 1}`;
   }
 
   targetCheckboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllTargetSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${
-      this.targetSelection.isSelected(row) ? 'deselect' : 'select'
-    } row ${row.position + 1}`;
+    return `${this.targetSelection.isSelected(row) ? 'deselect' : 'select'
+      } row ${row.position + 1}`;
   }
 
   onSourceTableDataSelect(row?: any) {

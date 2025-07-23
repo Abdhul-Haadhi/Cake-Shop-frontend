@@ -59,4 +59,4 @@ import { AddRemoveTableComponent } from '../add-remove-table/add-remove-table.co
     MatMenuModule,
   ],
 })
-export class PrivilegesModule {}
+export class PrivilegesModule { }

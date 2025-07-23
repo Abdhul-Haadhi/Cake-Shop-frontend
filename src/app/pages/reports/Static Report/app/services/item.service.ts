@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from 'src/app/services/http.service';
 import { environment } from 'src/app/environments/environment';
@@ -19,15 +19,15 @@ export class ItemService {
       birthDate: '2020-01-15',
       salary: 95000
     },
-     {
+    {
       id: 2,
       name: 'Martha',
       age: 22,
-      phoneNumber:97867890,
+      phoneNumber: 97867890,
       birthDate: '1998-01-15',
       salary: 85000
     },
-      {
+    {
       id: 3,
       name: 'Harry',
       age: 24,
@@ -37,7 +37,7 @@ export class ItemService {
     }
   ];
 
-  itemList:Item[] = [];
+  itemList: Item[] = [];
 
   constructor(
     private http: HttpClient,
@@ -46,7 +46,7 @@ export class ItemService {
 
   private apiUrl = environment.baseUrl + '/items';
 
-    private getHeaders() {
+  private getHeaders() {
     let headers = {};
     const authToken = this.httpService.getAuthToken();
     if (authToken !== null) {
@@ -58,7 +58,7 @@ export class ItemService {
   }
 
 
-    getItems(): Observable<any> {
+  getItems(): Observable<any> {
 
     return new Observable<Item[]>(observer => {
       observer.next(this.mockItems);

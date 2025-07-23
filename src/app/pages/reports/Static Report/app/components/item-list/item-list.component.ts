@@ -20,7 +20,7 @@ import { ItemRegistrationFormService } from 'src/app/services/item-registration/
   templateUrl: './item-list.component.html',
   styleUrl: './item-list.component.css'
 })
-export class ItemListComponent implements OnInit{
+export class ItemListComponent implements OnInit {
   items: Item[] = [];
   filteredItems: Item[] = [];
   searchTerm: string = '';
@@ -31,19 +31,20 @@ export class ItemListComponent implements OnInit{
 
 
   displayedColumns: string[] = [
-      'itemNumber',
-      'itemName',
-      'category',
-      'addedDate',
-      'expDate',
-      'quantity'
-    ];
+    'itemNumber',
+    'itemName',
+    'quantity',
+    'category',
+    'addedDate',
+    'expDate',
+
+  ];
 
 
-    dataSource!: MatTableDataSource<any>;
-  
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @ViewChild(MatSort) sort!: MatSort;
+  dataSource!: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private itemService: ItemService,
@@ -51,11 +52,11 @@ export class ItemListComponent implements OnInit{
     private itmService: GrnServiceService,
     private itemReportService: ItemRegistrationFormService,
     private messageService: MessageServiceService
-  ) {}
+  ) { }
 
 
 
-    ngOnInit(): void {
+  ngOnInit(): void {
     this.populateData();
   }
 
@@ -101,31 +102,31 @@ export class ItemListComponent implements OnInit{
   //     catch(error){
   //       this.messageService.showError('Action failed with error' + error);
   //     }
-    
+
   // }
 
 
-  public populateData(): void{
-    try{
+  public populateData(): void {
+    try {
       this.itemReportService.getReportData().subscribe({
-      next: (dataList: any) => {
-        if(dataList.length <= 0){
-          return;
-        }
+        next: (dataList: any) => {
+          if (dataList.length <= 0) {
+            return;
+          }
 
-      this.dataSource = new MatTableDataSource(dataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    },
-    error: (error) => {
+          this.dataSource = new MatTableDataSource(dataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        }
+      });
+    }
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
+
   }
 
 
@@ -153,7 +154,7 @@ export class ItemListComponent implements OnInit{
   //   catch (error) {
   //     this.messageService.showError('Action failed with error ' + error);
   //   }
-    
+
   // }
 
   loadEmployees(): void {
@@ -181,11 +182,11 @@ export class ItemListComponent implements OnInit{
 
     const term = this.searchTerm.toLowerCase();
     this.filteredItems = this.items.filter(item =>
-      item.name.toLowerCase().includes(term)||
-      item.age.toString() .includes(term)||
+      item.name.toLowerCase().includes(term) ||
+      item.age.toString().includes(term) ||
       item.phoneNumber.toString().includes(term) ||
-      item.salary.toString().includes(term)||
-       item.id.toString().includes(term)
+      item.salary.toString().includes(term) ||
+      item.id.toString().includes(term)
     );
   }
 
@@ -226,7 +227,7 @@ export class ItemListComponent implements OnInit{
     return today.toLocaleDateString();
   }
 
-  public refreshData(): void{
+  public refreshData(): void {
     this.populateData();
   }
 

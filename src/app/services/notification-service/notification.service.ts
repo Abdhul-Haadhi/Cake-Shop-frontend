@@ -48,7 +48,7 @@ export class NotificationService {
   constructor(
     private httpService: HttpService,
     private http: HttpClient
-  ) {}
+  ) { }
 
   addNotification(message: string, type: 'success' | 'info' | 'warning' | 'error' = 'info', targetUser?: number) {
     const notification: Notification = {
@@ -97,7 +97,7 @@ export class NotificationService {
     let newNotifications: Notification[] = [];
 
     notification.forEach((notificationItem: Notification) => {
-      if (currentNotifications.findIndex((item: Notification) => item.id == notificationItem.id) == -1){
+      if (currentNotifications.findIndex((item: Notification) => item.id == notificationItem.id) == -1) {
         newNotifications.push(notificationItem);
       }
     });

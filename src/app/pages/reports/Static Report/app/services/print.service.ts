@@ -93,8 +93,7 @@ export class PrintService {
             </tr>
           </thead>
           <tbody>
-            ${
-              employees.map((emp: any) => `
+            ${employees.map((emp: any) => `
               <tr>
                 <td>${emp.employeeNumber}</td>
                 <td>${emp.fullName} </td>
@@ -141,7 +140,7 @@ export class PrintService {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>Employee Report</title>
+        <title>Item list Report</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -207,24 +206,23 @@ export class PrintService {
         <table>
           <thead>
             <tr>
-              <th>Employee No</th>
-              <th>Full Name</th>
-              <th>Birthday</th>
-              <th>Phone No</th>
-              <th>Email</th>
-              <th>Gender</th>
+              <th>Item No.</th>
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Category</th>
+              <th>Added date</th>
+              <th>Expiry date</th>
             </tr>
           </thead>
           <tbody>
-            ${
-              items.map((itm: any) => `
+            ${items.map((itm: any) => `
               <tr>
                 <td>${itm.itemId}</td>
                 <td>${itm.itemName} </td>
+                <td>${itm.qty}</td>
                 <td>${itm.category}</td>
                 <td>${this.formatDate(itm.addedDate)}</td>
                 <td>${this.formatDate(itm.expDate)}</td>
-                <td>${itm.qty}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -232,7 +230,7 @@ export class PrintService {
 
         <div class="footer">
           <p>Confidential - For internal use only</p>
-          <p>Total Employees: ${items.length}</p>
+          <p>Total Items: ${items.length}</p>
         </div>
       </body>
       </html>
@@ -260,11 +258,11 @@ export class PrintService {
 
 
 
-  public formatDate (date: any) {
-  const d = new Date(date);
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  return `${yyyy}/${mm}/${dd}`;
-};
+  public formatDate(date: any) {
+    const d = new Date(date);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}/${mm}/${dd}`;
+  };
 }

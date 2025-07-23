@@ -15,73 +15,73 @@
 
   <div class="table-container">
     <div class="table-section">
-        <div class="refresh-filter-section">
-            <div class="refresh-button">
-             <button mat-icon-button color="primary" (click)="refreshData()">
-              <mat-icon>refresh</mat-icon>
-             </button>
-            </div>
-          
-          <mat-form-field class="filter">
-            <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-          </mat-form-field>
+      <div class="refresh-filter-section">
+        <div class="refresh-button">
+          <button mat-icon-button color="primary" (click)="refreshData()">
+            <mat-icon>refresh</mat-icon>
+          </button>
         </div>
-    
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    
-          <ng-container matColumnDef="employeeNumber">
-            <th mat-header-cell *matHeaderCellDef> Employee Number </th>
-            <td mat-cell *matCellDef="let element"> {{element.employeeNumber}} </td>
-          </ng-container>
 
-          <ng-container matColumnDef="fullName">
-            <th mat-header-cell *matHeaderCellDef> Full Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
-          </ng-container>
+        <mat-form-field class="filter">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+        </mat-form-field>
+      </div>
 
-          <ng-container matColumnDef="nic">
-            <th mat-header-cell *matHeaderCellDef> NIC </th>
-            <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
-          </ng-container>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-          <ng-container matColumnDef="birthday">
-            <th mat-header-cell *matHeaderCellDef> Birthday </th>
-            <td mat-cell *matCellDef="let element"> {{element.birthday | date: 'MM-dd-YYYY'}} </td>
-          </ng-container>
+        <ng-container matColumnDef="employeeNumber">
+          <th mat-header-cell *matHeaderCellDef> Employee Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.employeeNumber}} </td>
+        </ng-container>
 
-          <ng-container matColumnDef="address">
-            <th mat-header-cell *matHeaderCellDef> Address </th>
-            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
-          </ng-container>
+        <ng-container matColumnDef="fullName">
+          <th mat-header-cell *matHeaderCellDef> Full Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+        </ng-container>
 
-          <ng-container matColumnDef="contactNumber">
-            <th mat-header-cell *matHeaderCellDef> Contact Number </th>
-            <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
-          </ng-container>
+        <ng-container matColumnDef="nic">
+          <th mat-header-cell *matHeaderCellDef> NIC </th>
+          <td mat-cell *matCellDef="let element"> {{element.nic}} </td>
+        </ng-container>
 
-          <ng-container matColumnDef="gender">
+        <ng-container matColumnDef="birthday">
+          <th mat-header-cell *matHeaderCellDef> Birthday </th>
+          <td mat-cell *matCellDef="let element"> {{element.birthday | date: 'MM-dd-YYYY'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+          <th mat-header-cell *matHeaderCellDef> Address </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="contactNumber">
+          <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
           <th mat-header-cell *matHeaderCellDef> Gender </th>
           <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
         </ng-container>
 
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef> Email </th>
-            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-          </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
 
-          <ng-container matColumnDef="jobRole">
-            <th mat-header-cell *matHeaderCellDef> Job Role </th>
-            <td mat-cell *matCellDef="let element"> {{element.jobRole}} </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
-        
-        
-      </div>
+        <ng-container matColumnDef="jobRole">
+          <th mat-header-cell *matHeaderCellDef> Job Role </th>
+          <td mat-cell *matCellDef="let element"> {{element.jobRole}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+
+    </div>
   </div>
 
   <div class="report-footer">

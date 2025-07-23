@@ -8,7 +8,7 @@ export class MessageServiceService {
   toasts: { message: string; duration: number; type: 'success' | 'error' }[] =
     [];
 
-  constructor(private toastrService: ToastrService) {}
+  constructor(private toastrService: ToastrService) { }
 
   showSuccess(message: string, duration: number = 3000) {
     this.toastrService.success('Scucess!', message, {

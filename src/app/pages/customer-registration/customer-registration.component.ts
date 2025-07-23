@@ -1,21 +1,24 @@
-import { Component, OnInit} from '@angular/core';
-import {FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
-import {provideNativeDateAdapter} from '@angular/material/core';
-import {ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
-import {inject} from '@angular/core';
+import { inject } from '@angular/core';
 import { CustomerRegistrationFormService } from 'src/app/services/customer-registration/customer-registration-form.service';
 import { NotificationService } from 'src/app/services/notification-service/notification.service';
-
 
 interface CustomerCategory {
   value: string;
   viewValue: string;
 }
-
 
 @Component({
   selector: 'app-customer-registration',
@@ -24,7 +27,7 @@ interface CustomerCategory {
   providers: [provideNativeDateAdapter()],
   styleUrl: './customer-registration.component.scss',
 })
-export class CustomerRegistrationComponent implements OnInit{
+export class CustomerRegistrationComponent implements OnInit {
   CustRegForm: FormGroup;
 
   maxDate: Date;
@@ -36,10 +39,9 @@ export class CustomerRegistrationComponent implements OnInit{
   });
 
   customerCategory: CustomerCategory[] = [
-    {value: 'single', viewValue: 'Single order'},
-    {value: 'bulk', viewValue: 'Bulk order'},
+    { value: 'single', viewValue: 'Single order' },
+    { value: 'bulk', viewValue: 'Bulk order' },
   ];
-
 
   displayedColumns: string[] = [
     'customerName',
@@ -56,62 +58,63 @@ export class CustomerRegistrationComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   isButtonDisabled = false;
   saveButtonLabel: string = 'Save';
   submitted = false;
   mode = 'add';
-  selectedData!: { id: any; };
+  selectedData!: { id: any };
   showForm = false;
 
-
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private custService: CustomerRegistrationFormService,
     private messageService: MessageServiceService,
-    private notificationService: NotificationService,
-  ){
-
-
+    private notificationService: NotificationService
+  ) {
     const today = new Date();
     this.maxDate = new Date();
 
     this.CustRegForm = this.fb.group({
-      customerName : new FormControl('',[Validators.required]),
-      email : new FormControl('',[Validators.required,Validators.email]),
-      address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.pattern('^[0-9]{10}$')]),
-      birthday : new FormControl('',[Validators.required]),
-      customerCategory : new FormControl('',[Validators.required]),
+      customerName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      address: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(150),
+      ]),
+      contactNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]{10}$'),
+      ]),
+      birthday: new FormControl('', [Validators.required]),
+      customerCategory: new FormControl('', [Validators.required]),
       loyaltyCustomer: new FormControl(''),
     });
   }
-
 
   ngOnInit(): void {
     this.populateData();
   }
 
-  public populateData(): void{
-    try{
+  public populateData(): void {
+    try {
       this.custService.getData().subscribe({
-      next: (dataList: any) => {
-        if(dataList.length <= 0){
-          return;
-        }
+        next: (dataList: any) => {
+          if (dataList.length <= 0) {
+            return;
+          }
 
-      this.dataSource = new MatTableDataSource(dataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    },
-    error: (error) => {
+          this.dataSource = new MatTableDataSource(dataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        },
+      });
+    } catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
   }
 
   applyFilter(event: Event) {
@@ -122,67 +125,71 @@ export class CustomerRegistrationComponent implements OnInit{
     }
   }
 
-  onSubmit(){
-    try{
+  onSubmit() {
+    try {
       this.submitted = true;
-      if(this.CustRegForm.invalid){
+      if (this.CustRegForm.invalid) {
         return;
       }
-      if(this.mode === 'add'){
+      if (this.mode === 'add') {
+        //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
+        //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+        //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
+        //     }
+        //     else{
+        //         this.dataSource = new MatTableDataSource([Response]);
+        //     }
+        //     this.messageService.showSuccess('Data saved successfully!');
 
-      //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
-      //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-      //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
-      //     }
-      //     else{
-      //         this.dataSource = new MatTableDataSource([Response]);
-      //     }
-      //     this.messageService.showSuccess('Data saved successfully!');
-
-      // });
-
+        // });
 
         this.custService.serviceCall(this.CustRegForm.value).subscribe({
           next: (response: any) => {
-            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-                    this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-                  }
-                  else{
-                      this.dataSource = new MatTableDataSource([response]);
-                  }
-                  this.messageService.showSuccess('Data saved successfully!');
-                  this.addNotification("Cutomer Added Successfully");
+            if (
+              this.dataSource &&
+              this.dataSource.data &&
+              this.dataSource.data.length > 0
+            ) {
+              this.dataSource = new MatTableDataSource([
+                response,
+                ...this.dataSource.data,
+              ]);
+            } else {
+              this.dataSource = new MatTableDataSource([response]);
+            }
+            this.messageService.showSuccess('Data saved successfully!');
+            this.addNotification('Cutomer Added Successfully');
           },
-          error: (error) =>{
+          error: (error) => {
             this.messageService.showError('Action failed with error' + error);
-          }
+          },
         });
-    }
-    else if(this.mode === 'edit'){
-      this.custService.editData(this.selectedData?.id, this.CustRegForm.value).subscribe({
-        next:(response) =>{
-          let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-          this.dataSource.data[elementIndex] = response;
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data edited successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
-        }
-      })
-    }
-    this.mode = 'add';
-    this.CustRegForm.disable();
-    this.isButtonDisabled = true;
-    }
-    catch(error){
+      } else if (this.mode === 'edit') {
+        this.custService
+          .editData(this.selectedData?.id, this.CustRegForm.value)
+          .subscribe({
+            next: (response) => {
+              let elementIndex = this.dataSource.data.findIndex(
+                (element) => element.id === this.selectedData?.id
+              );
+              this.dataSource.data[elementIndex] = response;
+              this.dataSource = new MatTableDataSource(this.dataSource.data);
+              this.messageService.showSuccess('Data edited successfully!');
+            },
+            error: (error) => {
+              this.messageService.showError('Action failed with error' + error);
+            },
+          });
+      }
+      this.mode = 'add';
+      this.CustRegForm.disable();
+      this.isButtonDisabled = true;
+    } catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
 
-
-
-  public resetData(): void{
+  public resetData(): void {
     this.CustRegForm.reset();
     this.CustRegForm.updateValueAndValidity();
     this.saveButtonLabel = 'Save';
@@ -203,36 +210,39 @@ export class CustomerRegistrationComponent implements OnInit{
   }
 
   public deleteData(data: any): void {
-    
     const id = data.id;
 
-    try{
+    try {
       this.custService.deleteData(id).subscribe({
-        next: (response) =>{
-          const index = this.dataSource.data.findIndex((element) => element.id === id);
-        if(index !== -1){
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
-        this.messageService.showSuccess('Data edited successfully!');
+        next: (response) => {
+          const index = this.dataSource.data.findIndex(
+            (element) => element.id === id
+          );
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+          }
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.messageService.showSuccess('Data edited successfully!');
         },
-        error: (error) =>{
+        error: (error) => {
           this.messageService.showError('Action failed with error' + error);
-        }
+        },
       });
-    }
-    catch(error){
+    } catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-
-    
   }
-  public refreshData(): void{
+
+  public refreshData(): void {
     this.populateData();
   }
 
-  public addNotification(details: any): void{
-    this.notificationService.addNotification('Customer added Successfully', 'success',1);
+  public addNotification(details: any): void {
+    this.notificationService.addNotification(
+      'Customer added Successfully',
+      'success',
+      1
+    );
   }
 
   closeForm() {
@@ -240,5 +250,4 @@ export class CustomerRegistrationComponent implements OnInit{
     this.CustRegForm.reset();
     this.submitted = false;
   }
-  
 }

@@ -26,10 +26,29 @@ import { GrnComponent } from './grn/grn.component';
 import { EmployeeListComponent } from './reports/Static Report/app/components/employee-list/employee-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ItemListComponent } from './reports/Static Report/app/components/item-list/item-list.component';
-
+import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.component';
 
 @NgModule({
-  declarations: [FormDemoComponent,FormTaskComponent,EmployeeRegistrationComponent,CustomerRegistrationComponent,ItemRegistrationComponent,ProductRegistrationComponent,FeaturedProductsComponent,PopupBoxComponent,FeedbackAndRatingComponent,OrderPageComponent,CartPageComponent,SupplierRegistrationComponent,CheckoutPageComponent,GrnComponent,EmployeeListComponent,OrderListComponent,ItemListComponent],
+  declarations: [
+    FormDemoComponent,
+    FormTaskComponent,
+    EmployeeRegistrationComponent,
+    CustomerRegistrationComponent,
+    ItemRegistrationComponent,
+    ProductRegistrationComponent,
+    FeaturedProductsComponent,
+    PopupBoxComponent,
+    FeedbackAndRatingComponent,
+    OrderPageComponent,
+    CartPageComponent,
+    SupplierRegistrationComponent,
+    CheckoutPageComponent,
+    GrnComponent,
+    EmployeeListComponent,
+    OrderListComponent,
+    ItemListComponent,
+    CutomerFeedbackComponent,
+  ],
   imports: [
     CommonModule,
     DemoMaterialModule,
@@ -41,8 +60,7 @@ import { ItemListComponent } from './reports/Static Report/app/components/item-l
     MatButtonModule,
     FontAwesomeModule,
     RouterModule.forChild(PagesRoutes),
-    
   ],
   exports: [],
 })
-export class PagesModule {}
+export class PagesModule { }

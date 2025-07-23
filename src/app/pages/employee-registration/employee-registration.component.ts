@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractControl, FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
-import {provideNativeDateAdapter} from '@angular/material/core';
-import {ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeRegistrationFormService } from 'src/app/services/employee-registration/employee-registration-form.service';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
@@ -11,7 +11,7 @@ import { NotificationService } from 'src/app/services/notification-service/notif
 
 interface JobRole {
   value: string;
-  viewValue: string; 
+  viewValue: string;
 }
 
 @Component({
@@ -22,16 +22,16 @@ interface JobRole {
   styleUrl: './employee-registration.component.scss',
 })
 
-export class EmployeeRegistrationComponent implements OnInit  {
+export class EmployeeRegistrationComponent implements OnInit {
   EmpRegForm: FormGroup;
 
   maxDate: Date;
 
   jobRole: JobRole[] = [
-    {value: 'cakeMaker', viewValue: 'Cake maker'},
-    {value: 'decorator', viewValue: 'Decorator'},
+    { value: 'cakeMaker', viewValue: 'Cake maker' },
+    { value: 'decorator', viewValue: 'Decorator' },
   ];
-  
+
 
   displayedColumns: string[] = [
     'employeeNumber',
@@ -50,21 +50,21 @@ export class EmployeeRegistrationComponent implements OnInit  {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   isButtonDisabled = false;
   saveButtonLabel: string = 'Save';
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
   showForm = false;
- 
-  
+
+
 
   constructor(private fb: FormBuilder,
     private empService: EmployeeRegistrationFormService,
     private messageService: MessageServiceService,
     private notificationService: NotificationService
-  ){
+  ) {
 
     const today = new Date();
     this.maxDate = new Date(
@@ -74,43 +74,43 @@ export class EmployeeRegistrationComponent implements OnInit  {
     );
 
     this.EmpRegForm = this.fb.group({
-      employeeNumber : new FormControl('',[Validators.required, Validators.pattern('^EMP[0-9]+$')]),
-      fullName : new FormControl('',[Validators.required, Validators.pattern('^[A-Za-z ]+$')]),
-      nic : new FormControl('',[Validators.required, Validators.pattern('^[0-9]{9}[vVxX]$|^[0-9]{12}')]),
-      birthday : new FormControl('',[Validators.required]),
-      address : new FormControl('',[Validators.required,Validators.maxLength(150)]),
-      contactNumber : new FormControl('',[Validators.required,Validators.pattern('^[0-9]{10}$')]),
-      gender : new FormControl('',[Validators.required]),
-      email : new FormControl('',[Validators.required,Validators.email]),
-      jobRole : new FormControl('',[Validators.required]),
+      employeeNumber: new FormControl('', [Validators.required, Validators.pattern('^EMP[0-9]+$')]),
+      fullName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]+$')]),
+      nic: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}[vVxX]$|^[0-9]{12}')]),
+      birthday: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required, Validators.maxLength(150)]),
+      contactNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
+      gender: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      jobRole: new FormControl('', [Validators.required]),
     });
   }
   ngOnInit(): void {
     this.populateData();
   }
 
-  
-  public populateData(): void{
-    try{
-      this.empService.getData().subscribe({
-      next: (dataList: any) => {
-        if(dataList.length <= 0){
-          return;
-        }
 
-      this.dataSource = new MatTableDataSource(dataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    },
-    error: (error) => {
+  public populateData(): void {
+    try {
+      this.empService.getData().subscribe({
+        next: (dataList: any) => {
+          if (dataList.length <= 0) {
+            return;
+          }
+
+          this.dataSource = new MatTableDataSource(dataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        }
+      });
+    }
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
+
   }
 
 
@@ -122,67 +122,67 @@ export class EmployeeRegistrationComponent implements OnInit  {
     }
   }
 
-  onSubmit(){
-    try{
+  onSubmit() {
+    try {
       this.submitted = true;
-      if(this.EmpRegForm.invalid){
+      if (this.EmpRegForm.invalid) {
         return;
       }
-      if(this.mode === 'add'){
+      if (this.mode === 'add') {
 
-      //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
-      //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-      //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
-      //     }
-      //     else{
-      //         this.dataSource = new MatTableDataSource([Response]);
-      //     }
-      //     this.messageService.showSuccess('Data saved successfully!');
+        //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
+        //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+        //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
+        //     }
+        //     else{
+        //         this.dataSource = new MatTableDataSource([Response]);
+        //     }
+        //     this.messageService.showSuccess('Data saved successfully!');
 
-      // });
+        // });
 
 
         this.empService.serviceCall(this.EmpRegForm.value).subscribe({
           next: (response: any) => {
-            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-                    this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-                  }
-                  else{
-                      this.dataSource = new MatTableDataSource([response]);
-                  }
-                  this.messageService.showSuccess('Data saved successfully!');
-                  this.addNotification("Employee Added Successfully");
+            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
+              this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+            }
+            else {
+              this.dataSource = new MatTableDataSource([response]);
+            }
+            this.messageService.showSuccess('Data saved successfully!');
+            this.addNotification("Employee Added Successfully");
           },
-          error: (error) =>{
+          error: (error) => {
             this.messageService.showError('Action failed with error' + error);
           }
         });
+      }
+      else if (this.mode === 'edit') {
+        this.empService.editData(this.selectedData?.id, this.EmpRegForm.value).subscribe({
+          next: (response) => {
+            let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
+            this.dataSource.data[elementIndex] = response;
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data edited successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          }
+        })
+      }
+      this.mode = 'add';
+      this.EmpRegForm.disable();
+      this.isButtonDisabled = true;
     }
-    else if(this.mode === 'edit'){
-      this.empService.editData(this.selectedData?.id, this.EmpRegForm.value).subscribe({
-        next:(response) =>{
-          let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-          this.dataSource.data[elementIndex] = response;
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data edited successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
-        }
-      })
-    }
-    this.mode = 'add';
-    this.EmpRegForm.disable();
-    this.isButtonDisabled = true;
-    }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
 
-  
-  
-  public resetData(): void{
+
+
+  public resetData(): void {
     this.EmpRegForm.reset();
     this.EmpRegForm.updateValueAndValidity();
     this.saveButtonLabel = 'Save';
@@ -212,35 +212,35 @@ export class EmployeeRegistrationComponent implements OnInit  {
 
   public deleteData(data: any): void {
     const id = data.id;
-    try{
+    try {
       this.empService.deleteData(id).subscribe({
-        next: (Response) =>{
+        next: (Response) => {
           const index = this.dataSource.data.findIndex((element) => element.id === id);
-        if(index !== -1){
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
-        this.messageService.showSuccess('Data edited successfully!');
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+          }
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.messageService.showSuccess('Data edited successfully!');
         },
-        error: (error) =>{
+        error: (error) => {
           this.messageService.showError('Action failed with error' + error);
         }
       });
     }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
 
 
-  public refreshData(): void{
+  public refreshData(): void {
     this.populateData();
   }
 
   public addNotification(details: any): void {
     this.notificationService.addNotification('Employee Added Successfully', 'success', 1);
   }
- 
+
   closeForm() {
     this.showForm = false;
     this.EmpRegForm.reset();
@@ -248,4 +248,3 @@ export class EmployeeRegistrationComponent implements OnInit  {
   }
 
 }
- 

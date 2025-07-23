@@ -27,7 +27,7 @@ interface Suppliers {
   templateUrl: './grn.component.html',
   styleUrl: './grn.component.scss'
 })
-export class GrnComponent implements OnInit{
+export class GrnComponent implements OnInit {
 
   grnForm: FormGroup;
   innerForm: FormGroup;
@@ -88,33 +88,33 @@ export class GrnComponent implements OnInit{
 
 
   constructor(
-  private fb: FormBuilder,
-  private grnService: GrnServiceService,
-  private messageService: MessageServiceService
-  ){
-  // GRN form
-  this.grnForm = this.fb.group({
-    grnno: new FormControl(''),
-    supplier: new FormControl('', Validators.required),
-    supplierId: new FormControl(''),
-    addedUser: new FormControl(localStorage.getItem('user_name')),
-    tcost: new FormControl('',Validators.min(1)),
-    addedDate: new FormControl(new Date(), Validators.required),
-  });
+    private fb: FormBuilder,
+    private grnService: GrnServiceService,
+    private messageService: MessageServiceService
+  ) {
+    // GRN form
+    this.grnForm = this.fb.group({
+      grnno: new FormControl(''),
+      supplier: new FormControl('', Validators.required),
+      supplierId: new FormControl(''),
+      addedUser: new FormControl(localStorage.getItem('user_name')),
+      tcost: new FormControl('', Validators.min(1)),
+      addedDate: new FormControl(new Date(), Validators.required),
+    });
 
 
-  // Inner form
-  this.innerForm = this.fb.group({
-    grnno: new FormControl(''),
-    itemID: new FormControl(''),
-    item: new FormControl(''),
-    expdate: new FormControl('', Validators.required),
-    qty: new FormControl('', Validators.required),
-    cost: new FormControl('', Validators.required),
-    ucost: new FormControl(''),
-    availableQty: new FormControl(''),
-    itemCategory: new FormControl(''),
-  })
+    // Inner form
+    this.innerForm = this.fb.group({
+      grnno: new FormControl(''),
+      itemID: new FormControl(''),
+      item: new FormControl(''),
+      expdate: new FormControl('', Validators.required),
+      qty: new FormControl('', Validators.required),
+      cost: new FormControl('', Validators.required),
+      ucost: new FormControl(''),
+      availableQty: new FormControl(''),
+      itemCategory: new FormControl(''),
+    })
   }
 
 
@@ -125,51 +125,51 @@ export class GrnComponent implements OnInit{
     this.getInnerGRN();
     this.dataPopulate();
 
-    this.grnForm.valueChanges.subscribe((values)=>{
-    // console.log('Form changed:', values);
+    this.grnForm.valueChanges.subscribe((values) => {
+      // console.log('Form changed:', values);
     });
 
     this.innerForm.valueChanges.pipe(
-    debounceTime(300)
-  )
-  .subscribe((values)=>{
-    this.getUnitCost(values.qty, values.cost)
-  });
+      debounceTime(300)
+    )
+      .subscribe((values) => {
+        this.getUnitCost(values.qty, values.cost)
+      });
 
   }
 
 
-  dataPopulate():void{
-  try{
-    this.grnService.getData().subscribe((response: any)=>{
-      console.log('get GRN all Server Response', response);
-      this.dataSourceOuter = new MatTableDataSource(response);
-      this.dataSourceOuter.paginator = this.paginator;
-      this.dataSourceOuter.sort = this.sort;
-    });
-  }
-  catch(error){
-    console.log(error);
-    
-  }
-  }
-  
-   // ------- for item selection---------------
-  onItemChange(selectedItem: any): void{
-  console.log("selectedItem");
+  dataPopulate(): void {
+    try {
+      this.grnService.getData().subscribe((response: any) => {
+        console.log('get GRN all Server Response', response);
+        this.dataSourceOuter = new MatTableDataSource(response);
+        this.dataSourceOuter.paginator = this.paginator;
+        this.dataSourceOuter.sort = this.sort;
+      });
+    }
+    catch (error) {
+      console.log(error);
 
-  const newItem = this.items.find(
-    (item: { id: any }) => item.id === selectedItem
-  );
-
-  if (selectedItem) {
-    this.innerForm.patchValue({ item: newItem?.itemName });
-    this.innerForm.patchValue({ itemCategory: newItem.category });
-    console.log(newItem?.itemName);
+    }
   }
 
-  if (selectedItem){
-    this.grnService.getQty(selectedItem).subscribe({
+  // ------- for item selection---------------
+  onItemChange(selectedItem: any): void {
+    console.log("selectedItem");
+
+    const newItem = this.items.find(
+      (item: { id: any }) => item.id === selectedItem
+    );
+
+    if (selectedItem) {
+      this.innerForm.patchValue({ item: newItem?.itemName });
+      this.innerForm.patchValue({ itemCategory: newItem.category });
+      console.log(newItem?.itemName);
+    }
+
+    if (selectedItem) {
+      this.grnService.getQty(selectedItem).subscribe({
         next: (response: any) => {
           console.log('this is item aval qty = ' + JSON.stringify(response));
           //patch value to availableQty from responses qty - response is stock object
@@ -179,20 +179,20 @@ export class GrnComponent implements OnInit{
           console.log(error);
         },
       });
-  }
-  else{
-    console.log('No item selected or item ID is undefined');
-  }
+    }
+    else {
+      console.log('No item selected or item ID is undefined');
+    }
 
   }
 
   // ------- for supplier selection---------------
-  onSupplierChange(selectedSupplierId: any): void{
+  onSupplierChange(selectedSupplierId: any): void {
     console.log("selectedSupplier");
 
     const selectedSupplier = this.suppliers.find
       ((supplier: { id: any; }) => supplier.id === selectedSupplierId
-    );
+      );
 
     if (selectedSupplier) {
       this.grnForm.patchValue({ supplier: selectedSupplier.id, supplierId: selectedSupplier.supplierId, });
@@ -201,12 +201,12 @@ export class GrnComponent implements OnInit{
 
   }
 
-  refreshData(){
+  refreshData() {
     this.selectedRow = null;
-    if (this.inputField){
+    if (this.inputField) {
       this.inputField.nativeElement.value = '';
     }
-    this.dataSourceOuter.filter = ''; 
+    this.dataSourceOuter.filter = '';
     if (this.dataSourceOuter.paginator) {
       this.dataSourceOuter.paginator.firstPage();
     }
@@ -220,9 +220,9 @@ export class GrnComponent implements OnInit{
     }
   }
 
-  deleteDataOuter(data: any){
+  deleteDataOuter(data: any) {
     const id = data.grnno;
-    this.grnService.deleteDataOuter(id).subscribe((response)=>{
+    this.grnService.deleteDataOuter(id).subscribe((response) => {
       console.log('post data Server delete Response', response);
       this.messageService.showSuccess('GRN Record Successfully Deleted');
       this.dataPopulate();
@@ -231,9 +231,9 @@ export class GrnComponent implements OnInit{
     })
   }
 
-  editDataOuter(data: any){
+  editDataOuter(data: any) {
     this.grnForm.patchValue(data);
-    this.grnForm.patchValue({addedDate: new Date(data.addedDate)});
+    this.grnForm.patchValue({ addedDate: new Date(data.addedDate) });
     this.originalData = this.grnForm.value;
     console.log(data.grnno);
     this.saveBtnLabel = 'edit';
@@ -246,16 +246,16 @@ export class GrnComponent implements OnInit{
     this.editDisable = false;
     this.deleteDisable = false;
 
-    if(this.selectedRow && this.selectedRow.grnno === data.grnno){
+    if (this.selectedRow && this.selectedRow.grnno === data.grnno) {
       this.selectedRow = null;
     }
-    else{
+    else {
       this.selectedRow = data;
     }
   }
 
-  checkEdit(formData: any): number{
-    const hasChanges = Object.keys(formData).some((key)=>{
+  checkEdit(formData: any): number {
+    const hasChanges = Object.keys(formData).some((key) => {
       const originalValue = this.originalData[key];
       const formValue = formData[key];
 
@@ -267,19 +267,19 @@ export class GrnComponent implements OnInit{
       return normalizedOriginal !== normalizedForm;
     });
 
-    if (!hasChanges){
+    if (!hasChanges) {
       this.messageService.showWarining('No changes made');
       this.isButtonDisabled = false;
       return 0;
     }
-    else{
+    else {
       return 1;
     }
   }
 
-  onSubmit(){
-    try{
-      if (this.mode === 'edit'){
+  onSubmit() {
+    try {
+      if (this.mode === 'edit') {
         const checked = this.checkEdit(this.grnForm.value);
         if (checked == 1 || this.isinnerEdit == true) {
           this.grnService
@@ -312,11 +312,11 @@ export class GrnComponent implements OnInit{
           }, 500);
         }
       }
-      else if (this.mode === 'Save'){
+      else if (this.mode === 'Save') {
         const grnnum = this.grnForm.get('grnno')?.value;
         this.grnForm.patchValue({ grnno: grnnum });
 
-        this.grnService.serviceCallPost(this.grnForm.value).subscribe((response)=>{
+        this.grnService.serviceCallPost(this.grnForm.value).subscribe((response) => {
           this.dataSourceOuter = new MatTableDataSource([
             response,
             ...this.dataSourceOuter.data,
@@ -331,80 +331,80 @@ export class GrnComponent implements OnInit{
           console.log('Added new row:', response);
 
           setTimeout(() => {
-              this.editDisable = true;
-              this.deleteDisable = true;
-              this.allOuterBtnDisabled = false;
-              this.resetOuterDisabled = false;
-              this.getInnerGRN();
-              this.lastAddedRow = null;
-              this.dataPopulate();
-            }, 1000);
+            this.editDisable = true;
+            this.deleteDisable = true;
+            this.allOuterBtnDisabled = false;
+            this.resetOuterDisabled = false;
+            this.getInnerGRN();
+            this.lastAddedRow = null;
+            this.dataPopulate();
+          }, 1000);
 
-            setTimeout(() => {
-              this.isButtonDisabled = true;
-              this.grnForm.disable();
-            }, 500);
+          setTimeout(() => {
+            this.isButtonDisabled = true;
+            this.grnForm.disable();
+          }, 500);
 
-            try{
-              const itemList = this.allItems;
-              console.log('items:', itemList);
+          try {
+            const itemList = this.allItems;
+            console.log('items:', itemList);
 
-              this.grnService.stockUpdate(itemList).subscribe({
-                next: (response) => {
-                  console.log('post data Server Response', response);
-                },
-                error: (error) => {
-                  console.error('Stock update error:', error);
-                },
-              });
-            }
-            catch(e){
-              console.error('Error in stockUpdate block:', e);
-            }
+            this.grnService.stockUpdate(itemList).subscribe({
+              next: (response) => {
+                console.log('post data Server Response', response);
+              },
+              error: (error) => {
+                console.error('Stock update error:', error);
+              },
+            });
+          }
+          catch (e) {
+            console.error('Error in stockUpdate block:', e);
+          }
         });
       }
     }
-    catch(error){
+    catch (error) {
       console.log(error);
       this.messageService.showError('Error ' + error);
     }
   }
-   
-  onSubmitInner(){
-    try{
-      if (this.innermode === 'inneredit'){
+
+  onSubmitInner() {
+    try {
+      if (this.innermode === 'inneredit') {
         this.isinnerEdit = true;
 
         console.log(JSON.stringify(this.innerForm.value) + 'on edit inner');
 
         this.grnService.innerEditData(this.innerselectedData?.id, this.innerForm.value).subscribe({
-          next: (response: any)=>{
+          next: (response: any) => {
             console.log('put data Server Response', response);
-              this.messageService.showSuccess('Inner Record Successfully Edited');
-              this.getInnerGRN();
-              this.innerForm.disable();
+            this.messageService.showSuccess('Inner Record Successfully Edited');
+            this.getInnerGRN();
+            this.innerForm.disable();
 
-              this.resetOuterDisabled = true;
-              this.allOuterBtnDisabled = true;
+            this.resetOuterDisabled = true;
+            this.allOuterBtnDisabled = true;
 
-              setTimeout(()=>{
-                this.innerselectedRow = null;
-                if (this.mode == 'edit'){
-                  const innerItem = response;
+            setTimeout(() => {
+              this.innerselectedRow = null;
+              if (this.mode == 'edit') {
+                const innerItem = response;
 
-                  this.grnService.stockUpdateEdit(innerItem).subscribe((response)=>{
-                    console.log('post data Server Stock update edit Response',response);
-                  });
-                }
-              },1000);
+                this.grnService.stockUpdateEdit(innerItem).subscribe((response) => {
+                  console.log('post data Server Stock update edit Response', response);
+                });
+              }
+            }, 1000);
           },
           error: (error) => {
-              console.log(error);
-              this.messageService.showError('Error in Edit Record' + error);
-            },
+            console.log(error);
+            this.messageService.showError('Error in Edit Record' + error);
+          },
         });
       }
-      else if(this.innermode === 'inneradd'){
+      else if (this.innermode === 'inneradd') {
         console.log('before' + this.innerForm);
 
         //take grn number from demoForm current grn
@@ -682,7 +682,7 @@ export class GrnComponent implements OnInit{
     this.innerForm.enable();
     this.isInnerButtonDisabled = false;
 
-    setTimeout(() => {}, 1000);
+    setTimeout(() => { }, 1000);
 
     if (this.innerselectedRow && this.innerselectedRow.id === data.id) {
       this.innerselectedRow = null;

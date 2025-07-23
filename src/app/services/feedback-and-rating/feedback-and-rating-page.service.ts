@@ -8,9 +8,9 @@ import { environment } from 'src/app/environments/environment';
 })
 export class FeedbackAndRatingPageService {
 
-constructor(private http: HttpClient, private httpService: HttpService) { }
+  constructor(private http: HttpClient, private httpService: HttpService) { }
 
-  serviceCall(from_details:any){
+  serviceCall(from_details: any) {
     console.log('In the service');
 
     const requestUrl = environment.baseUrl + '/feedback-and-rating';
@@ -24,10 +24,10 @@ constructor(private http: HttpClient, private httpService: HttpService) { }
       };
     }
 
-    return this.http.post(requestUrl,from_details,{headers:headers})
+    return this.http.post(requestUrl, from_details, { headers: headers })
   }
 
-  getData(){
+  getData() {
     const requestUrl = environment.baseUrl + '/feedback-and-rating';
 
     let headers = {};
@@ -38,7 +38,24 @@ constructor(private http: HttpClient, private httpService: HttpService) { }
       };
     }
 
-    return this.http.get(requestUrl,headers)
+    return this.http.get(requestUrl, headers)
+  }
+
+  deleteData(id: number) {
+    console.log('In delete data');
+
+    const requestUrl = environment.baseUrl + '/feedback-and-rating/' + id.toString();
+
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.delete(requestUrl, { headers: headers })
   }
 
 }

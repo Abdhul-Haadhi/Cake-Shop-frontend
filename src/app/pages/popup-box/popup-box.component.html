@@ -1,11 +1,7 @@
 <div class="popup-box">
   <h2 mat-dialog-title>{{ data.product }}</h2>
   <div class="popup-content">
-    <img
-      [src]="data.image"
-      [alt]="data.product"
-      style="max-width: 250px; border-radius: 8px"
-    />
+    <img [src]="data.image" [alt]="data.product" style="max-width: 250px; border-radius: 8px" />
 
     <div class="product-details">
       <p>{{ data.description }}</p>
@@ -16,10 +12,10 @@
 
       <p><strong>Price: Rs.</strong> {{ data.finalPrice }}</p>
       <div class="mat-dialog-actions">
-          <button mat-raised-button color="primary" (click)="goToOrderPage()">View details</button>
-          <button (click)="closePopup()" mat-raised-button color="warn">Close</button>
+        <button mat-raised-button color="primary" (click)="goToOrderPage()">View details</button>
+        <button (click)="closePopup()" mat-raised-button color="warn">Close</button>
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -28,7 +24,7 @@
 
 
 
- <!-- <div class="popup-box" *ngFor="let product of products">
+<!-- <div class="popup-box" *ngFor="let product of products">
   <h2 mat-dialog-title>{{ product.product }}</h2>
   <div class="popup-content">
     <img

@@ -78,17 +78,17 @@ import { ProductStateServiceService } from 'src/app/services/product-registratio
   templateUrl: './popup-box.component.html',
   styleUrl: './popup-box.component.scss'
 })
-export class PopupBoxComponent implements OnInit{
+export class PopupBoxComponent implements OnInit {
 
-   products: any[] = [];
+  products: any[] = [];
 
 
-  constructor(private productState: ProductStateServiceService, 
-    private router: Router, 
+  constructor(private productState: ProductStateServiceService,
+    private router: Router,
     private productService: ProductRegistrationFormService,
     private messageService: MessageServiceService,
-    @Inject(MAT_DIALOG_DATA) public data: any, 
-    public dialogRef: MatDialogRef<PopupBoxComponent>) {}
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<PopupBoxComponent>) { }
 
 
 
@@ -105,20 +105,20 @@ export class PopupBoxComponent implements OnInit{
     this.productState.setProduct(this.data);
     this.dialogRef.close();
     this.router.navigate(['/pages/order-page'])
-    
+
   }
 
-  public getProducts(){
-    try{
+  public getProducts() {
+    try {
       this.products = [];
-      this.productService.getAllProducts().subscribe(response =>{
-        response.forEach((element:(any)) =>{
-          element.image = 'data:image/jpge;base64,'+element.image;
+      this.productService.getAllProducts().subscribe(response => {
+        response.forEach((element: (any)) => {
+          element.image = 'data:image/jpge;base64,' + element.image;
           this.products.push(element);
         })
       });
     }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }

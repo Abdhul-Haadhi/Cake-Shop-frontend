@@ -10,89 +10,89 @@ export class OrderListServiceService {
 
   constructor(private http: HttpClient, private httpService: HttpService) { }
 
-    serviceCall(from_details:any){
-          console.log('In the service');
-      
-          const requestUrl = environment.baseUrl + '/order-list';
-      
-      
-          let headers = {};
-      
-          if (this.httpService.getAuthToken() !== null) {
-            headers = {
-              Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-            };
-          }
-      
-          return this.http.post(requestUrl,from_details,{headers:headers})
-        }
-    
-        getData(){
-          const requestUrl = environment.baseUrl + '/order-list';
-      
-          let headers = {};
-      
-          if (this.httpService.getAuthToken() !== null) {
-            headers = {
-              Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-            };
-          }
-      
-          return this.http.get(requestUrl,headers)
-        }
-    
-    
-        editData(id:number,from_details: any){
-          console.log('In edit data');
-      
-          const requestUrl = environment.baseUrl + '/order-list/' + id.toString();
-      
-      
-          let headers = {};
-      
-          if (this.httpService.getAuthToken() !== null) {
-            headers = {
-              Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-            };
-          }
-      
-          return this.http.put(requestUrl,from_details,{headers:headers})
-        }
+  serviceCall(from_details: any) {
+    console.log('In the service');
 
-        filterByDate(startDate: string, endDate: string){
-          const requestUrl = environment.baseUrl + '/order-list/filter';
+    const requestUrl = environment.baseUrl + '/order-list';
 
-          let headers = {};
 
-          if (this.httpService.getAuthToken() !== null) {
-            headers = {
-              Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-            };
-          }
+    let headers = {};
 
-          const params = {
-            startDate: startDate,
-            endDate: endDate
-          };
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
 
-          return this.http.get(requestUrl, { headers: headers, params: params });
-        }
-      
-        deleteData(id:number){
-          console.log('In delete data');
-      
-          const requestUrl = environment.baseUrl + '/order-list/' + id.toString();
-      
-      
-          let headers = {};
-      
-          if (this.httpService.getAuthToken() !== null) {
-            headers = {
-              Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-            };
-          }
-      
-          return this.http.delete(requestUrl,{headers:headers})
-        }
-  
+    return this.http.post(requestUrl, from_details, { headers: headers })
+  }
+
+  getData() {
+    const requestUrl = environment.baseUrl + '/order-list';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, headers)
+  }
+
+
+  editData(id: number, from_details: any) {
+    console.log('In edit data');
+
+    const requestUrl = environment.baseUrl + '/order-list/' + id.toString();
+
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.put(requestUrl, from_details, { headers: headers })
+  }
+
+  filterByDate(startDate: string, endDate: string) {
+    const requestUrl = environment.baseUrl + '/order-list/filter';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    const params = {
+      startDate: startDate,
+      endDate: endDate
+    };
+
+    return this.http.get(requestUrl, { headers: headers, params: params });
+  }
+
+  deleteData(id: number) {
+    console.log('In delete data');
+
+    const requestUrl = environment.baseUrl + '/order-list/' + id.toString();
+
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.delete(requestUrl, { headers: headers })
+  }
+
 }

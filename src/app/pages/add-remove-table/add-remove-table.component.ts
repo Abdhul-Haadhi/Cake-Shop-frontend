@@ -31,7 +31,7 @@ export class AddRemoveTableComponent implements OnInit {
     private commonDataService: CommonDataServiceService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _messageService: MessageServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // table initialize
@@ -95,18 +95,16 @@ export class AddRemoveTableComponent implements OnInit {
     if (!row) {
       return `${this.isAllSourceSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${
-      this.sourceSelection.isSelected(row) ? 'deselect' : 'select'
-    } row ${row.position + 1}`;
+    return `${this.sourceSelection.isSelected(row) ? 'deselect' : 'select'
+      } row ${row.position + 1}`;
   }
 
   targetCheckboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllTargetSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${
-      this.targetSelection.isSelected(row) ? 'deselect' : 'select'
-    } row ${row.position + 1}`;
+    return `${this.targetSelection.isSelected(row) ? 'deselect' : 'select'
+      } row ${row.position + 1}`;
   }
 
   onSourceTableDataSelect(row?: any) {
@@ -191,5 +189,5 @@ export class AddRemoveTableComponent implements OnInit {
     this.targetSelection.clear();
   }
 
-  public closeDialog() {}
+  public closeDialog() { }
 }

@@ -38,7 +38,7 @@ export class PrivilegeGroupsComponent implements OnInit {
     private _privilegesService: PrivilegesService, // private _empService: EmployeeService, // private _coreService: CoreService
     private _messageService: MessageServiceService,
     private _authService: AuthServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     try {

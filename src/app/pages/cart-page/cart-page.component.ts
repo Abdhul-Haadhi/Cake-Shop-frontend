@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,12 +19,12 @@ import { OrderPageServiceService } from 'src/app/services/order-page/order-page-
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss'
 })
-export class CartPageComponent implements OnInit{
-    product: any;
+export class CartPageComponent implements OnInit {
+  product: any;
 
-    selection = new SelectionModel<any>(true, []);
+  selection = new SelectionModel<any>(true, []);
 
-    displayedColumns: string[] = [
+  displayedColumns: string[] = [
     'select',
     'image',
     'item',
@@ -35,39 +35,39 @@ export class CartPageComponent implements OnInit{
     'totalPrice',
     'actions'
   ];
-  
-    dataSource!: MatTableDataSource<any>;
 
-      @ViewChild(MatPaginator) paginator!: MatPaginator;
-      @ViewChild(MatSort) sort!: MatSort;
-  
-    // isButtonDisabled = false;
-    saveButtonLabel: string = 'Add to cart';
-    submitted = false;
-    mode = 'add';
-    selectedData!: { id: any; };
-    selectedProducts: any;
-  
-    constructor(private fb: FormBuilder,
-      private productState: ProductStateServiceService,
-      private productService: ProductRegistrationFormService,
-      private router: Router, 
-      private cartService: CartPageServiceService,
-      private messageService: MessageServiceService,
-    ){
+  dataSource!: MatTableDataSource<any>;
 
-      const nav = this.router.getCurrentNavigation();
-      this.selectedProducts = nav?.extras.state?.['product'] || [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-      this.product = this.productState.getProduct();
+  // isButtonDisabled = false;
+  saveButtonLabel: string = 'Add to cart';
+  submitted = false;
+  mode = 'add';
+  selectedData!: { id: any; };
+  selectedProducts: any;
 
-      if (!this.product) {
-        this.router.navigate(['/pages/cart-page']); 
-      }
-        
+  constructor(private fb: FormBuilder,
+    private productState: ProductStateServiceService,
+    private productService: ProductRegistrationFormService,
+    private router: Router,
+    private cartService: CartPageServiceService,
+    private messageService: MessageServiceService,
+  ) {
+
+    const nav = this.router.getCurrentNavigation();
+    this.selectedProducts = nav?.extras.state?.['product'] || [];
+
+    this.product = this.productState.getProduct();
+
+    if (!this.product) {
+      this.router.navigate(['/pages/cart-page']);
     }
 
-     ngOnInit(): void {
+  }
+
+  ngOnInit(): void {
     this.populateData();
     // this.populateDatas();
   }
@@ -89,113 +89,113 @@ export class CartPageComponent implements OnInit{
   }
 
 
-  public populateData(): void{
-    try{
+  public populateData(): void {
+    try {
       this.cartService.getData().subscribe({
-      next: (dataList: any) => {
-        if(dataList.length <= 0){
-          return;
+        next: (dataList: any) => {
+          if (dataList.length <= 0) {
+            return;
+          }
+
+
+          // ------------the correct one---------
+          const updatedDataList = dataList.map((item: any) => ({
+            ...item
+            // totalPrice:(item.price) * (item.quantity)
+          }));
+
+
+          // ----------Total price = initial price × (selected weight ÷ initial weight) × quantity-----------
+
+          // const updatedDataList = dataList.map((item: any) => {
+          //   const initialPrice = item.price;            // price for base weight
+          //   const initialWeight = this.product.initialWeight;      // e.g. 500g
+          //   const selectedWeight = item.size;  // e.g. 1000g
+          //   const quantity = item.quantity;
+
+          //   const unitPrice = initialPrice * (selectedWeight / initialWeight);
+          //   const totalPrice = unitPrice * quantity;
+
+          //   return {
+          //     ...item,
+          //     unitPrice: unitPrice,
+          //     totalPrice: totalPrice
+          //   };
+          // });
+
+
+          // updatedDataList.forEach((product: any) => {
+          //   this.cartService.getData().subscribe({
+          //     next: () => console.log('Product state updated for item', product),
+          //     error: err => this.messageService.showError('Failed to update product state: ' + err)
+          //   });
+          // });
+
+
+          // const updatedDataList = dataList.map((item: any) => {
+          //   const price = parseFloat(item.itemPrice) || 0;
+          //   const quantity = parseFloat(item.quantity) || 0;
+          //   return {
+          //     ...item,
+          //     price,
+          //     quantity,
+          //     totalPrice: price * quantity
+          //   };
+          // });
+          // ---------------------------------------------------------------------
+          // const updatedDataList = dataList.map((item: any) => {
+          //   const price = parseFloat(item.price) || 0;
+          //   const quantity = parseFloat(item.quantity) || 0;
+          //   return {
+          //     ...item,
+          //     totalPrice: price * quantity
+          //   };
+          // });
+
+          // console.log(updatedDataList);
+
+
+          this.dataSource = new MatTableDataSource(updatedDataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+
+          this.getProductListData(dataList);
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
         }
-
-        
-// ------------the correct one---------
-        const updatedDataList = dataList.map((item:any) => ({
-          ...item
-          // totalPrice:(item.price) * (item.quantity)
-        }));
-
-
-        // ----------Total price = initial price × (selected weight ÷ initial weight) × quantity-----------
-
-        // const updatedDataList = dataList.map((item: any) => {
-        //   const initialPrice = item.price;            // price for base weight
-        //   const initialWeight = this.product.initialWeight;      // e.g. 500g
-        //   const selectedWeight = item.size;  // e.g. 1000g
-        //   const quantity = item.quantity;
-
-        //   const unitPrice = initialPrice * (selectedWeight / initialWeight);
-        //   const totalPrice = unitPrice * quantity;
-
-        //   return {
-        //     ...item,
-        //     unitPrice: unitPrice,
-        //     totalPrice: totalPrice
-        //   };
-        // });
-
-
-        // updatedDataList.forEach((product: any) => {
-        //   this.cartService.getData().subscribe({
-        //     next: () => console.log('Product state updated for item', product),
-        //     error: err => this.messageService.showError('Failed to update product state: ' + err)
-        //   });
-        // });
-
-
-        // const updatedDataList = dataList.map((item: any) => {
-        //   const price = parseFloat(item.itemPrice) || 0;
-        //   const quantity = parseFloat(item.quantity) || 0;
-        //   return {
-        //     ...item,
-        //     price,
-        //     quantity,
-        //     totalPrice: price * quantity
-        //   };
-        // });
-// ---------------------------------------------------------------------
-        // const updatedDataList = dataList.map((item: any) => {
-        //   const price = parseFloat(item.price) || 0;
-        //   const quantity = parseFloat(item.quantity) || 0;
-        //   return {
-        //     ...item,
-        //     totalPrice: price * quantity
-        //   };
-        // });
-
-        // console.log(updatedDataList);
-        
-
-      this.dataSource = new MatTableDataSource(updatedDataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-
-      this.getProductListData(dataList);
-    },
-    error: (error) => {
+      });
+    }
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
+
   }
 
-  
-  public getProductListData(dataList: any):void{
-    dataList.forEach((data:any)=>{
-      
+
+  public getProductListData(dataList: any): void {
+    dataList.forEach((data: any) => {
+
       let prodId = data.productId
 
-      if (prodId){
+      if (prodId) {
         this.getProdData(prodId);
       }
 
     })
   }
 
-  public getProdData(prodId:any){
+  public getProdData(prodId: any) {
     //  backend call to get image and item name
 
     this.productService.getCartProductDetails(prodId).subscribe({
-      next: (dataList: any)=>{
+      next: (dataList: any) => {
         console.log(dataList);
 
         let tableData = this.dataSource.data;
-        
-        tableData.forEach((data:any)=>{
-          if (data.productId){
+
+        tableData.forEach((data: any) => {
+          if (data.productId) {
             const prodItem = dataList.find((dataItem: any) => dataItem.id === data.productId);
             console.log(prodItem);
 
@@ -219,38 +219,38 @@ export class CartPageComponent implements OnInit{
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },
-      error: (error:any)=>{
+      error: (error: any) => {
         console.log(error);
-        
+
       }
     })
   }
 
 
   public deleteData(data: any): void {
-    
+
     const id = data.id;
 
-    try{
+    try {
       this.cartService.deleteData(id).subscribe({
-        next: (response) =>{
+        next: (response) => {
           const index = this.dataSource.data.findIndex((element) => element.id === id);
-        if(index !== -1){
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
-        this.messageService.showSuccess('Data deleted successfully!');
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+          }
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.messageService.showSuccess('Data deleted successfully!');
         },
-        error: (error) =>{
+        error: (error) => {
           this.messageService.showError('Action failed with error' + error);
         }
       });
     }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
 
-    
+
   }
 
   // backToOrderPage(){
@@ -260,33 +260,35 @@ export class CartPageComponent implements OnInit{
   //     }
   // }
 
-  checkOutBtn(){
+  checkOutBtn() {
     const selectedProducts = this.selection.selected;
-    if(!selectedProducts || selectedProducts.length === 0){
+    if (!selectedProducts || selectedProducts.length === 0) {
       this.messageService.showError('Please select at least one product to proceed to checkout');
       return;
     }
-    
-    this.router.navigate(['/pages/checkout-page'],{state:{
-      products: selectedProducts
-    }});
+
+    this.router.navigate(['/pages/checkout-page'], {
+      state: {
+        products: selectedProducts
+      }
+    });
   }
 
-  closePage(){
+  closePage() {
     this.router.navigate(['/pages/featured-products']);
   }
 
-  
 
-   public base64ToBlob(base64: string, mimeType: string): Blob {
-      const byteCharacters = atob(base64);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      return new Blob([byteArray], { type: mimeType });
+
+  public base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
 
 
 

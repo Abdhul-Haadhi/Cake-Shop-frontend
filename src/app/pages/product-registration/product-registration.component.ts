@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
-import {ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
 import { ItemRegistrationFormService } from 'src/app/services/item-registration/item-registration-form.service';
 import { HttpClient } from '@angular/common/http';
@@ -36,43 +36,43 @@ import { NotificationService } from "src/app/services/notification-service/notif
   templateUrl: './product-registration.component.html',
   styleUrl: './product-registration.component.scss'
 })
-export class ProductRegistrationComponent implements OnInit{
+export class ProductRegistrationComponent implements OnInit {
 
   ProdRegForm: FormGroup;
   // requiredItemsWithQuantities: {item:string, quantity:number, unitPrice?:number}[]=[];
   // itemsWithPrices: ItemRegistrationFormService[] = [];
 
- 
+
   // category: Category[] = [
   //   {value: 'weight', viewValue: 'Weight'},
   //   {value: 'quantity', viewValue: 'Quantity'},
   // ];
 
 
-    // {value: 'flour', viewValue: 'Flour'},
-    // {value: 'sugar', viewValue: 'Sugar'},
-    // {value: 'butter', viewValue: 'Butter'},
-    // {value: 'eggs', viewValue: 'Eggs'},
-    // {value: 'bakingPowder', viewValue: 'Baking powder'},
-    // {value: 'bakingSoda', viewValue: 'Baking soda'},
-    // {value: 'essence', viewValue: 'Essence'},
-    // {value: 'cocoaPowder', viewValue: 'Cocoa powder'},
-    // {value: 'icingSugar', viewValue: 'Icing sugar'},
-    // {value: 'icingButter', viewValue: 'Icing butter'},
-    // {value: 'milk', viewValue: 'Milk'},
-    // {value: 'cashewNuts', viewValue: 'Cashew nuts'},
-    // {value: 'plums', viewValue: 'Plums'},
-    // {value: 'dates', viewValue: 'Dates'},
-    // {value: 'dryFruits', viewValue: 'Dry fruits'},
-    // {value: 'bakingPaper', viewValue: 'Baking paper'},
-    // {value: 'foodColors', viewValue: 'Food colors'},
+  // {value: 'flour', viewValue: 'Flour'},
+  // {value: 'sugar', viewValue: 'Sugar'},
+  // {value: 'butter', viewValue: 'Butter'},
+  // {value: 'eggs', viewValue: 'Eggs'},
+  // {value: 'bakingPowder', viewValue: 'Baking powder'},
+  // {value: 'bakingSoda', viewValue: 'Baking soda'},
+  // {value: 'essence', viewValue: 'Essence'},
+  // {value: 'cocoaPowder', viewValue: 'Cocoa powder'},
+  // {value: 'icingSugar', viewValue: 'Icing sugar'},
+  // {value: 'icingButter', viewValue: 'Icing butter'},
+  // {value: 'milk', viewValue: 'Milk'},
+  // {value: 'cashewNuts', viewValue: 'Cashew nuts'},
+  // {value: 'plums', viewValue: 'Plums'},
+  // {value: 'dates', viewValue: 'Dates'},
+  // {value: 'dryFruits', viewValue: 'Dry fruits'},
+  // {value: 'bakingPaper', viewValue: 'Baking paper'},
+  // {value: 'foodColors', viewValue: 'Food colors'},
 
 
   // requiredItem: {value: string; viewValue: string}[]= []; 
 
-    selectedFile: File | null = null;
-    // previewUrl: string | ArrayBuffer | null = null;
-    
+  selectedFile: File | null = null;
+  // previewUrl: string | ArrayBuffer | null = null;
+
 
   displayedColumns: string[] = [
     'productId',
@@ -91,7 +91,7 @@ export class ProductRegistrationComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   isButtonDisabled = false;
   saveButtonLabel: string = 'Save';
   submitted = false;
@@ -110,23 +110,23 @@ export class ProductRegistrationComponent implements OnInit{
     private sanitizer: DomSanitizer,
     private notificationService: NotificationService,
     // private http: HttpClient,
-  ){
+  ) {
 
     this.ProdRegForm = this.fb.group({
-      productId : new FormControl('',[Validators.required, Validators.pattern('^PRD[0-9]+$')]),
-      product : new FormControl('',[Validators.required, Validators.maxLength(25)]),
-      description: new FormControl('',[Validators.required, Validators.maxLength(200)]),
-      initialWeight : new FormControl('',[Validators.required, Validators.pattern('^[0-9]+$')]),
+      productId: new FormControl('', [Validators.required, Validators.pattern('^PRD[0-9]+$')]),
+      product: new FormControl('', [Validators.required, Validators.maxLength(25)]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(200)]),
+      initialWeight: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItems : new FormControl([],[Validators.required]),
       // measurementCategory : new FormControl('',[Validators.required]),
       // name: ['', Validators.required],
       // usedAmount : new FormControl('',[Validators.required]),
       // unitPrice: new FormControl('',[Validators.required]),
       // totalCost: new FormControl({ value: '', disabled: true }),
-      finalPrice: new FormControl('',[Validators.required, Validators.pattern('^[0-9]+$')]),
+      finalPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItemsQuantities: this.fb.group({}),
       // requiredItemsQuantities: new FormControl([],[Validators.required]),
-      image: new FormControl('',[Validators.required]),
+      image: new FormControl('', [Validators.required]),
       imageName: new FormControl(''),
       imageType: new FormControl(''),
     });
@@ -149,7 +149,7 @@ export class ProductRegistrationComponent implements OnInit{
 
     }
   }
-  
+
 
 
 
@@ -206,38 +206,38 @@ export class ProductRegistrationComponent implements OnInit{
   //   const item = this.requiredItem.find(i => i.value === itemValue);
   //   return item ? item.viewValue : itemValue;
   // }
-  
+
   // getUnitPrice(itemValue: string): number {
   //   const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
   //   return itemData?.unitPrice || 0;
   // }
-  
+
   // getMeasurementCategory(itemValue: string): string {
   //   const itemData = this.itemsWithPrices.find(i => i.item === itemValue);
   //   return itemData?.category === 'weight' ? 'kg' : 'units';
   // }
 
-  public populateData(): void{
-    try{
+  public populateData(): void {
+    try {
       this.prodService.getData().subscribe({
-      next: (dataList: any) => {
-        if(dataList.length <= 0){
-          return;
-        }
+        next: (dataList: any) => {
+          if (dataList.length <= 0) {
+            return;
+          }
 
-      this.dataSource = new MatTableDataSource(dataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    },
-    error: (error) => {
+          this.dataSource = new MatTableDataSource(dataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        }
+      });
+    }
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
+
   }
 
   applyFilter(event: Event) {
@@ -248,37 +248,37 @@ export class ProductRegistrationComponent implements OnInit{
     }
   }
 
-  onSubmit(){
-      try{
-        this.submitted = true;
-        if(this.ProdRegForm.invalid || !this.selectedFile){
-          return;
-        }
-        if(this.mode === 'add'){
-
-          // const formData = new FormData();
-          //  formData.append('product', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
-          // formData.append('image', this.selectedFile);
-
-          this.prodService.serviceCall(this.prepareFormData()).subscribe({
-            next: (response: any) => {
-              if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-                      this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-                    }
-                    else{
-                        this.dataSource = new MatTableDataSource([response]);
-                    }
-                    this.messageService.showSuccess('Data saved successfully!');
-                    this.addNotification("Product Added Successfully");
-            },
-            error: (error) =>{
-              this.messageService.showError('Action failed with error' + error);
-            }
-          });
+  onSubmit() {
+    try {
+      this.submitted = true;
+      if (this.ProdRegForm.invalid || !this.selectedFile) {
+        return;
       }
-      else if(this.mode === 'edit'){
+      if (this.mode === 'add') {
+
+        // const formData = new FormData();
+        //  formData.append('product', new Blob([JSON.stringify(this.ProdRegForm.value)], { type: 'application/json' }));
+        // formData.append('image', this.selectedFile);
+
+        this.prodService.serviceCall(this.prepareFormData()).subscribe({
+          next: (response: any) => {
+            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
+              this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+            }
+            else {
+              this.dataSource = new MatTableDataSource([response]);
+            }
+            this.messageService.showSuccess('Data saved successfully!');
+            this.addNotification("Product Added Successfully");
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          }
+        });
+      }
+      else if (this.mode === 'edit') {
         this.prodService.editData(this.selectedData?.id, this.prepareFormData()).subscribe({
-          next:(response) =>{
+          next: (response) => {
             let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
             this.dataSource.data[elementIndex] = response;
             this.dataSource = new MatTableDataSource(this.dataSource.data);
@@ -292,11 +292,11 @@ export class ProductRegistrationComponent implements OnInit{
       this.mode = 'add';
       this.ProdRegForm.disable();
       this.isButtonDisabled = true;
-      }
-      catch(error){
-        this.messageService.showError('Action failed with error' + error);
-   }
-}
+    }
+    catch (error) {
+      this.messageService.showError('Action failed with error' + error);
+    }
+  }
 
   public prepareFormData(): FormData {
     const formData = new FormData();
@@ -314,7 +314,7 @@ export class ProductRegistrationComponent implements OnInit{
     return formData;
   }
 
-    base64ToBlob(base64: string, mimeType: string): Blob {
+  base64ToBlob(base64: string, mimeType: string): Blob {
     const byteCharacters = atob(base64);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -324,7 +324,7 @@ export class ProductRegistrationComponent implements OnInit{
     return new Blob([byteArray], { type: mimeType });
   }
 
-  public resetData(): void{
+  public resetData(): void {
     this.ProdRegForm.reset();
     this.ProdRegForm.updateValueAndValidity();
     this.saveButtonLabel = 'Save';
@@ -338,8 +338,8 @@ export class ProductRegistrationComponent implements OnInit{
   }
 
   public editData(data: any): void {
-    
-      this.ProdRegForm.patchValue(data);
+
+    this.ProdRegForm.patchValue(data);
 
     // if (data.requiredItemsQuantities) {
     //   const quantitiesGroup = this.ProdRegForm.get('requiredItemsQuantities') as FormGroup;
@@ -356,31 +356,31 @@ export class ProductRegistrationComponent implements OnInit{
   }
 
   public deleteData(data: any): void {
-    
+
     const id = data.id;
 
-    try{
+    try {
       this.prodService.deleteData(id).subscribe({
-        next: (response) =>{
+        next: (response) => {
           const index = this.dataSource.data.findIndex((element) => element.id === id);
-        if(index !== -1){
-          this.dataSource.data.splice(index, 1);
-        }
-        this.dataSource = new MatTableDataSource(this.dataSource.data);
-        this.messageService.showSuccess('Data deleted successfully!');
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+          }
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.messageService.showSuccess('Data deleted successfully!');
         },
-        error: (error) =>{
+        error: (error) => {
           this.messageService.showError('Action failed with error ' + error);
         }
       });
     }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error ' + error);
     }
 
-    
+
   }
-  public refreshData(): void{
+  public refreshData(): void {
     this.populateData();
   }
 

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class CacheService {
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(private httpService: HttpService, private router: Router) { }
 
   // A HashMap to store the cache. The key is the page and the value is the data.
   private cache = new Map<string, any[]>();

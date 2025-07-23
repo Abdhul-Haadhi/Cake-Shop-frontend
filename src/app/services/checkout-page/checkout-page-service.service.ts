@@ -7,7 +7,7 @@ import { environment } from 'src/app/environments/environment';
   providedIn: 'root',
 })
 export class CheckoutPageServiceService {
-  constructor(private http: HttpClient, private httpService: HttpService) {}
+  constructor(private http: HttpClient, private httpService: HttpService) { }
 
   serviceCall(from_details: any) {
     console.log('In the service');
@@ -39,7 +39,7 @@ export class CheckoutPageServiceService {
     return this.http.get(requestUrl, headers);
   }
 
-  filterByDate(startDate: string, endDate: string){
+  filterByDate(startDate: string, endDate: string) {
     const requestUrl = environment.baseUrl + '/order-list/filter';
 
     let headers = {};
@@ -60,7 +60,7 @@ export class CheckoutPageServiceService {
 
   editData(orderId: number, statusPayload: any) {
     console.log('In edit data');
-      console.log('editData() called');
+    console.log('editData() called');
     console.log('id:', orderId);
     console.log('form_details:', statusPayload);
 

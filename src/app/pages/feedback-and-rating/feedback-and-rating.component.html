@@ -1,14 +1,14 @@
 <div class="container">
-    <mat-toolbar color="primary">
-        <span>Feedback and Ratings</span>
-        <span class="example-spacer"></span>
-    </mat-toolbar>
-    <!-- <h2>Feedback and Ratings</h2> -->
-    <div class="form-section">
-      <form [formGroup]="feedbackForm" class="example-form" (ngSubmit)="onSubmit()">
-        <div class="example-form-div">
-          <div class="form-part">
-            <!-- <mat-form-field class="full-width">
+  <mat-toolbar color="primary">
+    <span>Feedback and Ratings</span>
+    <span class="example-spacer"></span>
+  </mat-toolbar>
+  <!-- <h2>Feedback and Ratings</h2> -->
+  <div class="form-section">
+    <form [formGroup]="feedbackForm" class="example-form" (ngSubmit)="onSubmit()">
+      <div class="example-form-div">
+        <div class="form-part">
+          <!-- <mat-form-field class="full-width">
               <mat-label>Date</mat-label>
               <input matInput [matDatepicker]="picker" formControlName="date">
               <mat-hint>MM/DD/YYYY</mat-hint>
@@ -29,35 +29,49 @@
                 </span>
             </mat-form-field> -->
 
-
-            <div>
-              <span>Rate us</span>
+          <div>
+            <span>Rate us</span>
             <div id="container" [formGroup]="feedbackForm">
-              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 5" [icon]="faStar" (click)="setRating(5)"></fa-icon>
-              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 4" [icon]="faStar" (click)="setRating(4)"></fa-icon>
-              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 3" [icon]="faStar" (click)="setRating(3)"></fa-icon>
-              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 2" [icon]="faStar" (click)="setRating(2)"></fa-icon>
-              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 1" [icon]="faStar" (click)="setRating(1)"></fa-icon>
+              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 5" [icon]="faStar"
+                (click)="setRating(5)"></fa-icon>
+              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 4" [icon]="faStar"
+                (click)="setRating(4)"></fa-icon>
+              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 3" [icon]="faStar"
+                (click)="setRating(3)"></fa-icon>
+              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 2" [icon]="faStar"
+                (click)="setRating(2)"></fa-icon>
+              <fa-icon [class.rated]="feedbackForm.get('rating')?.value >= 1" [icon]="faStar"
+                (click)="setRating(1)"></fa-icon>
             </div>
-            
-            </div>
-          
-            <mat-form-field class="full-width">
-              <mat-label>Feedback Note</mat-label>
-              <textarea matInput placeholder="Feedback Note" formControlName="feedbackNote"></textarea>
-              <span class="text-danger" *ngIf="(feedbackForm.get('feedbackNote')?.touched || submitted) && feedbackForm.get('feedbackNote')?.errors && feedbackForm.get('feedbackNote')?.errors!['required']">
-                Feedback note is required
-              </span>
-              <span class="text-danger" *ngIf="(feedbackForm.get('feedbackNote')?.touched || submitted) && feedbackForm.get('feedbackNote')?.errors && feedbackForm.get('feedbackNote')?.errors!['maxlength']">
-                Maximum lenght is 500
-              </span>
-            </mat-form-field>
           </div>
-        
-        <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
-        <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
+
+          <mat-form-field class="full-width">
+            <mat-label>Feedback Note</mat-label>
+            <textarea matInput placeholder="Feedback Note" formControlName="feedbackNote"></textarea>
+            <span class="text-danger" *ngIf="
+                (feedbackForm.get('feedbackNote')?.touched || submitted) &&
+                feedbackForm.get('feedbackNote')?.errors &&
+                (feedbackForm.get('feedbackNote')?.errors)!['required']
+              ">
+              Feedback note is required
+            </span>
+            <span class="text-danger" *ngIf="
+                (feedbackForm.get('feedbackNote')?.touched || submitted) &&
+                feedbackForm.get('feedbackNote')?.errors &&
+                (feedbackForm.get('feedbackNote')?.errors)!['maxlength']
+              ">
+              Maximum lenght is 500
+            </span>
+          </mat-form-field>
         </div>
-      </form>
-    </div>
-    
+
+        <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">
+          {{ saveButtonLabel }}
+        </button>
+        <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">
+          Reset
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

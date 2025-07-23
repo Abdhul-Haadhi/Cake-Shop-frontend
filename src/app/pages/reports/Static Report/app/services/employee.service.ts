@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { Employee } from '../models/employee.model';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from 'src/app/services/http.service';
@@ -19,15 +19,15 @@ export class EmployeeService {
       birthDate: '2020-01-15',
       salary: 95000
     },
-     {
+    {
       id: 2,
       name: 'Martha',
       age: 22,
-      phoneNumber:97867890,
+      phoneNumber: 97867890,
       birthDate: '1998-01-15',
       salary: 85000
     },
-      {
+    {
       id: 3,
       name: 'Harry',
       age: 24,
@@ -37,7 +37,7 @@ export class EmployeeService {
     }
   ];
 
-  employeeList:Employee[] = [];
+  employeeList: Employee[] = [];
 
   constructor(
     private http: HttpClient,
@@ -46,7 +46,7 @@ export class EmployeeService {
 
   private apiUrl = environment.baseUrl + '/employees';
 
-    private getHeaders() {
+  private getHeaders() {
     let headers = {};
     const authToken = this.httpService.getAuthToken();
     if (authToken !== null) {
@@ -64,7 +64,7 @@ export class EmployeeService {
 
   // }
 
-    getEmployees(): Observable<any> {
+  getEmployees(): Observable<any> {
 
     return new Observable<Employee[]>(observer => {
       observer.next(this.mockEmployees);

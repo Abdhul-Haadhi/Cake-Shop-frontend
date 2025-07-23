@@ -27,55 +27,55 @@ export class EmployeeListComponent implements OnInit {
   error: string | null = null;
 
 
-    displayedColumns: string[] = [
-      'employeeNumber',
-      'fullName',
-      'nic',
-      'birthday',
-      'address',
-      'contactNumber',
-      'gender',
-      'email',
-      'jobRole'
-    ];
-  
-    dataSource!: MatTableDataSource<any>;
-  
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-    @ViewChild(MatSort) sort!: MatSort;
+  displayedColumns: string[] = [
+    'employeeNumber',
+    'fullName',
+    'nic',
+    'birthday',
+    'address',
+    'contactNumber',
+    'gender',
+    'email',
+    'jobRole'
+  ];
+
+  dataSource!: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private employeeService: EmployeeService,
     private printService: PrintService,
     private empService: EmployeeRegistrationFormService,
     private messageService: MessageServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.populateData();
   }
 
-    public populateData(): void{
-    try{
+  public populateData(): void {
+    try {
       this.empService.getData().subscribe({
-      next: (dataList: any) => {
-        if(dataList.length <= 0){
-          return;
-        }
+        next: (dataList: any) => {
+          if (dataList.length <= 0) {
+            return;
+          }
 
-      this.dataSource = new MatTableDataSource(dataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    },
-    error: (error) => {
+          this.dataSource = new MatTableDataSource(dataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        }
+      });
+    }
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
+
   }
 
   loadEmployees(): void {
@@ -102,11 +102,11 @@ export class EmployeeListComponent implements OnInit {
 
     const term = this.searchTerm.toLowerCase();
     this.filteredEmployees = this.employees.filter(employee =>
-      employee.name.toLowerCase().includes(term)||
-      employee.age.toString() .includes(term)||
+      employee.name.toLowerCase().includes(term) ||
+      employee.age.toString().includes(term) ||
       employee.phoneNumber.toString().includes(term) ||
-      employee.salary.toString().includes(term)||
-       employee.id.toString().includes(term)
+      employee.salary.toString().includes(term) ||
+      employee.id.toString().includes(term)
     );
   }
 
@@ -147,7 +147,7 @@ export class EmployeeListComponent implements OnInit {
     return today.toLocaleDateString();
   }
 
-  public refreshData(): void{
+  public refreshData(): void {
     this.populateData();
   }
 

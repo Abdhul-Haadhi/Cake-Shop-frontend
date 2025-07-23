@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class PrivilegesService {
-  constructor(private httpService: HttpService, private http: HttpClient) {}
+  constructor(private httpService: HttpService, private http: HttpClient) { }
 
   public getPrivilegeGroupList(): Promise<any> {
     const requestUrl = environment.baseUrl + '/privilege-groups';

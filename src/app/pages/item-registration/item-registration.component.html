@@ -1,115 +1,114 @@
-  <div class="container">
-    <div class="form-section">
-      <form [formGroup]="ItemRegForm" class="example-form" (ngSubmit)="onSubmit()" #formDirective="ngForm">
+<div class="container">
+  <div class="form-section">
+    <form [formGroup]="ItemRegForm" class="example-form" (ngSubmit)="onSubmit()" #formDirective="ngForm">
 
-        <mat-form-field class="example-full-width">
-          <mat-label>Item name</mat-label>
-          <input matInput placeholder="Item name" formControlName="itemName">
-          <div class="errorMsg"
-            *ngIf="ItemRegForm.get('itemName')?.hasError('required') && (ItemRegForm.get('itemName')?.touched || ItemRegForm.get('itemName')?.dirty)">
-            *Item name is required
-          </div>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Code</mat-label>
-          <input matInput placeholder="code: ITM_ _ _" formControlName="itemId">
-          <div class="errorMsg"
-            *ngIf="ItemRegForm.get('itemId')?.hasError('required') && (ItemRegForm.get('itemId')?.touched || ItemRegForm.get('itemId')?.dirty)">
-            *Item code is required
-          </div> 
-          <div class="errorMsg"
-            *ngIf="ItemRegForm.get('itemId')?.errors && ItemRegForm.get('itemId')?.errors!['pattern']">
-            *Item code should start with 'ITM'
-          </div> 
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-          <mat-label>Category</mat-label>
-          <mat-select formControlName="category">
-            <mat-option *ngFor="let category of ['Liter', 'g', 'Pcs']" [value]="category">
-              {{ category }}
-            </mat-option>
-          </mat-select>
-          <div class="errorMsg"
-            *ngIf="ItemRegForm.get('category')?.hasError('required') && (ItemRegForm.get('category')?.touched || ItemRegForm.get('category')?.dirty)">
-            *Category is required
-          </div>
-        </mat-form-field>
-
-        <button type="submit" class="btn btn-success" [disabled]="isButtonDisabled"
-          [disabled]="!ItemRegForm.valid">{{saveButtonLabel}}</button>
-        <button (click)="resetData(formDirective)" type="button" class="btn btn-light">Reset</button>
-
-      </form>
-    </div>
-
-
-    <!-- table section -->
-    <div class="table-section">
-      <span>
-        <button mat-icon-button color="primary" (click)="refreshData()" >
-          <mat-icon>refresh</mat-icon>
-        </button>
-      </span>
-      <mat-form-field style="width: 50%;">
-        <mat-label>Search</mat-label>
-        <input matInput id="abc" placeholder="Search..." (keyup)="applyFilter($event)" #input>
+      <mat-form-field class="example-full-width">
+        <mat-label>Item name</mat-label>
+        <input matInput placeholder="Item name" formControlName="itemName">
+        <div class="errorMsg"
+          *ngIf="ItemRegForm.get('itemName')?.hasError('required') && (ItemRegForm.get('itemName')?.touched || ItemRegForm.get('itemName')?.dirty)">
+          *Item name is required
+        </div>
       </mat-form-field>
-      <div class="mat-elevation-z8">
+      <mat-form-field class="example-full-width">
+        <mat-label>Code</mat-label>
+        <input matInput placeholder="code: ITM_ _ _" formControlName="itemId">
+        <div class="errorMsg"
+          *ngIf="ItemRegForm.get('itemId')?.hasError('required') && (ItemRegForm.get('itemId')?.touched || ItemRegForm.get('itemId')?.dirty)">
+          *Item code is required
+        </div>
+        <div class="errorMsg"
+          *ngIf="ItemRegForm.get('itemId')?.errors && ItemRegForm.get('itemId')?.errors!['pattern']">
+          *Item code should start with 'ITM'
+        </div>
+      </mat-form-field>
 
-        <table mat-table [dataSource]="dataSource" matSort>
+      <mat-form-field class="example-full-width">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let category of ['Liter', 'g', 'Pcs']" [value]="category">
+            {{ category }}
+          </mat-option>
+        </mat-select>
+        <div class="errorMsg"
+          *ngIf="ItemRegForm.get('category')?.hasError('required') && (ItemRegForm.get('category')?.touched || ItemRegForm.get('category')?.dirty)">
+          *Category is required
+        </div>
+      </mat-form-field>
 
-          <!-- Position Column -->
-          <ng-container matColumnDef="itemName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
-          </ng-container>
+      <button type="submit" class="btn btn-success" [disabled]="isButtonDisabled"
+        [disabled]="!ItemRegForm.valid">{{saveButtonLabel}}</button>
+      <button (click)="resetData(formDirective)" type="button" class="btn btn-light">Reset</button>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="itemId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
-            <td mat-cell *matCellDef="let element"> {{element.itemId}} </td>
-          </ng-container>
-
-          <!-- Category Column -->
-          <ng-container matColumnDef="category">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
-            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-          </ng-container>
-
-          <!-- Weight Column -->
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-            <td mat-cell *matCellDef="let element">
-               <button mat-icon-button color="warn" (click)="editData(element)" matTooltip="edit">
-                  <mat-icon>edit</mat-icon>
-                </button>
-              <!-- <button class="btn btn-danger">Delete</button> -->
-               <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
-                  <mat-icon>delete</mat-icon>
-                </button>
-
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [ngClass]="{'highlight-row': selectedRow && selectedRow.id === row.id,
-            'last-added-row': lastAddedRow && lastAddedRow.id === row.id}">
-          </tr>
-
-          <!-- Row shown when there is no matching data. -->
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4" style="padding: 10px; color:rgb(108, 102, 102); font-style: italic;"> No data
-              matching "{{input.value}}"</td>
-          </tr>
-        </table>
-
-        <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
-        </mat-paginator>
-      </div>
-
-
-
-    </div>
+    </form>
   </div>
+
+
+  <!-- table section -->
+  <div class="table-section">
+    <span>
+      <button mat-icon-button color="primary" (click)="refreshData()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </span>
+    <mat-form-field style="width: 50%;">
+      <mat-label>Search</mat-label>
+      <input matInput id="abc" placeholder="Search..." (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
+    <div class="mat-elevation-z8">
+
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="itemId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Code </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemId}} </td>
+        </ng-container>
+
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+          <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn" (click)="editData(element)" matTooltip="edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <!-- <button class="btn btn-danger">Delete</button> -->
+            <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight-row': selectedRow && selectedRow.id === row.id,
+            'last-added-row': lastAddedRow && lastAddedRow.id === row.id}">
+        </tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4" style="padding: 10px; color:rgb(108, 102, 102); font-style: italic;"> No data
+            matching "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+
+
+
+  </div>
+</div>

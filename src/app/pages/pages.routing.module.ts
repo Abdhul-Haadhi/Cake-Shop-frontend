@@ -15,58 +15,59 @@ import { GrnComponent } from './grn/grn.component';
 import { EmployeeListComponent } from './reports/Static Report/app/components/employee-list/employee-list.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ItemListComponent } from './reports/Static Report/app/components/item-list/item-list.component';
+import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.component';
 
 export const PagesRoutes: Routes = [
     {
-        path:'form-demo',
+        path: 'form-demo',
         component: FormDemoComponent
     },
     {
-        path:'form-task',
+        path: 'form-task',
         component: FormTaskComponent
     },
     {
-        path:'employee-registration',
+        path: 'employee-registration',
         component: EmployeeRegistrationComponent
     },
     {
-        path:'customer-registration',
+        path: 'customer-registration',
         component: CustomerRegistrationComponent
     },
     {
-        path:'item-registration',
+        path: 'item-registration',
         component: ItemRegistrationComponent
     },
     {
-        path:'product-registration',
+        path: 'product-registration',
         component: ProductRegistrationComponent
     },
     {
-        path:'featured-products',
+        path: 'featured-products',
         component: FeaturedProductsComponent
     },
     {
-        path:'feedback-and-rating',
+        path: 'feedback-and-rating',
         component: FeedbackAndRatingComponent
     },
     {
-        path:'order-page',
+        path: 'order-page',
         component: OrderPageComponent
     },
     {
-        path:'cart-page',
+        path: 'cart-page',
         component: CartPageComponent
     },
     {
-        path:'supplier-registration',
+        path: 'supplier-registration',
         component: SupplierRegistrationComponent
     },
     {
-        path:'checkout-page',
+        path: 'checkout-page',
         component: CheckoutPageComponent
     },
     {
-        path:'grn',
+        path: 'grn',
         component: GrnComponent
     },
     {
@@ -80,5 +81,9 @@ export const PagesRoutes: Routes = [
     {
         path: 'item-report',
         component: ItemListComponent
+    },
+    {
+        path: 'customer-feedback',
+        component: CutomerFeedbackComponent
     },
 ];

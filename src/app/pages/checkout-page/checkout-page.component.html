@@ -1,108 +1,148 @@
 <div class="container">
-    
-    <div class="form-section">
-        
-        <form [formGroup]="BillingForm" class="example-form" (ngSubmit)="onSubmit()">
-            <div class="container">
-                <div class="billing-form">
-                    <button (click)="backToCartPage()" class="mb-2" mat-raised-button color="warn">
-                        Back to Cart
-                    </button>
-                    <mat-toolbar color="primary">
-                        <span>Billing Details</span>
-                        <span class="example-spacer"></span>
-                    </mat-toolbar>
-                    <mat-form-field class="full-width">
-                        <mat-label>Customer name</mat-label>
-                        <input matInput placeholder="Name" formControlName="customerName">
-                        <span class="text-danger" *ngIf="(BillingForm.get('customerName')?.touched || submitted) && BillingForm.get('customerName')?.errors && BillingForm.get('customerName')?.errors!['required']">
-                            Name is required
-                        </span>
-                    </mat-form-field>
-                    <mat-form-field class="full-width">
-                        <mat-label>Email</mat-label>
-                        <input matInput placeholder="Email" formControlName="email">
-                        <span class="text-danger" *ngIf="(BillingForm.get('email')?.touched || submitted) && BillingForm.get('email')?.errors && BillingForm.get('email')?.errors!['required']">
-                            Email is required
-                        </span>
-                        <span class="text-danger" *ngIf="BillingForm.get('email')?.errors && BillingForm.get('email')?.errors!['email']">
-                            Enter a valid email
-                        </span>
-                    </mat-form-field>
-                    <mat-form-field class="full-width">
-                        <mat-label>Address</mat-label>
-                        <input matInput placeholder="Address" formControlName="address">
-                        <span class="text-danger" *ngIf="(BillingForm.get('address')?.touched || submitted) && BillingForm.get('address')?.errors && BillingForm.get('address')?.errors!['required']">
-                            Address is required
-                        </span>
-                        <span class="text-danger" *ngIf="(BillingForm.get('address')?.touched || submitted) && BillingForm.get('address')?.errors && BillingForm.get('address')?.errors!['maxlength']">
-                            Maximum lenght is 150
-                        </span>
-                    </mat-form-field>
-                    <mat-form-field class="full-width">
-                        <mat-label>Contact number</mat-label>
-                        <input matInput placeholder="Contact number" formControlName="contactNumber">
-                        <span class="text-danger" *ngIf="(BillingForm.get('contactNumber')?.touched || submitted) && BillingForm.get('contactNumber')?.errors && BillingForm.get('contactNumber')?.errors!['required']">
-                            Contact number is required
-                        </span>
-                        <span class="text-danger" *ngIf="BillingForm.get('contactNumber')?.errors && BillingForm.get('contactNumber')?.errors!['pattern']">
-                            Enter a valid phone number
-                        </span>
-                        
-                    </mat-form-field>
+  <div class="form-section">
+    <form [formGroup]="BillingForm" class="example-form" (ngSubmit)="onSubmit()">
+      <div class="container">
+        <div class="billing-form">
+          <button (click)="backToCartPage()" class="mb-2" mat-raised-button color="warn">
+            Back to Cart
+          </button>
+          <mat-toolbar color="primary">
+            <span>Billing Details</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <mat-form-field class="full-width">
+            <mat-label>Customer name</mat-label>
+            <input matInput placeholder="Name" formControlName="customerName" />
+            <span class="text-danger" *ngIf="
+                (BillingForm.get('customerName')?.touched || submitted) &&
+                BillingForm.get('customerName')?.errors &&
+                (BillingForm.get('customerName')?.errors)!['required']
+              ">
+              Name is required
+            </span>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" />
+            <span class="text-danger" *ngIf="
+                (BillingForm.get('email')?.touched || submitted) &&
+                BillingForm.get('email')?.errors &&
+                (BillingForm.get('email')?.errors)!['required']
+              ">
+              Email is required
+            </span>
+            <span class="text-danger" *ngIf="
+                BillingForm.get('email')?.errors &&
+                (BillingForm.get('email')?.errors)!['email']
+              ">
+              Enter a valid email
+            </span>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Address</mat-label>
+            <input matInput placeholder="Address" formControlName="address" />
+            <span class="text-danger" *ngIf="
+                (BillingForm.get('address')?.touched || submitted) &&
+                BillingForm.get('address')?.errors &&
+                (BillingForm.get('address')?.errors)!['required']
+              ">
+              Address is required
+            </span>
+            <span class="text-danger" *ngIf="
+                (BillingForm.get('address')?.touched || submitted) &&
+                BillingForm.get('address')?.errors &&
+                (BillingForm.get('address')?.errors)!['maxlength']
+              ">
+              Maximum lenght is 150
+            </span>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Contact number</mat-label>
+            <input matInput placeholder="Contact number" formControlName="contactNumber" />
+            <span class="text-danger" *ngIf="
+                (BillingForm.get('contactNumber')?.touched || submitted) &&
+                BillingForm.get('contactNumber')?.errors &&
+                (BillingForm.get('contactNumber')?.errors)!['required']
+              ">
+              Contact number is required
+            </span>
+            <span class="text-danger" *ngIf="
+                BillingForm.get('contactNumber')?.errors &&
+                (BillingForm.get('contactNumber')?.errors)!['pattern']
+              ">
+              Enter a valid phone number
+            </span>
+          </mat-form-field>
 
-                    <mat-label>Upload the payment receipt here.</mat-label>
-                    <div class="receiptFile">
-                        <input type="file" (change)="onReceiptFileSelected($event)" accept="image/*,.pdf" #fileInput id="file">
-                    </div>
-                    <div class="text-danger" *ngIf="(BillingForm.get('receipt')?.touched || submitted) && BillingForm.get('receipt')?.errors && BillingForm.get('receipt')?.errors!['required']">
-                        Receipt is required
-                    </div>
-                    <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">Reset</button>
-                    <button mat-raised-button color="warn ms-2" (click)="closePage()">Close</button>
-                </div>
+          <mat-label>Upload the payment receipt here.</mat-label>
+          <div class="receiptFile">
+            <input type="file" (change)="onReceiptFileSelected($event)" accept="image/*,.pdf" #fileInput id="file" />
+          </div>
+          <div class="text-danger" *ngIf="
+              (BillingForm.get('receipt')?.touched || submitted) &&
+              BillingForm.get('receipt')?.errors &&
+              (BillingForm.get('receipt')?.errors)!['required']
+            ">
+            Receipt is required
+          </div>
+          <button type="reset" color="secondary" class="form-button" mat-raised-button (click)="resetData()">
+            Reset
+          </button>
+          <button mat-raised-button color="warn ms-2" (click)="closePage()">
+            Close
+          </button>
+        </div>
 
-                <div class="order-summary-card">
-                    <mat-card>
-                        <mat-card-header>
-                            <mat-card-title>Order Summary</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <div *ngFor="let element of dataSource?.data" class="summary-product-row">
-                                <div class="summary-product-main">
-                                    <div class="summary-product-CustomerName">{{ element.item }}</div>
-                                    <div class="summary-product-details">
-                                        <div *ngIf="element.size">Base size: {{ element.baseSize+'g' }}</div>
-                                        <div *ngIf="element.size">Selected Size: {{ element.size+'g' }}</div>
-                                        <div *ngIf="element.quantity">Qty: {{ element.quantity }}</div>
-                                    </div>
-                                </div>
-                                <div class="price">
-                                    <div class="summary-product-price">
-                                    <!-- {{ element.totalPrice | currency:'LKR' }} -->
-                                    Base price: {{ "Rs."+element.price }}
-                                </div>
-                                <div class="summary-product-price">
-                                    <!-- {{ element.totalPrice | currency:'LKR' }} -->
-                                    Total price: {{ "Rs."+element.totalPrice }}
-                                </div>
-                                </div>
-                                
-                            </div>
-                            <hr class="summary-divider" />
-                            
-                            <div class="summary-row grand-total">
-                                <span><strong>Order Total</strong></span>
-                                <span><strong>{{ "Rs."+grandTotal }}</strong></span>
-                            </div>
-                            <div class="checkout-container">
-                                <button type="submit" color="accent" class="checkOutBtn" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
-                            </div>
-                        </mat-card-content>
-                    </mat-card>
+        <div class="order-summary-card">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Order Summary</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let element of dataSource?.data" class="summary-product-row">
+                <div class="summary-product-main">
+                  <div class="summary-product-CustomerName">
+                    {{ element.item }}
+                  </div>
+                  <div class="summary-product-details">
+                    <div *ngIf="element.size">
+                      Base size: {{ element.baseSize + "g" }}
+                    </div>
+                    <div *ngIf="element.size">
+                      Selected Size: {{ element.size + "g" }}
+                    </div>
+                    <div *ngIf="element.quantity">
+                      Qty: {{ element.quantity }}
+                    </div>
+                  </div>
                 </div>
-            </div>
-        </form>
-    </div>
-    
+                <div class="price">
+                  <div class="summary-product-price">
+                    <!-- {{ element.totalPrice | currency:'LKR' }} -->
+                    Base price: {{ "Rs." + element.price }}
+                  </div>
+                  <div class="summary-product-price">
+                    <!-- {{ element.totalPrice | currency:'LKR' }} -->
+                    Total price: {{ "Rs." + element.totalPrice }}
+                  </div>
+                </div>
+              </div>
+              <hr class="summary-divider" />
+
+              <div class="summary-row grand-total">
+                <span><strong>Order Total</strong></span>
+                <span><strong>{{ "Rs." + grandTotal }}</strong></span>
+              </div>
+              <div class="checkout-container">
+                <button type="submit" color="accent" class="checkOutBtn" mat-raised-button
+                  [disabled]="isButtonDisabled">
+                  {{ saveButtonLabel }}
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

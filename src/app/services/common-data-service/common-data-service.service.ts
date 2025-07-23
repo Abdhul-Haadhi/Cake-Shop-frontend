@@ -9,13 +9,13 @@ import { HttpService } from '../http.service';
 export class CommonDataServiceService implements OnInit {
   public commonDataServiceUrl = '/common-data-service/';
 
-  constructor(private httpService: HttpService, private http: HttpClient) {}
+  constructor(private httpService: HttpService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.initializeComponent();
   }
 
-  public initializeComponent(): void {}
+  public initializeComponent(): void { }
 
   public getAvailablePrivilegeList(
     method: string,

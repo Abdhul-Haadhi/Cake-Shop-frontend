@@ -9,7 +9,7 @@ export class AuthServiceService {
   constructor(
     private _messageService: MessageServiceService,
     private router: Router
-  ) {}
+  ) { }
 
   public checkAuthorization(authId: number): boolean {
     const authIdArray: [any] = JSON.parse(

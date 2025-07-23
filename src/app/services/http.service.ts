@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class HttpService {
   public userNameBehaviorSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('');
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAuthToken(): string | null {
     return JSON.parse(window.localStorage.getItem('auth_token') as string);
@@ -34,7 +34,7 @@ export class HttpService {
   // Supplier id----------------------------------------
 
   setSupplierId(id: number) {
-  window.localStorage.setItem('supplier_id', id.toString());
+    window.localStorage.setItem('supplier_id', id.toString());
   }
 
   getSupplierId() {

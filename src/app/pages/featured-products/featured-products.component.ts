@@ -10,19 +10,19 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
   templateUrl: './featured-products.component.html',
   styleUrl: './featured-products.component.scss',
 })
-export class FeaturedProductsComponent implements OnInit{
+export class FeaturedProductsComponent implements OnInit {
 
   products: any[] = [];
 
 
   constructor(
-    private dialog:MatDialog,
+    private dialog: MatDialog,
     private productService: ProductRegistrationFormService,
-    private messageService: MessageServiceService,  
-  ){
-    
+    private messageService: MessageServiceService,
+  ) {
+
   }
-  
+
 
   ngOnInit(): void {
     this.getProducts();
@@ -85,24 +85,24 @@ export class FeaturedProductsComponent implements OnInit{
   //   },
   // ];
 
-  public getProducts(){
-    try{
+  public getProducts() {
+    try {
       this.products = [];
-      this.productService.getAllProducts().subscribe(response =>{
-        response.forEach((element:(any)) =>{
-          element.image = 'data:image/jpge;base64,'+element.image;
+      this.productService.getAllProducts().subscribe(response => {
+        response.forEach((element: (any)) => {
+          element.image = 'data:image/jpge;base64,' + element.image;
           this.products.push(element);
         })
       });
     }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
 
 
-  openPopup(product:any){
-    this.dialog.open(PopupBoxComponent,{
+  openPopup(product: any) {
+    this.dialog.open(PopupBoxComponent, {
       width: '60%',
       height: '450px',
       data: product

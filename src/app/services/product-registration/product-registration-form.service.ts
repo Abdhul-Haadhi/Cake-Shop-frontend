@@ -15,148 +15,148 @@ export class ProductRegistrationFormService {
 
   // serviceCall(from_details:any){
   //     console.log('In the service');
-  
+
   //     const requestUrl = environment.baseUrl + '/product-registration';
-  
-  
+
+
   //     let headers = {};
-  
+
   //     if (this.httpService.getAuthToken() !== null) {
   //       headers = {
   //         Authorization: 'Bearer ' + this.httpService.getAuthToken(),
   //       };
   //     }
-  
+
   //     return this.http.post(requestUrl,from_details,{headers:headers})
   //   }
 
   serviceCall(formDetails: any) {
-  console.log('In the service');
+    console.log('In the service');
 
-  const requestUrl = environment.baseUrl + '/product-registration';
+    const requestUrl = environment.baseUrl + '/product-registration';
 
-  let headers = {};
+    let headers = {};
 
-  if (this.httpService.getAuthToken() !== null) {
-    headers = {
-      Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-    };
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+
+    return this.http.post(requestUrl, formDetails, { headers: headers });
+  }
+
+  getData() {
+    const requestUrl = environment.baseUrl + '/product-registration';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers })
+  }
+
+  getOrderData() {
+    const requestUrl = environment.baseUrl + '/order-page';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, headers)
   }
 
 
-  return this.http.post(requestUrl, formDetails, { headers: headers });
-}
+  getAllProducts(): Observable<any> {
+    const requestUrl = environment.baseUrl + '/featured-products';
 
-    getData(){
-      const requestUrl = environment.baseUrl + '/product-registration';
-  
-      let headers = {};
-  
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
-  
-      return this.http.get(requestUrl,{headers:headers})
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
     }
 
-    getOrderData(){
-      const requestUrl = environment.baseUrl + '/order-page';
-  
-      let headers = {};
-  
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
-  
-      return this.http.get(requestUrl,headers)
+    return this.http.get(requestUrl, headers)
+  }
+
+  getCartProducts(): Observable<any> {
+    const requestUrl = environment.baseUrl + '/cart-page';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
     }
 
-
-    getAllProducts(): Observable<any>{
-      const requestUrl = environment.baseUrl + '/featured-products';
-
-      let headers = {};
-
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
-
-      return this.http.get(requestUrl,headers)
-    }
-
-    getCartProducts(): Observable<any>{
-      const requestUrl = environment.baseUrl + '/cart-page';
-
-      let headers = {};
-
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
-
-      if(this.product){
+    if (this.product) {
       return this.product;
     }
 
 
-      return this.http.get(requestUrl,headers)
+    return this.http.get(requestUrl, headers)
+  }
+
+  getCartProductDetails(id: any): Observable<any> {
+    const requestUrl = environment.baseUrl + '/cart-page/' + id.toString();
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
     }
 
-    getCartProductDetails(id:any): Observable<any>{
-      const requestUrl = environment.baseUrl + '/cart-page/' + id.toString();
+    return this.http.get(requestUrl, headers)
+  }
 
-      let headers = {};
 
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
+  editData(id: number, from_details: any) {
+    console.log('In edit data');
 
-      return this.http.get(requestUrl,headers)
+    const requestUrl = environment.baseUrl + '/product-registration/' + id.toString();
+
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
     }
 
+    return this.http.put(requestUrl, from_details, { headers: headers })
+  }
 
-    editData(id:number,from_details: any){
-      console.log('In edit data');
-  
-      const requestUrl = environment.baseUrl + '/product-registration/' + id.toString();
-  
-  
-      let headers = {};
-  
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
-  
-      return this.http.put(requestUrl,from_details,{headers:headers})
+  deleteData(id: number) {
+    console.log('In delete data');
+
+    const requestUrl = environment.baseUrl + '/product-registration/' + id.toString();
+
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
     }
-  
-    deleteData(id:number){
-      console.log('In delete data');
-  
-      const requestUrl = environment.baseUrl + '/product-registration/' + id.toString();
-  
-  
-      let headers = {};
-  
-      if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
-  
-      return this.http.delete(requestUrl,{headers:headers})
-    }
+
+    return this.http.delete(requestUrl, { headers: headers })
+  }
 
 
 }

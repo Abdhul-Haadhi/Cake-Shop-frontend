@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
-import {provideNativeDateAdapter} from '@angular/material/core';
-import {ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
-import {inject} from '@angular/core';
+import { inject } from '@angular/core';
 import { OrderListServiceService } from 'src/app/services/order-list/order-list-service.service';
 import { HttpService } from 'src/app/services/http.service';
 import { CheckoutPageServiceService } from 'src/app/services/checkout-page/checkout-page-service.service';
@@ -24,17 +24,17 @@ interface orderStatus {
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.scss'
 })
-export class OrderListComponent implements OnInit{
+export class OrderListComponent implements OnInit {
   orderListForm: FormGroup;
 
   startDate!: Date;
   endDate!: Date;
 
   orderStatus: orderStatus[] = [
-    {value: 'Pending', viewValue: 'Pending'},
-    {value: 'Confirmed', viewValue: 'Confirmed'},
-    {value: 'In_Progress', viewValue: 'In_Progress'},
-    {value: 'Done', viewValue: 'Done'},
+    { value: 'Pending', viewValue: 'Pending' },
+    { value: 'Confirmed', viewValue: 'Confirmed' },
+    { value: 'In_Progress', viewValue: 'In_Progress' },
+    { value: 'Done', viewValue: 'Done' },
   ];
 
 
@@ -69,18 +69,18 @@ export class OrderListComponent implements OnInit{
     // private dateFilterService: OrderListServiceService,
     private messageService: MessageServiceService,
     private httpService: HttpService
-  ){
+  ) {
 
     this.orderListForm = this.fb.group({
-      orderId : new FormControl('',[]),
-      itemName: new FormControl('',[]),
-      customerName : new FormControl('',[]),
-      contactNumber : new FormControl('',[]),
-      email : new FormControl('',[]),
-      address : new FormControl('',[]),
-      status : new FormControl('',[]),
-      user : new FormControl('',[]),
-      date : new FormControl('',[]),
+      orderId: new FormControl('', []),
+      itemName: new FormControl('', []),
+      customerName: new FormControl('', []),
+      contactNumber: new FormControl('', []),
+      email: new FormControl('', []),
+      address: new FormControl('', []),
+      status: new FormControl('', []),
+      user: new FormControl('', []),
+      date: new FormControl('', []),
     });
 
   }
@@ -89,28 +89,28 @@ export class OrderListComponent implements OnInit{
     this.populateData();
   }
 
-  public populateData(): void{
-    try{
+  public populateData(): void {
+    try {
       this.orderListService.getData().subscribe({
-      next: (dataList: any) => {
-        console.log('Component received dataList:', dataList);
-        if(dataList.length <= 0){
-          return;
-        }
+        next: (dataList: any) => {
+          console.log('Component received dataList:', dataList);
+          if (dataList.length <= 0) {
+            return;
+          }
 
-      this.dataSource = new MatTableDataSource(dataList);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    },
-    error: (error) => {
+          this.dataSource = new MatTableDataSource(dataList);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        }
+      });
+    }
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-  });
-    }
-    catch(error){
-      this.messageService.showError('Action failed with error' + error);
-    }
-    
+
   }
 
   applyFilter(event: Event) {
@@ -121,12 +121,12 @@ export class OrderListComponent implements OnInit{
     }
   }
 
-  filterOrders(){
+  filterOrders() {
     const start = this.startDate.toISOString().split('T')[0];
     const end = this.endDate.toISOString().split('T')[0];
 
-    this.orderListService.filterByDate(start,end).subscribe({
-      next: (data:any) => {
+    this.orderListService.filterByDate(start, end).subscribe({
+      next: (data: any) => {
         this.dataSource.data = data;
       },
       error: (err: any) => {
@@ -135,10 +135,10 @@ export class OrderListComponent implements OnInit{
     });
   }
 
-  onSubmit(){
-    try{
+  onSubmit() {
+    try {
       this.submitted = true;
-      if(this.orderListForm.invalid){
+      if (this.orderListForm.invalid) {
         return;
       }
 
@@ -146,38 +146,38 @@ export class OrderListComponent implements OnInit{
       // let currentDate = new Date();
       // let dateOnly = currentDate.toISOString().split('T')[0];
 
-    //   if(this.mode === 'add'){
-    //     this.orderListForm.patchValue({
-    //       // user: userId,
-    //       // date: dateOnly,
-    //       status: 'Pending'
-    //     });
-      
-    //   this.orderListService.serviceCall(this.orderListForm.value).subscribe({
-    //     next: (response: any) => {
-    //       if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
-    //               this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-    //             }
-    //             else{
-    //                 this.dataSource = new MatTableDataSource([response]);
-    //             }
-    //             this.messageService.showSuccess('Data saved successfully!');
-    //     },
-    //     error: (error) =>{
-    //       this.messageService.showError('Action failed with error' + error);
-    //     }
-    //   });
+      //   if(this.mode === 'add'){
+      //     this.orderListForm.patchValue({
+      //       // user: userId,
+      //       // date: dateOnly,
+      //       status: 'Pending'
+      //     });
 
-    //   // console.log('onSubmit() called');
-    //   // console.log('mode:', this.mode);
-    //   // console.log('selectedData:', this.selectedData);
-    //   // console.log('form value:', this.orderListForm.value);
+      //   this.orderListService.serviceCall(this.orderListForm.value).subscribe({
+      //     next: (response: any) => {
+      //       if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
+      //               this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
+      //             }
+      //             else{
+      //                 this.dataSource = new MatTableDataSource([response]);
+      //             }
+      //             this.messageService.showSuccess('Data saved successfully!');
+      //     },
+      //     error: (error) =>{
+      //       this.messageService.showError('Action failed with error' + error);
+      //     }
+      //   });
 
-    // }
-  
-     if(this.mode === 'edit'){
+      //   // console.log('onSubmit() called');
+      //   // console.log('mode:', this.mode);
+      //   // console.log('selectedData:', this.selectedData);
+      //   // console.log('form value:', this.orderListForm.value);
 
-      const updatedStatus = this.orderListForm.value.status;
+      // }
+
+      if (this.mode === 'edit') {
+
+        const updatedStatus = this.orderListForm.value.status;
         if (!updatedStatus) {
           this.messageService.showError('Please select a status to update.');
           return;
@@ -185,26 +185,26 @@ export class OrderListComponent implements OnInit{
 
         const orderId = this.selectedData?.orderId;
 
-      this.orderListService.editData(orderId, { status: updatedStatus }).subscribe({
-        next:(response) =>{
-          let elementIndex = this.dataSource.data.findIndex((element) => element.orderId === orderId);
-          this.dataSource.data[elementIndex] = response;
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data edited successfully!');
-          this.populateData();
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
-        }
-      })
+        this.orderListService.editData(orderId, { status: updatedStatus }).subscribe({
+          next: (response) => {
+            let elementIndex = this.dataSource.data.findIndex((element) => element.orderId === orderId);
+            this.dataSource.data[elementIndex] = response;
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data edited successfully!');
+            this.populateData();
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          }
+        })
+      }
+
+      this.mode = 'add';
+      this.orderListForm.disable();
+      this.isButtonDisabled = true;
+
     }
-    
-    this.mode = 'add';
-    this.orderListForm.disable();
-    this.isButtonDisabled = true;
-    
-    }
-    catch(error){
+    catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
@@ -213,7 +213,7 @@ export class OrderListComponent implements OnInit{
 
 
 
-  public resetData(): void{
+  public resetData(): void {
     this.orderListForm.reset();
     this.orderListForm.updateValueAndValidity();
     this.saveButtonLabel = 'Save';
@@ -229,7 +229,7 @@ export class OrderListComponent implements OnInit{
     this.selectedData = data;
   }
 
-  public refreshData(): void{
+  public refreshData(): void {
     this.populateData();
   }
 

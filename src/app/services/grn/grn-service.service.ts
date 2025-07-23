@@ -9,39 +9,39 @@ import { Observable } from 'rxjs';
 })
 export class GrnServiceService {
 
-  constructor(private http:HttpClient, private httpService:HttpService) { }
+  constructor(private http: HttpClient, private httpService: HttpService) { }
 
-  innerEditData(id: number, form_details:any){
+  innerEditData(id: number, form_details: any) {
     const requestUrl = environment.baseUrl + '/innergrn/' + id.toString();
 
     let headers = {};
 
-    if(this.httpService.getAuthToken() !== null){
+    if (this.httpService.getAuthToken() !== null) {
       headers = {
         Authorization: 'Bearer ' + this.httpService.getAuthToken(),
       };
     }
 
-    return this.http.put(requestUrl,form_details,{headers:headers});
+    return this.http.put(requestUrl, form_details, { headers: headers });
   }
 
-  editDataOuterForm(id: number, form_details: any){
+  editDataOuterForm(id: number, form_details: any) {
     const requestUrl = environment.baseUrl + '/outeredit/' + id.toString();
 
     let headers = {};
 
-    if(this.httpService.getAuthToken() !== null){
+    if (this.httpService.getAuthToken() !== null) {
       headers = {
         Authorization: 'Bearer ' + this.httpService.getAuthToken(),
       };
     }
 
-    return this.http.put(requestUrl,form_details,{headers:headers});
+    return this.http.put(requestUrl, form_details, { headers: headers });
 
   }
 
 
-  deleteDataOuter(id: number){
+  deleteDataOuter(id: number) {
     console.log("delete data" + id);
 
     const requestUrl = environment.baseUrl + '/deleteOuter/' + id.toString();
@@ -54,12 +54,12 @@ export class GrnServiceService {
       };
     }
 
-     return this.http.delete(requestUrl,{headers:headers});
+    return this.http.delete(requestUrl, { headers: headers });
   }
 
 
   //get all GRN
-  getData(): Observable<any[]>{
+  getData(): Observable<any[]> {
     console.log("get data");
 
     const requestUrl = environment.baseUrl + '/allgrn';
@@ -72,7 +72,7 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.get<any[]>(requestUrl,{headers:headers});
+    return this.http.get<any[]>(requestUrl, { headers: headers });
   }
 
 
@@ -80,7 +80,7 @@ export class GrnServiceService {
   stockUpdate(item_list: any) {
 
     const requestUrl = environment.baseUrl + '/stockupdate';
-    
+
     let headers = {};
 
     if (this.httpService.getAuthToken() !== null) {
@@ -89,28 +89,28 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.put(requestUrl,item_list,{headers:headers});
+    return this.http.put(requestUrl, item_list, { headers: headers });
   }
 
 
 
-  stockUpdateEdit(item_list: any){
+  stockUpdateEdit(item_list: any) {
     const requestUrl = environment.baseUrl + '/stockupdateEdit';
     let headers = {};
 
 
     if (this.httpService.getAuthToken() !== null) {
-        headers = {
-          Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-        };
-      }
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
 
-      return this.http.put(requestUrl,item_list,{headers:headers});
+    return this.http.put(requestUrl, item_list, { headers: headers });
   }
-  
 
 
-  serviceCallPost(form_details:any){
+
+  serviceCallPost(form_details: any) {
     console.log("service call");
 
     const requestUrl = environment.baseUrl + '/grn';
@@ -123,12 +123,12 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.post(requestUrl,form_details,{headers:headers});
+    return this.http.post(requestUrl, form_details, { headers: headers });
   }
 
 
 
-  serviceCallPostInner(form_details:any){
+  serviceCallPostInner(form_details: any) {
 
     const requestUrl = environment.baseUrl + '/inner';
 
@@ -140,12 +140,12 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.post(requestUrl,form_details,{headers:headers});
+    return this.http.post(requestUrl, form_details, { headers: headers });
 
   }
 
 
-  getGRNs(){
+  getGRNs() {
     console.log("get data");
 
     const requestUrl = environment.baseUrl + '/grn';
@@ -157,14 +157,14 @@ export class GrnServiceService {
         Authorization: 'Bearer ' + this.httpService.getAuthToken(),
       };
     }
-    return this.http.get(requestUrl,{headers:headers});
+    return this.http.get(requestUrl, { headers: headers });
   }
 
 
-  getQty(itemID:number){
+  getQty(itemID: number) {
     console.log("get data");
 
-    const requestUrl = environment.baseUrl + '/getQty/'+ itemID.toString();
+    const requestUrl = environment.baseUrl + '/getQty/' + itemID.toString();
 
     let headers = {};
 
@@ -173,11 +173,11 @@ export class GrnServiceService {
         Authorization: 'Bearer ' + this.httpService.getAuthToken(),
       };
     }
-    return this.http.get(requestUrl,{headers:headers});
+    return this.http.get(requestUrl, { headers: headers });
   }
 
 
-  getItem(): Observable<any[]>{
+  getItem(): Observable<any[]> {
     console.log("get items");
 
     const requestUrl = environment.baseUrl + '/grn/get-item';
@@ -190,10 +190,10 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.get<any[]>(requestUrl,{headers:headers});
+    return this.http.get<any[]>(requestUrl, { headers: headers });
   }
 
-  getSupplier(){
+  getSupplier() {
     console.log("get suppliers");
 
     const requestUrl = environment.baseUrl + '/supplier-registration';
@@ -206,12 +206,12 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.get(requestUrl,{headers:headers});
-    
+    return this.http.get(requestUrl, { headers: headers });
+
   }
 
 
-  getInnerGRN(grnno:number){
+  getInnerGRN(grnno: number) {
     const requestUrl = environment.baseUrl + '/get-inner/' + grnno.toString();
 
     let headers = {};
@@ -222,11 +222,11 @@ export class GrnServiceService {
       };
     }
 
-    return this.http.get(requestUrl,{headers:headers});
+    return this.http.get(requestUrl, { headers: headers });
   }
 
 
-  deleteInnerData(id: number){
+  deleteInnerData(id: number) {
     console.log("delete data" + id);
 
     const requestUrl = environment.baseUrl + '/innergrn/' + id.toString();
@@ -239,7 +239,7 @@ export class GrnServiceService {
       };
     }
 
-     return this.http.delete(requestUrl,{headers:headers});
+    return this.http.delete(requestUrl, { headers: headers });
   }
 
 
