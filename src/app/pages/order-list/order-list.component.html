@@ -1,6 +1,6 @@
 <div class="container">
     <mat-toolbar color="primary">
-        <span>Orders</span>
+        <span>Orders list</span>
         <span class="example-spacer"></span>
         <!-- <button class="form-button" mat-raised-button color="warn" (click)="showForm = true" *ngIf="!showForm">
           +Add Product
@@ -43,17 +43,17 @@
 
                 <mat-form-field class="full-width">
                   <mat-label>Date</mat-label>
-                  <input matInput formControlName="date" readonly="true">
+                  <input matInput formControlName="date" readonly="true" type="date">
                 </mat-form-field>
                 
                 <mat-form-field>
-                <mat-label>Order status</mat-label>
-                <mat-select matInput placeholder="Select order status" formControlName="orderStatus">
-                  @for (orderStatus of orderStatus; track orderStatus) {
-                    <mat-option [value]="orderStatus.value">{{orderStatus.viewValue}}</mat-option>
-                  }
-                </mat-select>
-              </mat-form-field>
+                  <mat-label>Status</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option *ngFor="let status of orderStatus" [value]="status.value">
+                      {{ status.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
 
         <button type="submit" color="primary" class="form-button" mat-raised-button [disabled]="isButtonDisabled">{{ saveButtonLabel }}</button>
@@ -160,15 +160,15 @@
               <td mat-cell *matCellDef="let element"> {{element.date}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="orderStatus">
+            <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef> Status </th>
-              <td mat-cell *matCellDef="let element"> {{element.orderStatus}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.status}} </td>
             </ng-container>
       
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef> Actions </th>
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button color="warn" (click)="editData(element)" (click)="showForm = true" *ngIf="!showForm" matTooltip="edit">
+                <button mat-icon-button color="warn" (click)="editData(element); showForm = true" *ngIf="!showForm" matTooltip="edit">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <!-- <button mat-icon-button color="black" (click)="deleteData(element)" matTooltip="delete">

@@ -58,10 +58,13 @@ export class CheckoutPageServiceService {
     return this.http.get(requestUrl, { headers: headers, params: params });
   }
 
-  editData(id: number, from_details: any) {
+  editData(orderId: number, statusPayload: any) {
     console.log('In edit data');
+      console.log('editData() called');
+    console.log('id:', orderId);
+    console.log('form_details:', statusPayload);
 
-    const requestUrl = environment.baseUrl + '/checkout-page/' + id.toString();
+    const requestUrl = environment.baseUrl + '/order-list/' + orderId.toString() + '/status';
 
     let headers = {};
 
@@ -71,7 +74,7 @@ export class CheckoutPageServiceService {
       };
     }
 
-    return this.http.put(requestUrl, from_details, { headers: headers });
+    return this.http.put(requestUrl, statusPayload, { headers: headers });
   }
 
   //     deleteData(id:number){
