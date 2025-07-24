@@ -80,6 +80,19 @@ export class HttpService {
     // }
   }
 
+  public updateLoginData(details: any, id: any) {
+    const requestUrl =
+      environment.baseUrl + '/update-employee-login-details/' + id;
+
+    let headers = {};
+
+    if (this.getAuthToken() !== null) {
+      headers = { Authorization: 'Bearer ' + this.getAuthToken() };
+    }
+
+    return this.http.put(requestUrl, details, { headers: headers });
+  }
+
   get isLoggedIn() {
     if (window.localStorage.getItem('auth_token')) {
       return true;

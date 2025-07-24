@@ -22,6 +22,7 @@ export class RegDialogComponent implements OnInit {
   public loginDetailsForm: FormGroup;
   submitted = false;
   buttonLabel: string = 'Save';
+  loginData: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, // <-- inject data here
@@ -48,6 +49,7 @@ export class RegDialogComponent implements OnInit {
   public populateData(): void {
     this.httpService.getUserData(this.data).subscribe({
       next: (response: any) => {
+        this.loginData = response;
         this.patchFormData(response);
         this.buttonLabel = 'Edit';
       },
@@ -62,6 +64,7 @@ export class RegDialogComponent implements OnInit {
       firstName: data.firstName,
       lastName: data.lastName,
       login: data.login,
+      role: data.role,
     });
   }
 
@@ -86,6 +89,30 @@ export class RegDialogComponent implements OnInit {
             this.messageService.showError(error);
           });
       } else if ((this.buttonLabel = 'Edit')) {
+        this.httpService
+          .updateLoginData(
+            {
+              firstName: this.loginDetailsForm.getRawValue().firstName,
+              lastName: this.loginDetailsForm.getRawValue().lastName,
+              login: this.loginDetailsForm.getRawValue().login,
+              password: this.rsaService.encrypt(
+                this.loginDetailsForm.getRawValue().password
+              ),
+            },
+            this.loginData.id
+          )
+          .subscribe({
+            next: (response: any) => {
+              if (response) {
+                this.messageService.showSuccess(
+                  'Login Details Updated Successfully!'
+                );
+              }
+            },
+            error: (error: any) => {
+              this.messageService.showError(error);
+            },
+          });
       }
     } catch (error: any) {
       this.messageService.showError('Login creation error!');
