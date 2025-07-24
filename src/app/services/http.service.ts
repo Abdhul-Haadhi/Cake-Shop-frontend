@@ -80,9 +80,14 @@ export class HttpService {
     // }
   }
 
-  public updateLoginData(details: any, id: any) {
-    const requestUrl =
-      environment.baseUrl + '/update-employee-login-details/' + id;
+  public updateLoginData(details: any, id: any, role: string) {
+    let requestUrl = '';
+
+    if (role === 'EMPLOYEE') {
+      requestUrl = environment.baseUrl + '/update-employee-login-details/' + id;
+    } else {
+      requestUrl = environment.baseUrl + '/update-customer-login-details/' + id;
+    }
 
     let headers = {};
 

@@ -14,6 +14,8 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 import { inject } from '@angular/core';
 import { CustomerRegistrationFormService } from 'src/app/services/customer-registration/customer-registration-form.service';
 import { NotificationService } from 'src/app/services/notification-service/notification.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RegDialogComponent } from '../employee-registration/reg-dialog/reg-dialog.component';
 
 interface CustomerCategory {
   value: string;
@@ -70,7 +72,8 @@ export class CustomerRegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private custService: CustomerRegistrationFormService,
     private messageService: MessageServiceService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private _dialog: MatDialog
   ) {
     const today = new Date();
     this.maxDate = new Date();
@@ -249,5 +252,25 @@ export class CustomerRegistrationComponent implements OnInit {
     this.showForm = false;
     this.CustRegForm.reset();
     this.submitted = false;
+  }
+
+  public addLoginCredentials(customer: any): void {
+    try {
+      const dialogRef = this._dialog.open(RegDialogComponent, {
+        data: { id: customer.id, role: 'CUSTOMER' },
+      });
+
+      dialogRef.afterClosed().subscribe({
+        next: (value: any) => {
+          if (value) {
+            this.messageService.showSuccess(
+              'Customer Login Details Added Successfully!'
+            );
+          }
+        },
+      });
+    } catch (error: any) {
+      this.messageService.showError('Action Failed!');
+    }
   }
 }

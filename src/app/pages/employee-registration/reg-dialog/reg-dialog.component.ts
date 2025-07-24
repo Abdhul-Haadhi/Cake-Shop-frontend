@@ -39,7 +39,8 @@ export class RegDialogComponent implements OnInit {
       lastName: new FormControl('', [Validators.required]),
       login: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
-      employeeId: new FormControl(data.id),
+      employeeId: new FormControl(null),
+      customerId: new FormControl(null),
     });
   }
   ngOnInit(): void {
@@ -49,9 +50,21 @@ export class RegDialogComponent implements OnInit {
   public populateData(): void {
     this.httpService.getUserData(this.data).subscribe({
       next: (response: any) => {
-        this.loginData = response;
-        this.patchFormData(response);
-        this.buttonLabel = 'Edit';
+        if (response) {
+          this.loginData = response;
+          this.patchFormData(response);
+          this.buttonLabel = 'Edit';
+        } else {
+          if (this.data.role == 'EMPLOYEE') {
+            this.loginDetailsForm.patchValue({
+              employeeId: this.data.id,
+            });
+          } else {
+            this.loginDetailsForm.patchValue({
+              customerId: this.data.id,
+            });
+          }
+        }
       },
       error: (error: any) => {
         this.messageService.showError(error);
@@ -66,14 +79,34 @@ export class RegDialogComponent implements OnInit {
       login: data.login,
       role: data.role,
     });
+
+    if (data) {
+      this.loginDetailsForm
+        .get('password')
+        ?.removeValidators(Validators.required);
+      this.loginDetailsForm.get('password')?.updateValueAndValidity();
+    } else {
+      this.loginDetailsForm.get('password')?.addValidators(Validators.required);
+      this.loginDetailsForm.get('password')?.updateValueAndValidity();
+    }
   }
 
   public onSubmit(): void {
     try {
       if (this.buttonLabel == 'Save') {
+        let tempUrl =
+          this.data.role == 'EMPLOYEE'
+            ? '/create-employee-login'
+            : '/create-customer-login';
+
         this.httpService
-          .request('POST', '/create-employee-login', {
-            employeeId: this.loginDetailsForm.getRawValue().employeeId,
+          .request('POST', tempUrl, {
+            employeeId: this.loginDetailsForm.getRawValue().employeeId
+              ? this.loginDetailsForm.getRawValue().employeeId
+              : null,
+            customerId: this.loginDetailsForm.getRawValue().customerId
+              ? this.loginDetailsForm.getRawValue().customerId
+              : null,
             firstName: this.loginDetailsForm.getRawValue().firstName,
             lastName: this.loginDetailsForm.getRawValue().lastName,
             login: this.loginDetailsForm.getRawValue().login,
@@ -99,7 +132,8 @@ export class RegDialogComponent implements OnInit {
                 this.loginDetailsForm.getRawValue().password
               ),
             },
-            this.loginData.id
+            this.loginData.id,
+            this.data.role
           )
           .subscribe({
             next: (response: any) => {
