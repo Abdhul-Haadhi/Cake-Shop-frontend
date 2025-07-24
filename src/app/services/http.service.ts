@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class HttpService {
   public userNameBehaviorSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('');
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAuthToken(): string | null {
     return JSON.parse(window.localStorage.getItem('auth_token') as string);
@@ -127,5 +127,21 @@ export class HttpService {
     }
 
     return this.http.put(requestUrl, data, { headers: headers }).toPromise();
+  }
+
+  public getUserData(data: any) {
+    const id = data.id;
+    const role = data.role;
+
+    const requestUrl =
+      environment.baseUrl + '/get-user-date/' + role + '/' + id.toString();
+
+    let headers = {};
+
+    if (this.getAuthToken() !== null) {
+      headers = { Authorization: 'Bearer ' + this.getAuthToken() };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
   }
 }

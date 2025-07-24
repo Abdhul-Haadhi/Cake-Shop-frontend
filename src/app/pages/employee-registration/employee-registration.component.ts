@@ -1,5 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
@@ -23,7 +29,6 @@ interface JobRole {
   providers: [provideNativeDateAdapter()],
   styleUrl: './employee-registration.component.scss',
 })
-
 export class EmployeeRegistrationComponent implements OnInit {
   EmpRegForm: FormGroup;
 
@@ -33,7 +38,6 @@ export class EmployeeRegistrationComponent implements OnInit {
     { value: 'cakeMaker', viewValue: 'Cake maker' },
     { value: 'decorator', viewValue: 'Decorator' },
   ];
-
 
   displayedColumns: string[] = [
     'employeeNumber',
@@ -57,18 +61,16 @@ export class EmployeeRegistrationComponent implements OnInit {
   saveButtonLabel: string = 'Save';
   submitted = false;
   mode = 'add';
-  selectedData!: { id: any; };
+  selectedData!: { id: any };
   showForm = false;
 
-
-
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private empService: EmployeeRegistrationFormService,
     private messageService: MessageServiceService,
     private notificationService: NotificationService,
     private _dialog: MatDialog
   ) {
-
     const today = new Date();
     this.maxDate = new Date(
       today.getFullYear() - 20,
@@ -77,12 +79,27 @@ export class EmployeeRegistrationComponent implements OnInit {
     );
 
     this.EmpRegForm = this.fb.group({
-      employeeNumber: new FormControl('', [Validators.required, Validators.pattern('^EMP[0-9]+$')]),
-      fullName: new FormControl('', [Validators.required, Validators.pattern('^[A-Za-z ]+$')]),
-      nic: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{9}[vVxX]$|^[0-9]{12}')]),
+      employeeNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^EMP[0-9]+$'),
+      ]),
+      fullName: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[A-Za-z ]+$'),
+      ]),
+      nic: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]{9}[vVxX]$|^[0-9]{12}'),
+      ]),
       birthday: new FormControl('', [Validators.required]),
-      address: new FormControl('', [Validators.required, Validators.maxLength(150)]),
-      contactNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]),
+      address: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(150),
+      ]),
+      contactNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]{10}$'),
+      ]),
       gender: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       jobRole: new FormControl('', [Validators.required]),
@@ -91,7 +108,6 @@ export class EmployeeRegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.populateData();
   }
-
 
   public populateData(): void {
     try {
@@ -107,15 +123,12 @@ export class EmployeeRegistrationComponent implements OnInit {
         },
         error: (error) => {
           this.messageService.showError('Action failed with error' + error);
-        }
+        },
       });
-    }
-    catch (error) {
+    } catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
-
   }
-
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -132,7 +145,6 @@ export class EmployeeRegistrationComponent implements OnInit {
         return;
       }
       if (this.mode === 'add') {
-
         //   this.empService.serviceCall(this.EmpRegForm.value).subscribe((Response)=>{
         //     if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0){
         //       this.dataSource = new MatTableDataSource([Response, ...this.dataSource.data,]);
@@ -144,46 +156,51 @@ export class EmployeeRegistrationComponent implements OnInit {
 
         // });
 
-
         this.empService.serviceCall(this.EmpRegForm.value).subscribe({
           next: (response: any) => {
-            if (this.dataSource && this.dataSource.data && this.dataSource.data.length > 0) {
-              this.dataSource = new MatTableDataSource([response, ...this.dataSource.data,]);
-            }
-            else {
+            if (
+              this.dataSource &&
+              this.dataSource.data &&
+              this.dataSource.data.length > 0
+            ) {
+              this.dataSource = new MatTableDataSource([
+                response,
+                ...this.dataSource.data,
+              ]);
+            } else {
               this.dataSource = new MatTableDataSource([response]);
             }
             this.messageService.showSuccess('Data saved successfully!');
-            this.addNotification("Employee Added Successfully");
+            this.addNotification('Employee Added Successfully');
           },
           error: (error) => {
             this.messageService.showError('Action failed with error' + error);
-          }
+          },
         });
-      }
-      else if (this.mode === 'edit') {
-        this.empService.editData(this.selectedData?.id, this.EmpRegForm.value).subscribe({
-          next: (response) => {
-            let elementIndex = this.dataSource.data.findIndex((element) => element.id === this.selectedData?.id);
-            this.dataSource.data[elementIndex] = response;
-            this.dataSource = new MatTableDataSource(this.dataSource.data);
-            this.messageService.showSuccess('Data edited successfully!');
-          },
-          error: (error) => {
-            this.messageService.showError('Action failed with error' + error);
-          }
-        })
+      } else if (this.mode === 'edit') {
+        this.empService
+          .editData(this.selectedData?.id, this.EmpRegForm.value)
+          .subscribe({
+            next: (response) => {
+              let elementIndex = this.dataSource.data.findIndex(
+                (element) => element.id === this.selectedData?.id
+              );
+              this.dataSource.data[elementIndex] = response;
+              this.dataSource = new MatTableDataSource(this.dataSource.data);
+              this.messageService.showSuccess('Data edited successfully!');
+            },
+            error: (error) => {
+              this.messageService.showError('Action failed with error' + error);
+            },
+          });
       }
       this.mode = 'add';
       this.EmpRegForm.disable();
       this.isButtonDisabled = true;
-    }
-    catch (error) {
+    } catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
-
-
 
   public resetData(): void {
     this.EmpRegForm.reset();
@@ -218,7 +235,9 @@ export class EmployeeRegistrationComponent implements OnInit {
     try {
       this.empService.deleteData(id).subscribe({
         next: (Response) => {
-          const index = this.dataSource.data.findIndex((element) => element.id === id);
+          const index = this.dataSource.data.findIndex(
+            (element) => element.id === id
+          );
           if (index !== -1) {
             this.dataSource.data.splice(index, 1);
           }
@@ -227,21 +246,23 @@ export class EmployeeRegistrationComponent implements OnInit {
         },
         error: (error) => {
           this.messageService.showError('Action failed with error' + error);
-        }
+        },
       });
-    }
-    catch (error) {
+    } catch (error) {
       this.messageService.showError('Action failed with error' + error);
     }
   }
-
 
   public refreshData(): void {
     this.populateData();
   }
 
   public addNotification(details: any): void {
-    this.notificationService.addNotification('Employee Added Successfully', 'success', 1);
+    this.notificationService.addNotification(
+      'Employee Added Successfully',
+      'success',
+      1
+    );
   }
 
   closeForm() {
@@ -252,20 +273,21 @@ export class EmployeeRegistrationComponent implements OnInit {
 
   public addLoginCredentials(employee: any): void {
     try {
-          const dialogRef = this._dialog.open(RegDialogComponent, {
-      data: {id: employee.id}
-    });
+      const dialogRef = this._dialog.open(RegDialogComponent, {
+        data: { id: employee.id, role: 'EMPLOYEE' },
+      });
 
-    dialogRef.afterClosed().subscribe({
-      next: (value: any) => {
-        if (value) {
-          this.messageService.showSuccess('Employee Login Details Added Successfully!');
-        }
-      }
-    })
-    }  catch(error: any) {
+      dialogRef.afterClosed().subscribe({
+        next: (value: any) => {
+          if (value) {
+            this.messageService.showSuccess(
+              'Employee Login Details Added Successfully!'
+            );
+          }
+        },
+      });
+    } catch (error: any) {
       this.messageService.showError('Action Failed!');
     }
   }
-
 }

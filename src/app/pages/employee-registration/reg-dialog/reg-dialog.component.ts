@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -17,10 +17,11 @@ import { RsaService } from 'src/app/services/rsa-service/rsa.service';
   templateUrl: './reg-dialog.component.html',
   styleUrl: './reg-dialog.component.scss',
 })
-export class RegDialogComponent {
+export class RegDialogComponent implements OnInit {
   public title: string = '';
   public loginDetailsForm: FormGroup;
   submitted = false;
+  buttonLabel: string = 'Save';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, // <-- inject data here
@@ -40,22 +41,52 @@ export class RegDialogComponent {
       employeeId: new FormControl(data.id),
     });
   }
+  ngOnInit(): void {
+    this.populateData();
+  }
 
-  public createLogin(): void {
+  public populateData(): void {
+    this.httpService.getUserData(this.data).subscribe({
+      next: (response: any) => {
+        this.patchFormData(response);
+        this.buttonLabel = 'Edit';
+      },
+      error: (error: any) => {
+        this.messageService.showError(error);
+      },
+    });
+  }
+
+  public patchFormData(data: any): void {
+    this.loginDetailsForm.patchValue({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      login: data.login,
+    });
+  }
+
+  public onSubmit(): void {
     try {
-      this.httpService
-        .request('POST', '/create-employee-login', {
-          employeeId: this.loginDetailsForm.getRawValue().employeeId,
-          firstName: this.loginDetailsForm.getRawValue().firstName,
-          lastName: this.loginDetailsForm.getRawValue().lastName,
-          login: this.loginDetailsForm.getRawValue().login,
-          password: this.rsaService.encrypt(
-            this.loginDetailsForm.getRawValue().password
-          ),
-        })
-        .then((response: any) => {
-          this._dialogRef.close(true);
-        });
+      if (this.buttonLabel == 'Save') {
+        this.httpService
+          .request('POST', '/create-employee-login', {
+            employeeId: this.loginDetailsForm.getRawValue().employeeId,
+            firstName: this.loginDetailsForm.getRawValue().firstName,
+            lastName: this.loginDetailsForm.getRawValue().lastName,
+            login: this.loginDetailsForm.getRawValue().login,
+            password: this.rsaService.encrypt(
+              this.loginDetailsForm.getRawValue().password
+            ),
+            role: this.data.role,
+          })
+          .then((response: any) => {
+            this._dialogRef.close(true);
+          })
+          .catch((error: any) => {
+            this.messageService.showError(error);
+          });
+      } else if ((this.buttonLabel = 'Edit')) {
+      }
     } catch (error: any) {
       this.messageService.showError('Login creation error!');
     }
