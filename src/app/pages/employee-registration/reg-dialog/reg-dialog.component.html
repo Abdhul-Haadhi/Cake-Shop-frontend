@@ -1,0 +1,91 @@
+<div mat-dialog-title>
+  <h5>{{ title }}</h5>
+</div>
+<form [formGroup]="loginDetailsForm" (ngSubmit)="createLogin()">
+  <div mat-dialog-content class="content">
+    <div class="row">
+      <mat-form-field appearance="fill">
+        <mat-label>First Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Last Name"
+          formControlName="firstName"
+        />
+      </mat-form-field>
+      <span
+        class="text-danger"
+        *ngIf="
+          (loginDetailsForm.get('firstName')?.touched || submitted) &&
+          loginDetailsForm.get('firstName')?.errors &&
+          (loginDetailsForm.get('firstName')?.errors)!['required']
+        "
+      >
+        First name is required.
+      </span>
+      <mat-form-field appearance="fill">
+        <mat-label>Last Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Last Name"
+          formControlName="lastName"
+        />
+      </mat-form-field>
+      <span
+        class="text-danger"
+        *ngIf="
+          (loginDetailsForm.get('lastName')?.touched || submitted) &&
+          loginDetailsForm.get('lastName')?.errors &&
+          (loginDetailsForm.get('lastName')?.errors)!['required']
+        "
+      >
+        Last name is required.
+      </span>
+      <mat-form-field appearance="outline">
+        <mat-label>User Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="User Name"
+          formControlName="login"
+        />
+      </mat-form-field>
+      <span
+        class="text-danger"
+        *ngIf="
+          (loginDetailsForm.get('login')?.touched || submitted) &&
+          loginDetailsForm.get('login')?.errors &&
+          (loginDetailsForm.get('login')?.errors)!['required']
+        "
+      >
+        User name is required.
+      </span>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          type="password"
+        />
+      </mat-form-field>
+      <span
+        class="text-danger"
+        *ngIf="
+          (loginDetailsForm.get('password')?.touched || submitted) &&
+          loginDetailsForm.get('password')?.errors &&
+          (loginDetailsForm.get('password')?.errors)!['required']
+        "
+      >
+        Password is required.
+      </span>
+    </div>
+  </div>
+  <div mat-dialog-actions class="action">
+    <button mat-raised-button type="button" [mat-dialog-close]="false">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" type="submit">Save</button>
+  </div>
+</form>

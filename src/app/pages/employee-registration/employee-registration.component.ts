@@ -8,6 +8,8 @@ import { EmployeeRegistrationFormService } from 'src/app/services/employee-regis
 import { MatSort } from '@angular/material/sort';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
 import { NotificationService } from 'src/app/services/notification-service/notification.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RegDialogComponent } from './reg-dialog/reg-dialog.component';
 
 interface JobRole {
   value: string;
@@ -63,7 +65,8 @@ export class EmployeeRegistrationComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private empService: EmployeeRegistrationFormService,
     private messageService: MessageServiceService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private _dialog: MatDialog
   ) {
 
     const today = new Date();
@@ -245,6 +248,24 @@ export class EmployeeRegistrationComponent implements OnInit {
     this.showForm = false;
     this.EmpRegForm.reset();
     this.submitted = false;
+  }
+
+  public addLoginCredentials(employee: any): void {
+    try {
+          const dialogRef = this._dialog.open(RegDialogComponent, {
+      data: {id: employee.id}
+    });
+
+    dialogRef.afterClosed().subscribe({
+      next: (value: any) => {
+        if (value) {
+          this.messageService.showSuccess('Employee Login Details Added Successfully!');
+        }
+      }
+    })
+    }  catch(error: any) {
+      this.messageService.showError('Action Failed!');
+    }
   }
 
 }
