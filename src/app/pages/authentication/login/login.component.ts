@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/services/http.service';
 import { CacheService } from 'src/app/services/CacheService';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import { RsaService } from 'src/app/services/rsa-service/rsa.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class AppSideLoginComponent implements OnInit {
     private router: Router,
     private httpService: HttpService,
     private cacheService: CacheService,
-    private _messageService: MessageServiceService
+    private _messageService: MessageServiceService,
+    private rsaService: RsaService
   ) {
     this.loginForm = this.formBuilder.group({
       loginName: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('^[A-Za-z ]+$')]],
@@ -73,7 +75,7 @@ export class AppSideLoginComponent implements OnInit {
       this.httpService
         .request('POST', '/login', {
           login: this.loginForm.value.loginName,
-          password: this.loginForm.value.password,
+          password: this.rsaService.encrypt(this.loginForm.value.password),
         })
         .then((response) => {
           this.httpService.setAuthToken(response.token);
