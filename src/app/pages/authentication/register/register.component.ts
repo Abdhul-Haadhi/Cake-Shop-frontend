@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
+import { RsaService } from 'src/app/services/rsa-service/rsa.service';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ export class AppSideRegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private rsaService: RsaService
   ) {
     this.registerForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(15), Validators.pattern('^[A-Za-z]+$')]],
@@ -47,11 +49,12 @@ export class AppSideRegisterComponent implements OnInit {
     this.submitted = true;
     if (this.registerForm?.valid) {
       this.httpService
-        .request('POST', '/register', {
+        .request('POST', '/main-register', {
           firstName: this.registerForm.value.firstName,
           lastName: this.registerForm.value.lastName,
           login: this.registerForm.value.login,
-          password: this.registerForm.value.password,
+          password: this.rsaService.encrypt(this.registerForm.value.password),
+          role: 'CUSTOMER'
         })
         .then((response: any) => {
           this.httpService.setAuthToken(response.token);
