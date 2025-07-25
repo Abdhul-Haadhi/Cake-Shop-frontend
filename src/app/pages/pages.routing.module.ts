@@ -16,6 +16,7 @@ import { EmployeeListComponent } from './reports/Static Report/app/components/em
 import { OrderListComponent } from './order-list/order-list.component';
 import { ItemListComponent } from './reports/Static Report/app/components/item-list/item-list.component';
 import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.component';
+import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
 
 export const PagesRoutes: Routes = [
     {
@@ -85,5 +86,9 @@ export const PagesRoutes: Routes = [
     {
         path: 'customer-feedback',
         component: CutomerFeedbackComponent
+    },
+    {
+        path: 'order-success-page',
+        component: OrderSuccessPageComponent
     },
 ];

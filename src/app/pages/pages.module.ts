@@ -28,6 +28,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { ItemListComponent } from './reports/Static Report/app/components/item-list/item-list.component';
 import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.component';
 import { RegDialogComponent } from './employee-registration/reg-dialog/reg-dialog.component';
+import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { RegDialogComponent } from './employee-registration/reg-dialog/reg-dialo
     OrderListComponent,
     ItemListComponent,
     CutomerFeedbackComponent,
-    RegDialogComponent
+    RegDialogComponent,
+    OrderSuccessPageComponent,
   ],
   imports: [
     CommonModule,
