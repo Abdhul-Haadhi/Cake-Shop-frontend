@@ -54,16 +54,16 @@ export class FullComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
 
-  setInterval(() => {
-    this.notificationService.getNotifications().subscribe({
-      next: (notifications: any) => {
-        this.notificationService.addRealTimeNotificationToBell(notifications);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
-}, 5000);
+//   setInterval(() => {
+//     this.notificationService.getNotifications().subscribe({
+//       next: (notifications: any) => {
+//         this.notificationService.addRealTimeNotificationToBell(notifications);
+//       },
+//       error: (error) => {
+//         console.log(error);
+//       }
+//     });
+// }, 5000);
 
   }
 
@@ -90,7 +90,7 @@ export class FullComponent implements OnInit, OnDestroy, AfterViewInit {
 
   markAllAsRead() {
     this.notifications.forEach((notification: any) => {
-      if (!notification.read) {
+      if (!notification.readStatus) {
         this.notificationService.markAsRead(notification.id);
       }
     });
