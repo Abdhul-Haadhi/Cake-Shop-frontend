@@ -92,7 +92,7 @@ export class CartPageComponent implements OnInit {
 
   public populateData(): void {
     try {
-      this.cartService.getData().subscribe({
+      this.cartService.getDataByUserId().subscribe({
         next: (dataList: any) => {
           if (dataList.length <= 0) {
             return;

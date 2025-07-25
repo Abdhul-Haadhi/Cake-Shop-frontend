@@ -41,6 +41,23 @@ export class CartPageServiceService {
     return this.http.get(requestUrl, headers)
   }
 
+    getDataByUserId() {
+
+    const user = this.httpService.getUserId();
+
+    const requestUrl = environment.baseUrl + '/user-order-page/' + user;
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, headers)
+  }
+
 
   deleteData(id: number) {
     console.log('In delete data');
