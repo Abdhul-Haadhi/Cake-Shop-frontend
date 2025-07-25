@@ -2,6 +2,7 @@
   <div class="form-section">
     <form [formGroup]="BillingForm" class="example-form" (ngSubmit)="onSubmit()">
       <div class="container">
+        <!-- Billing form part -->
         <div class="billing-form">
           <button (click)="backToCartPage()" class="mb-2" mat-raised-button color="warn">
             Back to Cart
@@ -93,6 +94,7 @@
           </button>
         </div>
 
+        <!-- Summary card -->
         <div class="order-summary-card">
           <mat-card>
             <mat-card-header>
@@ -105,6 +107,9 @@
                     {{ element.item }}
                   </div>
                   <div class="summary-product-details">
+                    <div *ngIf="element.color">
+                      Color: {{ element.color }}
+                    </div>
                     <div *ngIf="element.size">
                       Base size: {{ element.baseSize + "g" }}
                     </div>

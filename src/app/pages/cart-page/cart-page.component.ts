@@ -28,6 +28,7 @@ export class CartPageComponent implements OnInit {
     'select',
     'image',
     'item',
+    'color',
     'baseSize',
     'size',
     'quantity',

@@ -20,6 +20,11 @@ import { NotificationService } from "src/app/services/notification-service/notif
 //   viewValue: string;
 // }
 
+interface Colors {
+  value: string;
+  viewValue: string;
+}
+
 // interface Category {
 //   value: string;
 //   viewValue: string;
@@ -47,6 +52,17 @@ export class ProductRegistrationComponent implements OnInit {
   //   {value: 'weight', viewValue: 'Weight'},
   //   {value: 'quantity', viewValue: 'Quantity'},
   // ];
+
+  colors: Colors[] = [
+  { value: 'red', viewValue: 'Red' },
+  { value: 'blue', viewValue: 'Blue' },
+  { value: 'yellow', viewValue: 'Yellow' },
+  { value: 'green', viewValue: 'Green' },
+  { value: 'pink', viewValue: 'Pink' },
+  { value: 'white', viewValue: 'White' },
+  { value: 'black', viewValue: 'Black' }
+];
+
 
 
   // {value: 'flour', viewValue: 'Flour'},
@@ -79,6 +95,7 @@ export class ProductRegistrationComponent implements OnInit {
     'image',
     'product',
     'description',
+    'colors',
     'initialWeight',
     // 'requiredItems',
     // 'measurementCategory',
@@ -126,6 +143,7 @@ export class ProductRegistrationComponent implements OnInit {
       finalPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItemsQuantities: this.fb.group({}),
       // requiredItemsQuantities: new FormControl([],[Validators.required]),
+      colors: new FormControl([], Validators.required),
       image: new FormControl('', [Validators.required]),
       imageName: new FormControl(''),
       imageType: new FormControl(''),

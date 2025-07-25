@@ -105,6 +105,19 @@
           </span>
         </mat-form-field>
 
+        <mat-form-field class="full-width">
+          <mat-label>Select Colors</mat-label>
+          <mat-select formControlName="colors" multiple>
+            <mat-option *ngFor="let color of colors" [value]="color.value">
+              {{ color.viewValue }}
+            </mat-option>
+          </mat-select>
+          <span class="text-danger" *ngIf="(ProdRegForm.get('colors')?.touched || submitted) && ProdRegForm.get('colors')?.errors?.['required']">
+            Please select at least one color.
+          </span>
+        </mat-form-field>
+
+
         <mat-label>Insert an image of the product</mat-label>
         <div class="imgFile">
           <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput id="file">
@@ -233,6 +246,15 @@
         <td mat-cell *matCellDef="let element"> {{element.description}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="colors">
+        <th mat-header-cell *matHeaderCellDef> Colors </th>
+        <td mat-cell *matCellDef="let element"> 
+           <div *ngFor="let color of element.colors">
+            {{ color }}
+          </div>  
+        </td>
+      </ng-container>
+      
       <ng-container matColumnDef="initialWeight">
         <th mat-header-cell *matHeaderCellDef> Initial weight </th>
         <td mat-cell *matCellDef="let element"> {{element.initialWeight}} </td>

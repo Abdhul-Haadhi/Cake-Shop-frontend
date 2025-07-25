@@ -123,7 +123,7 @@ export class GrnComponent implements OnInit {
     this.getSupplier();
     this.getGrn();
     this.getInnerGRN();
-    this.dataPopulate();
+    this.populateData();
 
     this.grnForm.valueChanges.subscribe((values) => {
       // console.log('Form changed:', values);
@@ -139,7 +139,7 @@ export class GrnComponent implements OnInit {
   }
 
 
-  dataPopulate(): void {
+  populateData(): void {
     try {
       this.grnService.getData().subscribe((response: any) => {
         console.log('get GRN all Server Response', response);
@@ -225,7 +225,7 @@ export class GrnComponent implements OnInit {
     this.grnService.deleteDataOuter(id).subscribe((response) => {
       console.log('post data Server delete Response', response);
       this.messageService.showSuccess('GRN Record Successfully Deleted');
-      this.dataPopulate();
+      this.populateData();
       this.getGrn();
       this.getInnerGRN();
     })
@@ -288,7 +288,7 @@ export class GrnComponent implements OnInit {
               next: (response: any) => {
                 console.log('put edit data Server Response', response);
                 this.messageService.showSuccess('GRN Record Successfully Edited');
-                this.dataPopulate();
+                this.populateData();
 
                 setTimeout(() => {
                   this.selectedRow = null;
@@ -337,7 +337,7 @@ export class GrnComponent implements OnInit {
             this.resetOuterDisabled = false;
             this.getInnerGRN();
             this.lastAddedRow = null;
-            this.dataPopulate();
+            this.populateData();
           }, 1000);
 
           setTimeout(() => {
