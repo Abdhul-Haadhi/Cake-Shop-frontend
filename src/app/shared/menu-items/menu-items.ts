@@ -120,6 +120,15 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
+    childState: 'prod-item-map',
+    name: 'Product Item Map',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
     childState: 'supplier-registration',
     name: 'Supplier registration',
     type: 'link',
