@@ -81,7 +81,9 @@ export class CheckoutPageComponent implements OnInit {
       orderId: new FormControl('', []),
       totalPrice: new FormControl('', []),
       items: new FormControl([], []),
-      selectedSize: new FormControl([], []),
+      size: new FormControl([], []),
+      color: new FormControl([], []),
+      customizeNote: new FormControl([], []),
       quantities: new FormControl([], []),
       customerName: new FormControl([], [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -267,16 +269,21 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   public prepareOrderFormData(billingFormData: any, orderItemsData: any): any {
-
-
     let orderItems: Object[] = [];
 
     orderItemsData.forEach((item: any) => {
+
+      console.log('Item:', item);
+
+
       const itemData = {
         orderId: null,
         itemName: item.item,
         itemQty: item.quantity,
-        itemPrice: item.totalPrice
+        itemPrice: item.totalPrice,
+        size: item.size,
+        customizeNote: item.customizeNote,
+        color: item.color,
       };
 
       orderItems.push(itemData);

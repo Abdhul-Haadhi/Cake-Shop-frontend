@@ -105,6 +105,16 @@
           </span>
         </mat-form-field>
 
+        <mat-form-field class="full-width">
+          <mat-label>Select Colors</mat-label>
+          <mat-select formControlName="colors" multiple>
+            <mat-option *ngFor="let color of colors" [value]="color.value">
+              {{ color.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
         <mat-label>Insert an image of the product</mat-label>
         <div class="imgFile">
           <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput id="file">
@@ -112,6 +122,9 @@
             *ngIf="(ProdRegForm.get('image')?.touched || submitted) && ProdRegForm.get('image')?.errors && ProdRegForm.get('image')?.errors!['required']">
             Image is required
           </div>
+        </div>
+        <div *ngIf="selectedImageUrl">
+          <img [src]="selectedImageUrl" alt="Existing Image" style="max-width: 150px;" class="previewImg mb-3">
         </div>
 
 
@@ -225,7 +238,7 @@
       <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef> Image </th>
         <td mat-cell *matCellDef="let element"> <img [src]="'data:' + element.imageType + ';base64,' + element.image"
-            [alt]="element.product" width="100" height="100" class="product-image" /> </td>
+            [alt]="element.product" width="80" height="80" class="product-image m-2" /> </td>
       </ng-container>
 
       <ng-container matColumnDef="description">
@@ -233,6 +246,15 @@
         <td mat-cell *matCellDef="let element"> {{element.description}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="colors">
+        <th mat-header-cell *matHeaderCellDef> Colors </th>
+        <td mat-cell *matCellDef="let element"> 
+           <div *ngFor="let color of element.colors">
+            {{ color }}
+          </div>  
+        </td>
+      </ng-container>
+      
       <ng-container matColumnDef="initialWeight">
         <th mat-header-cell *matHeaderCellDef> Initial weight </th>
         <td mat-cell *matCellDef="let element"> {{element.initialWeight}} </td>
@@ -285,7 +307,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 20, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
 
   </div>

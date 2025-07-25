@@ -61,6 +61,20 @@ export class ProductRegistrationFormService {
     return this.http.get(requestUrl, { headers: headers })
   }
 
+  getDataById(id: any): Observable<any> {
+    const requestUrl = environment.baseUrl + '/order-page/' + id.toString();
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, headers)
+  }
+
   getOrderData() {
     const requestUrl = environment.baseUrl + '/order-page';
 

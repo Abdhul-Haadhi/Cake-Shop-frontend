@@ -29,6 +29,7 @@ import { ItemListComponent } from './reports/Static Report/app/components/item-l
 import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.component';
 import { RegDialogComponent } from './employee-registration/reg-dialog/reg-dialog.component';
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
+import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
     ItemListComponent,
     CutomerFeedbackComponent,
     RegDialogComponent,
-    ProdItemMapComponent
+    ProdItemMapComponent,
+    OrderSuccessPageComponent,
   ],
   imports: [
     CommonModule,
@@ -67,4 +69,4 @@ import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
   ],
   exports: [],
 })
-export class PagesModule { }
+export class PagesModule {}

@@ -37,10 +37,14 @@ export class OrderPageComponent implements OnInit {
 
   dataSource!: MatTableDataSource<any>;
 
+
+  colors: any;
+
   saveButtonLabel: string = 'Add to cart';
   submitted = false;
   mode = 'add';
   selectedData!: { id: any; };
+  selectedColor: any;
 
   constructor(private fb: FormBuilder,
     private productState: ProductStateServiceService,
@@ -62,6 +66,7 @@ export class OrderPageComponent implements OnInit {
       date: new FormControl('', []),
       customizeNote: new FormControl('', []),
       size: new FormControl('', [Validators.required]),
+      color: new FormControl('', []),
       price: new FormControl('', []),
       quantity: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(10)]),
       productId: new FormControl('', []),
@@ -70,6 +75,28 @@ export class OrderPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateData();
+    this.getTheColor();
+  }
+
+  public getTheColor(): void {
+    try {
+      this.productService.getDataById(this.product.id).subscribe({
+        next: (fullProduct) => {
+          this.product = fullProduct;
+
+          if (this.product.colors) {
+            this.colors = this.product.colors;
+          }
+          else {
+            this.colors = [];
+          }
+        }
+      });
+
+    }
+    catch (error) {
+      this.messageService.showError('Action failed with error' + error);
+    }
   }
 
   public populateData(): void {

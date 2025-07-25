@@ -10,6 +10,7 @@ import { inject } from '@angular/core';
 import { OrderListServiceService } from 'src/app/services/order-list/order-list-service.service';
 import { HttpService } from 'src/app/services/http.service';
 import { CheckoutPageServiceService } from 'src/app/services/checkout-page/checkout-page-service.service';
+import { OrderPageServiceService } from 'src/app/services/order-page/order-page-service.service';
 
 
 interface orderStatus {
@@ -62,10 +63,12 @@ export class OrderListComponent implements OnInit {
   mode = 'add';
   selectedData!: { orderId: any; };
   showForm = false;
+  selectedRow: any = null;
 
   constructor(
     private fb: FormBuilder,
     private orderListService: CheckoutPageServiceService,
+    private orderPage: OrderPageServiceService,
     // private dateFilterService: OrderListServiceService,
     private messageService: MessageServiceService,
     private httpService: HttpService
@@ -81,6 +84,11 @@ export class OrderListComponent implements OnInit {
       status: new FormControl('', []),
       user: new FormControl('', []),
       date: new FormControl('', []),
+      size: new FormControl('',[]),
+      color: new FormControl('',[]),
+      customizeNote: new FormControl('',[]),
+      totalPrice: new FormControl('',[]),
+      quantity: new FormControl('',[]),
     });
 
   }
@@ -113,6 +121,46 @@ export class OrderListComponent implements OnInit {
 
   }
 
+  // public getCustomizeNote(dataList:any): void{
+  //   dataList.forEach((data: any)=>{
+  //     let prodId = data.productId
+
+  //     if(prodId){
+  //       this.getProdData(prodId);
+  //     }
+  //   })
+  // }
+
+  // public getProdData(prodId: any) {
+  //   //  backend call to get image and item name
+
+  //   this.orderPage.getData().subscribe({
+  //     next: (dataList: any) => {
+  //       console.log(dataList);
+
+  //       let tableData = this.dataSource.data;
+
+  //       tableData.forEach((data: any) => {
+  //         if (data.productId) {
+  //           const prodItem = dataList.find((dataItem: any) => dataItem.id === data.productId);
+  //           console.log(prodItem);
+
+  //           data.customizeNote = prodItem.customizeNote;
+  //         }
+  //       });
+  //       this.dataSource = new MatTableDataSource(tableData);
+  //       this.dataSource.paginator = this.paginator;
+  //       this.dataSource.sort = this.sort;
+  //     },
+  //     error: (error: any) => {
+  //       console.log(error);
+
+  //     }
+  //   })
+  // }
+
+
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -133,6 +181,11 @@ export class OrderListComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  onRowClicked(row: any) {
+    this.selectedRow = row;
+    console.log('Selected Row:', row);
   }
 
   onSubmit() {

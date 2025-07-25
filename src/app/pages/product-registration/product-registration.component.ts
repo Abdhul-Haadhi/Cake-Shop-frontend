@@ -20,6 +20,11 @@ import { NotificationService } from "src/app/services/notification-service/notif
 //   viewValue: string;
 // }
 
+interface Colors {
+  value: string;
+  viewValue: string;
+}
+
 // interface Category {
 //   value: string;
 //   viewValue: string;
@@ -47,6 +52,20 @@ export class ProductRegistrationComponent implements OnInit {
   //   {value: 'weight', viewValue: 'Weight'},
   //   {value: 'quantity', viewValue: 'Quantity'},
   // ];
+
+  colors: Colors[] = [
+    { value: 'White', viewValue: 'White' },
+    { value: 'Yellow', viewValue: 'Yellow' },
+    { value: 'Orange', viewValue: 'Orange' },
+    { value: 'Green', viewValue: 'Green' },
+    { value: 'Blue', viewValue: 'Blue' },
+    { value: 'Purple', viewValue: 'Purple' },
+    { value: 'Pink', viewValue: 'Pink' },
+    { value: 'Red', viewValue: 'Red' },
+    { value: 'black', viewValue: 'Black' },
+    { value: 'No colors', viewValue: 'No colors' },
+  ];
+
 
 
   // {value: 'flour', viewValue: 'Flour'},
@@ -79,6 +98,7 @@ export class ProductRegistrationComponent implements OnInit {
     'image',
     'product',
     'description',
+    'colors',
     'initialWeight',
     // 'requiredItems',
     // 'measurementCategory',
@@ -126,6 +146,7 @@ export class ProductRegistrationComponent implements OnInit {
       finalPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItemsQuantities: this.fb.group({}),
       // requiredItemsQuantities: new FormControl([],[Validators.required]),
+      colors: new FormControl([], []),
       image: new FormControl('', [Validators.required]),
       imageName: new FormControl(''),
       imageType: new FormControl(''),
@@ -349,6 +370,10 @@ export class ProductRegistrationComponent implements OnInit {
     //     }
     //   });
     // }
+
+    if (data.image) {
+      this.selectedImageUrl = `data:${data.imageType};base64,${data.image}`;
+    }
 
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
