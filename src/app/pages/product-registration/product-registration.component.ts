@@ -54,14 +54,17 @@ export class ProductRegistrationComponent implements OnInit {
   // ];
 
   colors: Colors[] = [
-  { value: 'red', viewValue: 'Red' },
-  { value: 'blue', viewValue: 'Blue' },
-  { value: 'yellow', viewValue: 'Yellow' },
-  { value: 'green', viewValue: 'Green' },
-  { value: 'pink', viewValue: 'Pink' },
-  { value: 'white', viewValue: 'White' },
-  { value: 'black', viewValue: 'Black' }
-];
+    { value: 'White', viewValue: 'White' },
+    { value: 'Yellow', viewValue: 'Yellow' },
+    { value: 'Orange', viewValue: 'Orange' },
+    { value: 'Green', viewValue: 'Green' },
+    { value: 'Blue', viewValue: 'Blue' },
+    { value: 'Purple', viewValue: 'Purple' },
+    { value: 'Pink', viewValue: 'Pink' },
+    { value: 'Red', viewValue: 'Red' },
+    { value: 'black', viewValue: 'Black' },
+    { value: 'No colors', viewValue: 'No colors' },
+  ];
 
 
 
@@ -143,7 +146,7 @@ export class ProductRegistrationComponent implements OnInit {
       finalPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
       // requiredItemsQuantities: this.fb.group({}),
       // requiredItemsQuantities: new FormControl([],[Validators.required]),
-      colors: new FormControl([], Validators.required),
+      colors: new FormControl([], []),
       image: new FormControl('', [Validators.required]),
       imageName: new FormControl(''),
       imageType: new FormControl(''),
@@ -367,6 +370,10 @@ export class ProductRegistrationComponent implements OnInit {
     //     }
     //   });
     // }
+
+    if (data.image) {
+      this.selectedImageUrl = `data:${data.imageType};base64,${data.image}`;
+    }
 
     this.saveButtonLabel = 'Edit';
     this.mode = 'edit';
