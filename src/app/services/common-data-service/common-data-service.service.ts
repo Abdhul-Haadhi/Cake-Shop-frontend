@@ -9,13 +9,13 @@ import { HttpService } from '../http.service';
 export class CommonDataServiceService implements OnInit {
   public commonDataServiceUrl = '/common-data-service/';
 
-  constructor(private httpService: HttpService, private http: HttpClient) { }
+  constructor(private httpService: HttpService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.initializeComponent();
   }
 
-  public initializeComponent(): void { }
+  public initializeComponent(): void {}
 
   public getAvailablePrivilegeList(
     method: string,
@@ -87,5 +87,47 @@ export class CommonDataServiceService implements OnInit {
     } else {
       return this.http.get(requestUrl, { headers: headers }).toPromise();
     }
+  }
+
+  public getMonthlySalesData() {
+    const requestUrl =
+      environment.baseUrl + '/common-data-service/monthly-sales';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
+  }
+
+  public getMonthlySalesIncome() {
+    const requestUrl =
+      environment.baseUrl + '/common-data-service/monthly-sales-income';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
+  }
+
+  public getNoOfOrdersPlaceThisWeekByStatus() {
+    const requestUrl =
+      environment.baseUrl + '/common-data-service/wekly-orders-by-status';
+
+    let headers = {};
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get(requestUrl, { headers: headers });
   }
 }

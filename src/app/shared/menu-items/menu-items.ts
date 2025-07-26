@@ -182,6 +182,33 @@ const MENUITEMS = [
     auth: authenticationEnum.Home_Dashboard,
   },
   {
+    state: 'pages',
+    childState: 'monthly-sales',
+    name: 'Monthly Sales Report',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
+    childState: 'monthly-sales-income',
+    name: 'Monthly Income Report',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
+    childState: 'weekly-order-status',
+    name: 'Weekly Status Report',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
     state: 'button',
     type: 'link',
     name: 'Buttons',
@@ -214,7 +241,7 @@ const MENUITEMS = [
     type: 'link',
     name: 'Tabs',
     icon: 'tab',
-    isVisible: false
+    isVisible: false,
   },
   {
     state: 'stepper',
