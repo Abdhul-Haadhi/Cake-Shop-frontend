@@ -31,6 +31,7 @@ import { RegDialogComponent } from './employee-registration/reg-dialog/reg-dialo
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
 import { ManualStockAdjustComponent } from './manual-stock-adjust/manual-stock-adjust.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ManualStockAdjustComponent } from './manual-stock-adjust/manual-stock-a
     RegDialogComponent,
     ProdItemMapComponent,
     OrderSuccessPageComponent,
-    ManualStockAdjustComponent
+    ManualStockAdjustComponent,
+    LandingPageComponent,
   ],
   imports: [
     CommonModule,

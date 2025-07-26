@@ -29,7 +29,14 @@ export class AppSideLoginComponent implements OnInit {
     private rsaService: RsaService
   ) {
     this.loginForm = this.formBuilder.group({
-      loginName: ['', [Validators.required, Validators.maxLength(20), Validators.pattern('^[A-Za-z ]+$')]],
+      loginName: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(20),
+          Validators.pattern('^[A-Za-z ]+$'),
+        ],
+      ],
       password: ['', [Validators.required]],
     });
   }
@@ -51,7 +58,7 @@ export class AppSideLoginComponent implements OnInit {
           try {
             if (data.length > 0) {
               this.cacheService.set(userId.toString(), data);
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/pages/landing-page']);
             } else {
               this._messageService.showError('User does not have privileges');
             }
