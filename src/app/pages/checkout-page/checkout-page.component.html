@@ -139,7 +139,7 @@
                 <span><strong>{{ "Rs." + grandTotal }}</strong></span>
               </div>
               <div class="checkout-container">
-                <button type="submit" color="accent" class="checkOutBtn" mat-raised-button onclick="orderBtn()"
+                <button type="submit" color="accent" class="checkOutBtn" mat-raised-button (click)="orderBtn()"
                   [disabled]="isButtonDisabled">
                   {{ saveButtonLabel }}
                 </button>

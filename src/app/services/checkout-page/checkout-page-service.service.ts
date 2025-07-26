@@ -77,19 +77,20 @@ export class CheckoutPageServiceService {
     return this.http.put(requestUrl, statusPayload, { headers: headers });
   }
 
-  //     deleteData(id:number){
-  //       console.log('In delete data');
+      deleteData(id:number){
+        console.log('In delete data');
+        console.log('Deleting ID:', id);
 
-  //       const requestUrl = environment.baseUrl + '/checkout-page/' + id.toString();
+        const requestUrl = environment.baseUrl + '/order-list/' + id.toString();
 
-  //       let headers = {};
+        let headers = {};
 
-  //       if (this.httpService.getAuthToken() !== null) {
-  //         headers = {
-  //           Authorization: 'Bearer ' + this.httpService.getAuthToken(),
-  //         };
-  //       }
+        if (this.httpService.getAuthToken() !== null) {
+          headers = {
+            Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+          };
+        }
 
-  //       return this.http.delete(requestUrl,{headers:headers})
-  //     }
+        return this.http.delete(requestUrl,{headers});
+      }
 }
