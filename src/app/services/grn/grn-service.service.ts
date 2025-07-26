@@ -258,5 +258,19 @@ export class GrnServiceService {
     return this.http.delete(requestUrl, { headers: headers });
   }
 
+    stockEdit(item_list: any) {
+
+    const requestUrl = environment.baseUrl + '/updateStockQty';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.put(requestUrl, item_list, { headers: headers });
+  }
 
 }

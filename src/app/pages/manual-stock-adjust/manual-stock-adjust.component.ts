@@ -18,9 +18,9 @@ export class ManualStockAdjustComponent {
   stockAdjustForm: FormGroup;
 
   displayedColumns: string[] = [
-    'stockId',
+    'id',
     'qty',
-    'stockItemId',
+    'stockItemID',
     'stockItemName',
     'thresholdQty',
     'actions',
@@ -48,9 +48,9 @@ export class ManualStockAdjustComponent {
   ) {
 
     this.stockAdjustForm = this.fb.group({
-      stockId: new FormControl('', []),
+      id: new FormControl('', []),
       qty: new FormControl('', []),
-      stockItemId: new FormControl('', []),
+      stockItemID: new FormControl('', []),
       stockItemName: new FormControl('', []),
       thresholdQty: new FormControl('', []),
     });
@@ -103,19 +103,20 @@ export class ManualStockAdjustComponent {
 
       if (this.mode === 'edit') {
 
-        const updatedStatus = this.stockAdjustForm.value.status;
-        if (!updatedStatus) {
-          this.messageService.showError('Please select a status to update.');
-          return;
-        }
+        // const updatedStatus = this.stockAdjustForm.value.status;
+        // if (!updatedStatus) {
+        //   this.messageService.showError('Please select a status to update.');
+        //   return;
+        // }
 
-        const orderId = this.selectedData?.orderId;
+        // const orderId = this.selectedData?.orderId;
 
-        this.stockAdjustService.stockUpdateEdit(orderId).subscribe({
+        this.stockAdjustService.stockEdit(this.stockAdjustForm.getRawValue()).subscribe({
           next: (response) => {
-            let elementIndex = this.dataSource.data.findIndex((element) => element.orderId === orderId);
-            this.dataSource.data[elementIndex] = response;
-            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            // let elementIndex = this.dataSource.data.findIndex((element) => element.orderId === orderId);
+            // this.dataSource.data[elementIndex] = response;
+            // this.dataSource = new MatTableDataSource(this.dataSource.data);
+            // this.populateData();
             this.messageService.showSuccess('Stock edited successfully!');
             this.populateData();
           },
