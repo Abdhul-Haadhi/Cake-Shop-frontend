@@ -26,6 +26,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MatInputModule } from '@angular/material/input';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FrontPageComponent } from './front-page/front-page.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FullComponent,
     AppHeaderComponent,
     SpinnerComponent,
+    FrontPageComponent
   ],
   imports: [
     BrowserModule,
