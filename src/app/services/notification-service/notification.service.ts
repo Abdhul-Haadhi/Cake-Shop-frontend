@@ -64,11 +64,17 @@ export class NotificationService {
 
     const notificationtemp = notification;
     notificationtemp.id = '';
+    const loggedInId = this.httpService.getUserId();
+
 
     this.addNotificationToDb(notificationtemp).subscribe({
       next: (response: any) => {
         console.log(response);
-        this.addNotificationToBell([response]);
+
+           if (loggedInId && +loggedInId == targetUser) {
+          this.addNotificationToBell([notificationtemp]);
+        }
+        // this.addNotificationToBell([response]);
       },
       // Displaying error message
       error: (error) => {
@@ -175,5 +181,9 @@ export class NotificationService {
 
     // sending POST request to the server
     return this.http.post(requestUrl, notification, { headers: headers });
+  }
+
+  public clearNotifications(): void {
+    this.notifications.next([]);
   }
 }

@@ -102,6 +102,15 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
+    childState: 'supplier-registration',
+    name: 'Supplier registration',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Supplier_Registration,
+  },
+  {
+    state: 'pages',
     childState: 'grn',
     name: 'GRN',
     type: 'link',
@@ -135,15 +144,6 @@ const MENUITEMS = [
     icon: 'av_timer',
     isVisible: false,
     auth: authenticationEnum.Manual_Stock_Adjust,
-  },
-  {
-    state: 'pages',
-    childState: 'supplier-registration',
-    name: 'Supplier registration',
-    type: 'link',
-    icon: 'av_timer',
-    isVisible: false,
-    auth: authenticationEnum.Supplier_Registration,
   },
   {
     state: 'pages',
