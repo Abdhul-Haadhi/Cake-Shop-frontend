@@ -11,6 +11,7 @@ import { ProductStateServiceService } from 'src/app/services/product-registratio
 import { SelectionModel } from '@angular/cdk/collections';
 import { ProductRegistrationFormService } from 'src/app/services/product-registration/product-registration-form.service';
 import { OrderPageServiceService } from 'src/app/services/order-page/order-page-service.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -233,18 +234,32 @@ export class CartPageComponent implements OnInit {
     const id = data.id;
 
     try {
-      this.cartService.deleteData(id).subscribe({
-        next: (response) => {
-          const index = this.dataSource.data.findIndex((element) => element.id === id);
-          if (index !== -1) {
-            this.dataSource.data.splice(index, 1);
-          }
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data deleted successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result && !result.isConfirmed) {
+          return;
         }
+        this.cartService.deleteData(id).subscribe({
+          next: (Response) => {
+            const index = this.dataSource.data.findIndex(
+              (element) => element.id === id
+            );
+            if (index !== -1) {
+              this.dataSource.data.splice(index, 1);
+            }
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data deleted successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          },
+        });
       });
     }
     catch (error) {

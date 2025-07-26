@@ -16,6 +16,7 @@ import { CustomerRegistrationFormService } from 'src/app/services/customer-regis
 import { NotificationService } from 'src/app/services/notification-service/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RegDialogComponent } from '../employee-registration/reg-dialog/reg-dialog.component';
+import Swal from 'sweetalert2';
 
 interface CustomerCategory {
   value: string;
@@ -216,20 +217,32 @@ export class CustomerRegistrationComponent implements OnInit {
     const id = data.id;
 
     try {
-      this.custService.deleteData(id).subscribe({
-        next: (response) => {
-          const index = this.dataSource.data.findIndex(
-            (element) => element.id === id
-          );
-          if (index !== -1) {
-            this.dataSource.data.splice(index, 1);
-          }
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data edited successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
-        },
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result && !result.isConfirmed) {
+          return;
+        }
+        this.custService.deleteData(id).subscribe({
+          next: (response) => {
+            const index = this.dataSource.data.findIndex(
+              (element) => element.id === id
+            );
+            if (index !== -1) {
+              this.dataSource.data.splice(index, 1);
+            }
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data edited successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          },
+        });
       });
     } catch (error) {
       this.messageService.showError('Action failed with error' + error);

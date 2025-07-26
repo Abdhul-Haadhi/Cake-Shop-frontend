@@ -254,7 +254,7 @@ export class EmployeeRegistrationComponent implements OnInit {
               this.dataSource.data.splice(index, 1);
             }
             this.dataSource = new MatTableDataSource(this.dataSource.data);
-            this.messageService.showSuccess('Data edited successfully!');
+            this.messageService.showSuccess('Data deleted successfully!');
           },
           error: (error) => {
             this.messageService.showError('Action failed with error' + error);

@@ -20,6 +20,7 @@ import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
 import { ManualStockAdjustComponent } from './manual-stock-adjust/manual-stock-adjust.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { SupplierListComponent } from './reports/Static Report/app/components/supplier-list/supplier-list.component';
 import { MonthlySalesComponent } from './monthly-sales/monthly-sales.component';
 import { MonthlySalesIncomeComponent } from './monthly-sales-income/monthly-sales-income.component';
 import { WeeklyOrderStatusComponent } from './weekly-order-status/weekly-order-status.component';
@@ -108,6 +109,10 @@ export const PagesRoutes: Routes = [
   {
     path: 'landing-page',
     component: LandingPageComponent,
+  },
+  {
+    path: 'supplier-report',
+    component: SupplierListComponent,
   },
   {
     path: 'monthly-sales',

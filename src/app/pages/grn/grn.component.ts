@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime } from 'rxjs';
 import { GrnServiceService } from 'src/app/services/grn/grn-service.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import Swal from 'sweetalert2';
 
 
 interface Items {
@@ -222,13 +223,26 @@ export class GrnComponent implements OnInit {
 
   deleteDataOuter(data: any) {
     const id = data.grnno;
-    this.grnService.deleteDataOuter(id).subscribe((response) => {
-      console.log('post data Server delete Response', response);
-      this.messageService.showSuccess('GRN Record Successfully Deleted');
-      this.populateData();
-      this.getGrn();
-      this.getInnerGRN();
-    })
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to delete this?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result && !result.isConfirmed) {
+        return;
+      }
+
+      this.grnService.deleteDataOuter(id).subscribe((response) => {
+        console.log('post data Server delete Response', response);
+        this.messageService.showSuccess('GRN Record Successfully Deleted');
+        this.populateData();
+        this.getGrn();
+        this.getInnerGRN();
+      });
+    });
   }
 
   editDataOuter(data: any) {
@@ -649,23 +663,36 @@ export class GrnComponent implements OnInit {
 
   deleteInnerData(data: any) {
     const id = data.id;
-    this.grnService.deleteInnerData(id).subscribe((response) => {
-      console.log('post data Server Response', response);
-      // this.deletedResponses.push(response);
-      // console.log(this.deletedResponses);
-      this.getInnerGRN();
-      this.messageService.showSuccess('Inner Record Successfully Deleted');
-
-      if (this.mode == 'edit') {
-        this.allOuterBtnDisabled = true;
-        this.resetOuterDisabled = true;
-
-        const innerItem = response;
-        alert(JSON.stringify(response) + 'added response');
-        this.grnService.stockUpdateEdit(innerItem).subscribe((response) => {
-          console.log('post data Server delete Response', response);
-        });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to delete this?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result && !result.isConfirmed) {
+        return;
       }
+
+      this.grnService.deleteInnerData(id).subscribe((response) => {
+        console.log('post data Server Response', response);
+        // this.deletedResponses.push(response);
+        // console.log(this.deletedResponses);
+        this.getInnerGRN();
+        this.messageService.showSuccess('Inner Record Successfully Deleted');
+
+        if (this.mode == 'edit') {
+          this.allOuterBtnDisabled = true;
+          this.resetOuterDisabled = true;
+
+          const innerItem = response;
+          alert(JSON.stringify(response) + 'added response');
+          this.grnService.stockUpdateEdit(innerItem).subscribe((response) => {
+            console.log('post data Server delete Response', response);
+          });
+        }
+      });
     });
   }
 
