@@ -1,11 +1,11 @@
 <!-- ============================================================== -->
 <!-- Simple four boxes Row -->
 <!-- ============================================================== -->
-<div class="row">
+<!-- <div class="row"> -->
   <!-- column -->
-  <div class="col-lg-8 col-sm-12">
+  <!-- <div class="col-lg-8 col-sm-12">
     <app-sales-overview></app-sales-overview>
-  </div>
+  </div> -->
 
   <!-- <mat-card appearance="outlined" class="flex">
   <mat-toolbar color="warn" style="width: 30%;">
@@ -27,6 +27,23 @@
   </div>
 </mat-card> -->
  
-</div>
+<!-- </div> -->
 
+
+<!-- Menu Cards Section -->
+<section class="menu-section">
+  <div class="container">
+    <!-- <h2 class="section-title">Browse Our Collection</h2> -->
+    <div class="cards-grid">
+      @for (item of menuItems; track item) {
+        <div class="menu-card" (click)="navigateToSection(item.route)">
+          <div class="card-icon">{{ item.icon }}</div>
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p class="card-description">{{ item.description }}</p>
+          <div class="card-arrow">→</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
 
