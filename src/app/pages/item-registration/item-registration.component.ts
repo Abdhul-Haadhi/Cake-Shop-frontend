@@ -6,6 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ItemRegistrationFormService } from "src/app/services/item-registration/item-registration-form.service";
 import { MessageServiceService } from "src/app/services/message-service/message-service.service";
 import { NotificationService } from "src/app/services/notification-service/notification.service";
+import Swal from 'sweetalert2';
 
 
 
@@ -159,6 +160,17 @@ export class ItemRegistrationComponent implements OnInit {
     const id = data.id;
 
     try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result && !result.isConfirmed) {
+          return;
+        }
       this.itemService.deleteData(id).subscribe({
         next: (response) => {
           const index = this.dataSource.data.findIndex((element) => element.id === id);
@@ -172,6 +184,7 @@ export class ItemRegistrationComponent implements OnInit {
           this.msgService.showError('Action failed with error ' + error);
         }
       });
+    });
     }
     catch (error) {
       this.msgService.showError('Action failed with error ' + error);

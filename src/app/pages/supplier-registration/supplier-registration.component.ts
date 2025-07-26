@@ -8,6 +8,7 @@ import { MessageServiceService } from 'src/app/services/message-service/message-
 import { SupplierRegistrationFormService } from 'src/app/services/sipplier-registration/supplier-registration-form.service';
 import { HttpService } from 'src/app/services/http.service';
 import { NotificationService } from "src/app/services/notification-service/notification.service";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-supplier-registration',
@@ -183,18 +184,31 @@ export class SupplierRegistrationComponent implements OnInit {
     const id = data.id;
 
     try {
-      this.suppService.deleteData(id).subscribe({
-        next: (Response) => {
-          const index = this.dataSource.data.findIndex((element) => element.id === id);
-          if (index !== -1) {
-            this.dataSource.data.splice(index, 1);
-          }
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data edited successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result && !result.isConfirmed) {
+          return;
         }
+
+        this.suppService.deleteData(id).subscribe({
+          next: (Response) => {
+            const index = this.dataSource.data.findIndex((element) => element.id === id);
+            if (index !== -1) {
+              this.dataSource.data.splice(index, 1);
+            }
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data edited successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          }
+        });
       });
     }
     catch (error) {

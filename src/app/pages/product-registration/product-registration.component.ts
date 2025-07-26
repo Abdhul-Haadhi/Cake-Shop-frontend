@@ -13,6 +13,7 @@ import { ItemRegistrationFormService } from 'src/app/services/item-registration/
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NotificationService } from "src/app/services/notification-service/notification.service";
+import Swal from 'sweetalert2';
 
 
 // interface Product {
@@ -385,18 +386,31 @@ export class ProductRegistrationComponent implements OnInit {
     const id = data.id;
 
     try {
-      this.prodService.deleteData(id).subscribe({
-        next: (response) => {
-          const index = this.dataSource.data.findIndex((element) => element.id === id);
-          if (index !== -1) {
-            this.dataSource.data.splice(index, 1);
-          }
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data deleted successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error ' + error);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result && !result.isConfirmed) {
+          return;
         }
+
+        this.prodService.deleteData(id).subscribe({
+          next: (response) => {
+            const index = this.dataSource.data.findIndex((element) => element.id === id);
+            if (index !== -1) {
+              this.dataSource.data.splice(index, 1);
+            }
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data deleted successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error ' + error);
+          }
+        });
       });
     }
     catch (error) {

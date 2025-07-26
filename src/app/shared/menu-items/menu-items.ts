@@ -183,6 +183,15 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
+    childState: 'supplier-report',
+    name: 'Supplier List Report',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
     childState: 'monthly-sales',
     name: 'Monthly Sales Report',
     type: 'link',

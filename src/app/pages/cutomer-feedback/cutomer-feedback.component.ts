@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FeedbackAndRatingPageService } from 'src/app/services/feedback-and-rating/feedback-and-rating-page.service';
 import { MessageServiceService } from 'src/app/services/message-service/message-service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cutomer-feedback',
@@ -74,20 +75,31 @@ export class CutomerFeedbackComponent {
     const id = data.id;
 
     try {
-      this.customerFeedback.deleteData(id).subscribe({
-        next: (response) => {
-          const index = this.dataSource.data.findIndex(
-            (element) => element.id === id
-          );
-          if (index !== -1) {
-            this.dataSource.data.splice(index, 1);
-          }
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-          this.messageService.showSuccess('Data deleted successfully!');
-        },
-        error: (error) => {
-          this.messageService.showError('Action failed with error' + error);
-        },
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+
+
+        this.customerFeedback.deleteData(id).subscribe({
+          next: (response) => {
+            const index = this.dataSource.data.findIndex(
+              (element) => element.id === id
+            );
+            if (index !== -1) {
+              this.dataSource.data.splice(index, 1);
+            }
+            this.dataSource = new MatTableDataSource(this.dataSource.data);
+            this.messageService.showSuccess('Data deleted successfully!');
+          },
+          error: (error) => {
+            this.messageService.showError('Action failed with error' + error);
+          },
+        });
       });
     } catch (error) {
       this.messageService.showError('Action failed with error' + error);

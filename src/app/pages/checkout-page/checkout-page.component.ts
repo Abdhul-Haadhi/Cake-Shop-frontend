@@ -228,8 +228,8 @@ export class CheckoutPageComponent implements OnInit {
             this.BillingForm.disable();
             this.isButtonDisabled = true;
 
+            this.router.navigate(['/pages/order-success-page']);
 
-            // this.router.navigate(['/pages/featured-products']);
           },
           error: (error) => {
             this.messageService.showError('Action failed with error: ' + error);
@@ -311,11 +311,6 @@ export class CheckoutPageComponent implements OnInit {
     };
 
     return orderDetailsDto;
-  }
-
-
-  orderBtn(){
-    this.router.navigate(['/pages/order-success-page']);
   }
 
 
