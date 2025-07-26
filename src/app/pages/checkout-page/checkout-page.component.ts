@@ -75,6 +75,10 @@ export class CheckoutPageComponent implements OnInit {
 
     this.product = this.productState.getProduct();
 
+    if (!this.product) {
+      this.router.navigate(['/pages/checkout-page']);
+    }
+
     this.BillingForm = this.fb.group({
       date: new FormControl('', []),
       user: new FormControl('', []),
@@ -308,6 +312,13 @@ export class CheckoutPageComponent implements OnInit {
 
     return orderDetailsDto;
   }
+
+
+  orderBtn(){
+    this.router.navigate(['/pages/order-success-page']);
+  }
+
+
 
   backToCartPage() {
     this.product = this.router.getCurrentNavigation()?.extras.state?.['product'];

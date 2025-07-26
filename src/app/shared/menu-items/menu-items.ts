@@ -129,6 +129,15 @@ const MENUITEMS = [
   },
   {
     state: 'pages',
+    childState: 'manual-stock-adjust',
+    name: 'Manual stock adjust',
+    type: 'link',
+    icon: 'av_timer',
+    isVisible: false,
+    auth: authenticationEnum.Home_Dashboard,
+  },
+  {
+    state: 'pages',
     childState: 'supplier-registration',
     name: 'Supplier registration',
     type: 'link',

@@ -18,6 +18,7 @@ import { ItemListComponent } from './reports/Static Report/app/components/item-l
 import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.component';
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
+import { ManualStockAdjustComponent } from './manual-stock-adjust/manual-stock-adjust.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -95,5 +96,9 @@ export const PagesRoutes: Routes = [
   {
     path: 'order-success-page',
     component: OrderSuccessPageComponent,
+  },
+  {
+    path: 'manual-stock-adjust',
+    component: ManualStockAdjustComponent,
   },
 ];

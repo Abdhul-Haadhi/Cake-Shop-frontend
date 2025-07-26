@@ -263,6 +263,35 @@ export class OrderListComponent implements OnInit {
   }
 
 
+  public deleteData(data: any): void {
+    const id = data.id;
+
+if (!id) {
+  this.messageService.showError('Invalid data: Missing ID');
+  return;
+}
+
+    try {
+      this.orderListService.deleteData(id).subscribe({
+        next: (response) => {
+          const index = this.dataSource.data.findIndex(
+            (element) => element.id === id
+          );
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+          }
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.messageService.showSuccess('Order deleted successfully!');
+        },
+        error: (error) => {
+          this.messageService.showError('Action failed with error' + error);
+        },
+      });
+    } catch (error) {
+      this.messageService.showError('Action failed with error' + error);
+    }
+  }
+
 
 
 

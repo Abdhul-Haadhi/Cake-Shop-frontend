@@ -30,6 +30,7 @@ import { CutomerFeedbackComponent } from './cutomer-feedback/cutomer-feedback.co
 import { RegDialogComponent } from './employee-registration/reg-dialog/reg-dialog.component';
 import { ProdItemMapComponent } from './prod-item-map/prod-item-map.component';
 import { OrderSuccessPageComponent } from './order-success-page/order-success-page.component';
+import { ManualStockAdjustComponent } from './manual-stock-adjust/manual-stock-adjust.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { OrderSuccessPageComponent } from './order-success-page/order-success-pa
     RegDialogComponent,
     ProdItemMapComponent,
     OrderSuccessPageComponent,
+    ManualStockAdjustComponent
   ],
   imports: [
     CommonModule,

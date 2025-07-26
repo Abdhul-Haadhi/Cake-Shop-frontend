@@ -75,6 +75,22 @@ export class GrnServiceService {
     return this.http.get<any[]>(requestUrl, { headers: headers });
   }
 
+  getStockItem(): Observable<any[]>{
+    console.log("get stock data");
+
+    const requestUrl = environment.baseUrl + '/allStock';
+
+    let headers = {};
+
+    if (this.httpService.getAuthToken() !== null) {
+      headers = {
+        Authorization: 'Bearer ' + this.httpService.getAuthToken(),
+      };
+    }
+
+    return this.http.get<any[]>(requestUrl, { headers: headers });
+  }
+
 
   //stock update
   stockUpdate(item_list: any) {
